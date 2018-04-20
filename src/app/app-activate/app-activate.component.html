@@ -1,0 +1,8 @@
+<div *ngIf='!userActivatestatus'>
+  sorry something went wrong, we can't activate your account now. please contact Upvote ICO team
+</div>
+
+<div *ngIf='userActivatestatus'>
+    your account is active now. please <a routerLink="/SignIn" routerLinkActive="active-link">click here</a>  to login now
+</div>
+

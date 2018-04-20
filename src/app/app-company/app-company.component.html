@@ -1,0 +1,158 @@
+<app-app-home></app-app-home>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-8">
+      <form class="form-horizontal" role="form" [formGroup] = 'companyform' (ngSubmit)="SignIn(loginForm)">
+        <fieldset>
+          <!-- Form Name -->
+          <legend>Company Details</legend>
+           <!-- Text input-->
+           <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">Company Name</label>
+            <div class="col-sm-4">
+              <input type="text" formControlName="companyname" placeholder="Company Name" class="form-control" [formGroup] = 'companyform'>
+              <div *ngIf="companyform.controls['companyname'].touched && !companyform.controls['companyname'].valid">  
+                <span *ngIf="companyform.controls['companyname'].hasError('required') " class="alert-danger">  
+                  Company Name is required  
+                </span>  
+              </div>  
+            </div>
+           </div>
+
+           <div class="form-group">
+              <label class="col-sm-4 control-label" for="textinput">Company Name</label>
+              <div class="col-sm-4">
+                <input id="cin" name="cin" type="file" (change)="fileChangeEvent($event)" placeholder="Upload a file..." multiple/>
+                  <button type="button" class="btn btn-success btn-s" (click)="upload()">
+                      <i class="glyphicon glyphicon-open-file"></i>&nbsp;Upload
+                  </button>
+              </div>
+          </div>
+           <!-- Text input-->
+           <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">Email</label>
+            <div class="col-sm-4">
+              <input type="text" formControlName="email" placeholder="email" class="form-control" [formGroup] = 'companyform'>
+              <div *ngIf="companyform.controls['email'].touched && !companyform.controls['email'].valid">  
+                <span *ngIf="companyform.controls['email'].hasError('required') " class="alert-danger">  
+                  Company Email is required  
+                </span>  
+              </div>  
+            </div>
+           </div>
+           <!-- Text input-->
+           <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">White Paper</label>
+            <div class="col-sm-4">
+              <input type="text" formControlName="whitepaper" placeholder="White Paper" class="form-control" [formGroup] = 'companyform'>
+            </div>
+           </div>
+           <!-- Text input-->
+           <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">Web Site</label>
+            <div class="col-sm-4">
+              <input type="text" formControlName="website" placeholder="Web Site" class="form-control" [formGroup] = 'companyform'>
+            </div>
+           </div>
+           <!-- Text input-->
+           <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">About Company</label>
+            <div class="col-sm-4">
+              <textarea class="form-control" formControlName="aboutcompany" rows="5" [formGroup] = 'companyform'></textarea>
+              <div *ngIf="companyform.controls['aboutcompany'].touched && !companyform.controls['aboutcompany'].valid">  
+                <span *ngIf="companyform.controls['aboutcompany'].hasError('required') " class="alert-danger">  
+                  Say something about company
+                </span>  
+              </div>  
+            </div>
+           </div>
+           <!-- Text input-->
+           <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">Phone #</label>
+            <div class="col-sm-4">
+              <input type="text" formControlName="phonenumber" placeholder="Phone #" class="form-control" [formGroup] = 'companyform'>
+            </div>
+           </div>
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">Line 1</label>
+            <div class="col-sm-4">
+              <input type="text" formControlName="addressline1" placeholder="Address Line 1" class="form-control" [formGroup] = 'companyform'>
+              <div *ngIf="companyform.controls['addressline1'].touched && !companyform.controls['addressline1'].valid">  
+                <span *ngIf="companyform.controls['addressline1'].hasError('required') " class="alert-danger">  
+                  Address is required  
+                </span>  
+              </div>  
+            </div>
+          </div>
+
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">Line 2</label>
+            <div class="col-sm-4">
+              <input type="text" formControlName="addressline2" placeholder="Address Line 2" class="form-control" [formGroup] = 'companyform'>
+             
+            </div>
+          </div>
+
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">City</label>
+            <div class="col-sm-4">
+              <ng2-completer (keypress)="City_onKeyPrss($event)" formControlName = "city" (selected)="City_OnSelected($event)" class="form-control" [formGroup] = 'companyform' [(ngModel)]="searchStr" [datasource]="dataService" [minSearchLength]="0"></ng2-completer>
+              <div *ngIf="companyform.controls['city'].touched && !companyform.controls['city'].valid">  
+                <span *ngIf="companyform.controls['city'].hasError('required') " class="alert-danger">  
+                  City is required  
+                </span>  
+              </div>  
+            </div>
+          </div>
+
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">State</label>
+            <div class="col-sm-4">
+              <input type="text" formControlName="state" placeholder="State" class="form-control" [formGroup] = 'companyform' [(ngModel)]="state.name">
+              <div *ngIf="companyform.controls['state'].touched && !companyform.controls['state'].valid">  
+                <span *ngIf="companyform.controls['state'].hasError('required') " class="alert-danger">  
+                  State is required  
+                </span>  
+              </div>  
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">Postcode</label>
+            <div class="col-sm-4">
+              <input type="text" formControlName="postcode" placeholder="Post Code" class="form-control" [formGroup] = 'companyform'>
+              <div *ngIf="companyform.controls['postcode'].touched && !companyform.controls['postcode'].valid">  
+                <span *ngIf="companyform.controls['postcode'].hasError('required') " class="alert-danger">  
+                  Postal Code is required  
+                </span>  
+              </div>  
+            </div>
+          </div>
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-sm-4 control-label" for="textinput">Country</label>
+            <div class="col-sm-4">
+              <input type="text" formControlName="country" placeholder="Country" class="form-control" [formGroup] = 'companyform' [(ngModel)]="country.name">
+              <div *ngIf="companyform.controls['country'].touched && !companyform.controls['country'].valid">  
+                <span *ngIf="companyform.controls['country'].hasError('required') " class="alert-danger">  
+                  Country is required  
+                </span>  
+              </div>  
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <div class="pull-right">
+                <button type="submit" class="btn btn-default">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div><!-- /.col-lg-12 -->
+</div><!-- /.row -->

@@ -1,0 +1,53 @@
+<nav class="navbar navbar-expand-lg navbar-dark nav-bar-color" *ngIf="loggedIn">
+
+  <!-- Navbar brand -->
+  <a class="navbar-brand" href="#">Upvote ICO</a>
+
+  <!-- Collapse button -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Collapsible content -->
+  <div class="collapse navbar-collapse" id="basicExampleNav">
+
+      <!-- Links -->
+      <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+              <a class="nav-link" href="#">Home
+                  <span class="sr-only">(current)</span>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="#">Company</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="#">Live</a>
+          </li>
+      </ul>
+      <!-- Links -->
+
+      <ul class="navbar-nav ml-auto nav-flex-icons">
+        <li class="nav-item">
+          <a class="nav-link" href="#">{{ user.name }}</a>
+      </li>
+        <li class="nav-item avatar dropdown">
+            <a class="nav-link dropdown-toggle waves-effect waves-light" id="navbarDropdownMenuLink-5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <div *ngIf="user.image===null">
+                        <i class="fas fa-user rounded-circle z-depth-0"></i>
+                </div>
+                <div *ngIf="user.image!==null">
+                    <img src="{{ user.image }}" class="rounded-circle z-depth-0" alt="avatar image">
+                </div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-5">
+                <a class="dropdown-item waves-effect waves-light" (click)="SignOut()">Sign Out</a>
+            </div>
+        </li>
+    </ul>
+  </div>
+  <!-- Collapsible content -->
+
+</nav>
+<!--/.Navbar-->
