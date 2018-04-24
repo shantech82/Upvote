@@ -13,15 +13,10 @@ export class FileuploadService {
   UploadCompanyImage(formData){
     this.http.post('http://localhost:3000/api/uploadCompanyLogo', formData)
     .map(files => files.json())
-    .subscribe(files => console.log('files', files))           
   }
   
-  RegisterUser(formData){
-    let headers = new Headers({ 'Content-Type': 'multipart/form-data' });
-    let options = new RequestOptions({headers: headers});
-
-    return this.http.post('http://localhost:3000/api/SaveRegistration', formData, options)  
-    .map((response: Response) =>response.json())              
-  }  
-
+  GetCompanyImage(filename){
+    return this.http.get('http://localhost:3000/api/getCompanyLogo?filename=' + filename)  
+    .map(files => files)             
+  } 
 }

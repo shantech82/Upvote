@@ -28,8 +28,8 @@ export class CompanyService {
             .map((response: Response) => response.json())              
   } 
   
-  GetCompanyByName(companyname){       
-    return this.http.get('http://localhost:3000/api/getCompanybyName?companyname=' + companyname)  
+  GetCompanyByName(companyname,email){       
+    return this.http.get('http://localhost:3000/api/getCompanybyName?companyname=' + companyname + '&&email=' + email)  
             .map((response: Response) => response.json())              
   } 
 }

@@ -22,6 +22,11 @@ export interface ICountry{
   name:string
 }
 
+export interface ICity{
+  id:number,
+  name:string
+}
+
 
 @Component({
   selector: 'app-app-company',
@@ -37,6 +42,7 @@ export class AppCompanyComponent {
   private previousecityvalue:string;
   private cityValue: string;
   filesToUpload: File = null;
+  fileToDisplay: any = null;
   
   companyform:FormGroup;
   companyname:string="";
@@ -47,7 +53,7 @@ export class AppCompanyComponent {
   phonenumber:string="";
   addressline1:string="";
   addressline2:string="";
-  city:number=0;
+  city:ICity = {id:0,name:""};
   state:IState = {id:0,name:""};
   country:ICountry = {id:0,name:""};
   postcode:string="";
@@ -60,8 +66,8 @@ export class AppCompanyComponent {
         aboutcompany: ['', [Validators.required,Validators.minLength(6)]],
         addressline1: ['', Validators.required],
         city: ['', Validators.required],
-        state: ['', Validators.required],
-        country: ['', Validators.required],
+        state: [{value:'',disabled:true}, Validators.required],
+        country: [{value:'',disabled:true}, Validators.required],
         postcode: ['', Validators.required],
         whitepaper:['',Validators.nullValidator],
         website:['',Validators.nullValidator],
@@ -80,23 +86,19 @@ export class AppCompanyComponent {
     }
 
   ngOnInit() {
+      //this.fuservice.GetCompanyImage('IMG_0025.jpg').subscribe(data => {
+      //this.fileToDisplay = data;
+    //})
   }
 
   upload() {
     const formData: any = new FormData();
-    console.log(this.filesToUpload);
     formData.append('file',this.filesToUpload,this.filesToUpload.name);
-   
     this.fuservice.UploadCompanyImage(formData);
-    console.log('form data variable :   '+ formData);
-
-   
 }
 
 fileChangeEvent(fileInput: any) {
-  console.log(fileInput);
     this.filesToUpload = fileInput.target.files[0];
-    //this.product.photo = fileInput.target.files[0]['name'];
 }
 
   
@@ -124,40 +126,46 @@ fileChangeEvent(fileInput: any) {
 
   City_OnSelected(selected:CompleterItem){
     if(selected){
-    console.log(selected);
     this.mdservice.GetStateCountries(selected.originalObject.id).subscribe(data => {
-      console.log(data.data);
         this.state.id = data.data[0].stateid;
         this.state.name = data.data[0].statename;
         this.country.id = data.data[0].countryid;
         this.country.name = data.data[0].countryname;
+        this.city.id = selected.originalObject.id;
+        this.city.name = selected.originalObject.title;
     });
-    this.searchStr = selected.originalObject.cityname;
-    }
+   }
   }
 
-  PostData(companyform:NgForm){
+  CCompany(companyform:NgForm){
     if(companyform.valid){
       let companydata = {
         companyname: companyform.controls['companyname'].value,
         email: companyform.controls['email'].value,
-        whitepaper: companyform.controls['whitepaper'].value,
+        whitepapaer: companyform.controls['whitepaper'].value,
         website: companyform.controls['website'].value,
-        aboutcompany: companyform.controls['aboutcompany'].value,
+        aboutcomapny: companyform.controls['aboutcompany'].value,
         phonenumber: companyform.controls['phonenumber'].value,
-        addressline1: companyform.controls['addressline1'].value,
-        addressline2: companyform.controls['addressline2'].value,
-        city: companyform.controls['city'].value,
-        state: companyform.controls['state'].value,
-        country: companyform.controls['country'].value,
-        postcode: companyform.controls['postcode'].value,
+        address1: companyform.controls['addressline1'].value,
+        address2: companyform.controls['addressline2'].value,
+        city_id: this.city.id,
+        state_id: this.state.id,
+        country_id: this.country.id,
+        zip_code: companyform.controls['postcode'].value,
       }
-      this.comserv.GetCompanyByName(companydata.email).subscribe(data => {
+      this.comserv.GetCompanyByName(companydata.companyname,companydata.email).subscribe(data => {
         if(data.companydata != undefined){
           alert("comapny details already exist");
         }
         else{
-          
+          this.comserv.CreateCompany(companydata).subscribe(data => {
+            if(data.companydata != undefined){
+              alert("comapny details inserted");
+            }
+            else{
+              alert('something went wrong')
+            }
+          })
         }
       });
       }
