@@ -19,7 +19,7 @@ export class AppActivateComponent implements OnInit {
     })
   }
 
-  private userActivatestatus: boolean;
+  public userActivatestatus: boolean;
   ngOnInit() {
     this.regservice.PutActivateUser(this.email,this.activatekey).subscribe(data => {
       if(data.message === true){

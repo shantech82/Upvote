@@ -77,7 +77,7 @@ export class AppSigninComponent implements OnInit {
       this.router.navigate(['/Home']);
     }
   }
-  PostData(registerForm:NgForm){
+  PostData(registerForm:FormGroup){
     if(registerForm.valid){
       let UserData = {
       name: registerForm.controls['name'].value,
@@ -150,7 +150,7 @@ export class AppSigninComponent implements OnInit {
     });
   }
 
-  SignIn(loginForm:NgForm)  
+  SignIn(loginForm:FormGroup)  
   {  
     this.regservice.GetUserSignIn(loginForm.controls['username'].value,loginForm.controls['loginpassword'].value).subscribe(data => {
       if(data.status === 'success'){

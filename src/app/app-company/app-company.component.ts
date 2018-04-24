@@ -36,9 +36,9 @@ export interface ICity{
 
 export class AppCompanyComponent {
 
-  protected searchStr: string;
-  protected dataService: CompleterData;
-  protected cityData = [];
+  public searchStr: string;
+  public dataService: CompleterData;
+  private cityData = [];
   private previousecityvalue:string;
   private cityValue: string;
   filesToUpload: File = null;
@@ -137,7 +137,7 @@ fileChangeEvent(fileInput: any) {
    }
   }
 
-  CCompany(companyform:NgForm){
+  CCompany(companyform:FormGroup){
     if(companyform.valid){
       let companydata = {
         companyname: companyform.controls['companyname'].value,
