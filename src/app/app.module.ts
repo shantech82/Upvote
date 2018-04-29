@@ -29,6 +29,7 @@ import { MasterDataService } from './services/masterdata.service';
 import { FileuploadService } from './services/fileupload.service';
 import { AppCompanyComponent } from './app-company/app-company.component';
 import { AppCompanylistComponent } from './app-companylist/app-companylist.component';
+import { Config } from './app.config';
 
 const appRoutes: Routes = [
   { path: 'Company', component: AppIcocompanyComponent },
@@ -44,15 +45,15 @@ export function getAuthServiceConfigs() {
       [
         {
           id: FacebookLoginProvider.PROVIDER_ID,
-          provider: new FacebookLoginProvider("163948034314248")
+          provider: new FacebookLoginProvider(Config.FacebookProviderID)
         },
         {
           id: GoogleLoginProvider.PROVIDER_ID,
-          provider: new GoogleLoginProvider("371211842934-rpp5s77rh8vseselpobfbbte6eoqn4rs.apps.googleusercontent.com")
+          provider: new GoogleLoginProvider(Config.GoogleProviderID)
         },
          {
           id: LinkedinLoginProvider.PROVIDER_ID,
-          provider: new LinkedinLoginProvider("77abup1pkna5ba")
+          provider: new LinkedinLoginProvider(Config.LinkediInProviderID)
         },
       ]);
   return config;

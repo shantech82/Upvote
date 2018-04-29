@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';  
 import 'rxjs/add/operator/do'; 
 
-import { ApiService } from './ServiceConfig';
+import { Config } from '../app.config';
 
 @Injectable()
 export class CompanyService {
@@ -16,22 +16,22 @@ export class CompanyService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({headers: headers});
 
-    return this.http.post( ApiService.URL + 'createCompany', JSON.stringify(CompanyData), options)  
+    return this.http.post(Config.ApiURL + 'createCompany', JSON.stringify(CompanyData), options)  
     .map((response: Response) =>response.json())              
   }  
   
   GetAllCompany(){       
-    return this.http.get(ApiService.URL + 'getAllCompany/')  
+    return this.http.get(Config.ApiURL + 'getAllCompany/')  
             .map((response: Response) => response.json())              
   }  
 
   GetCompanyById(Id){       
-    return this.http.get(ApiService.URL + 'getCompanybyID/',Id)  
+    return this.http.get(Config.ApiURL + 'getCompanybyID/',Id)  
             .map((response: Response) => response.json())              
   } 
   
   GetCompanyByName(companyname,email){       
-    return this.http.get(ApiService.URL + 'getCompanybyName?companyname=' + companyname + '&&email=' + email)  
+    return this.http.get(Config.ApiURL + 'getCompanybyName?companyname=' + companyname + '&&email=' + email)  
             .map((response: Response) => response.json())              
   } 
 }

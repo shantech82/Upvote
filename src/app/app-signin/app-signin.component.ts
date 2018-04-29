@@ -136,7 +136,7 @@ export class AppSigninComponent implements OnInit {
               }
               else{
                 let mailData = {
-                  linktoActivate: "https://localhost:4200/Activate?key="+data.userData.activatekey + "&&email="+data.userData.email,
+                  linktoActivate: "https://icoupvote.herokuapp.com/Activate?key="+data.userData.activatekey + "&&email="+data.userData.email,
                   userName:data.userData.name,
                   toMailAddress:data.userData.email
                 }
