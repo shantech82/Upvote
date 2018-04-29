@@ -1,15 +1,16 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { MasterdataService } from './masterdata.service';
+import { MasterDataService } from './masterdata.service';
+
 
 describe('MasterdataService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [MasterdataService]
+      providers: [MasterDataService]
     });
   });
 
-  it('should be created', inject([MasterdataService], (service: MasterdataService) => {
+  it('should be created', inject([MasterDataService], (service: MasterDataService) => {
     expect(service).toBeTruthy();
   }));
 });

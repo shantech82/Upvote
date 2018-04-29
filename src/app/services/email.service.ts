@@ -5,6 +5,7 @@ import {Http,Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';  
 import 'rxjs/add/operator/map';  
 import 'rxjs/add/operator/do'; 
+import { ApiService } from './ServiceConfig';
 
 @Injectable()
 export class EmailService {
@@ -15,7 +16,7 @@ export class EmailService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({headers: headers});
 
-    return this.http.post('http://localhost:3000/api/sendActivateMail', JSON.stringify(MailData), options)  
+    return this.http.post(ApiService.URL + 'sendActivateMail', JSON.stringify(MailData), options)  
     .map((response: Response) =>response.json())              
   } 
 }

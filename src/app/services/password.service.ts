@@ -4,6 +4,7 @@ import {Http,Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';  
 import 'rxjs/add/operator/map';  
 import 'rxjs/add/operator/do'; 
+import { ApiService } from './ServiceConfig';
 
 @Injectable()
 export class PasswordService {
@@ -11,7 +12,7 @@ export class PasswordService {
   constructor(private http: Http) { }
 
   GetVerifyPasswords(password,encryptPassword){       
-    return this.http.get('http://localhost:3000/api/getVerifyPassword?password=' + password +"&encryptPassword="+encryptPassword)  
+    return this.http.get(ApiService.URL + 'getVerifyPassword?password=' + password +"&encryptPassword="+encryptPassword)  
             .map((response: Response) => response.json())              
   } 
 }

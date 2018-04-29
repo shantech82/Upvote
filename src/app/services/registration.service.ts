@@ -4,6 +4,7 @@ import {Http,Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';  
 import 'rxjs/add/operator/map';  
 import 'rxjs/add/operator/do'; 
+import { ApiService } from './ServiceConfig';
 
 @Injectable()
 export class RegistrationService {
@@ -14,34 +15,34 @@ export class RegistrationService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({headers: headers});
 
-    return this.http.post('http://localhost:3000/api/SaveRegistration', JSON.stringify(UserData), options)  
+    return this.http.post(ApiService.URL + 'SaveRegistration', JSON.stringify(UserData), options)  
     .map((response: Response) =>response.json())              
   }  
   
   GetAllUser(){       
-    return this.http.get('http://localhost:3000/api/Registrations/')  
+    return this.http.get(ApiService.URL + 'Registrations/')  
             .map((response: Response) => response.json())              
   }  
 
   GetSingleUser(Id){       
-    return this.http.get('http://localhost:3000/api/Registrations/',Id)  
+    return this.http.get(ApiService.URL + 'Registrations/',Id)  
             .map((response: Response) => response.json())              
   } 
   
   GetUserEmail(email){       
-    return this.http.get('http://localhost:3000/api/getRegistrationemail?email=' + email)  
+    return this.http.get(ApiService.URL + 'getRegistrationemail?email=' + email)  
             .map((response: Response) => response.json())              
   } 
 
   GetUserSignIn(email,password){       
-    return this.http.get('http://localhost:3000/api/getUserSignIn?email=' + email + '&password=' + password)  
+    return this.http.get(ApiService.URL + 'getUserSignIn?email=' + email + '&password=' + password)  
             .map((response: Response) => response.json())              
   } 
 
   PutActivateUser(email,key){ 
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({headers: headers});      
-    return this.http.put('http://localhost:3000/api/putUserActivate?email=' + email + '&activatekey=' + key,options)  
+    return this.http.put(ApiService.URL + 'putUserActivate?email=' + email + '&activatekey=' + key,options)  
             .map((response: Response) => response.json())              
   } 
 
