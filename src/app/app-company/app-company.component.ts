@@ -58,20 +58,20 @@ export class AppCompanyComponent {
   country:ICountry = {id:0,name:""};
   postcode:string="";
 
-  constructor(private fb: FormBuilder,private comserv :CompanyService,private completerService: CompleterService,
-  private mdservice: MasterDataService,private fuservice: FileuploadService,private http: Http) {
+  constructor(private fb: FormBuilder,private comserv :CompanyService,private completerService: CompleterService,private router: Router,
+  private mdservice: MasterDataService,private fuservice: FileuploadService) {
       this.companyform = this.fb.group({
         companyname: ['', Validators.required],
         email: ['', [Validators.required,this.isEmailValid('email')]],
-        aboutcompany: ['', [Validators.required,Validators.minLength(6)]],
+        aboutcompany: ['', [Validators.required,Validators.minLength(100)]],
         addressline1: ['', Validators.required],
         city: ['', Validators.required],
         state: [{value:'',disabled:true}, Validators.required],
         country: [{value:'',disabled:true}, Validators.required],
         postcode: ['', Validators.required],
-        whitepaper:['',Validators.nullValidator],
-        website:['',Validators.nullValidator],
-        phonenumber:['',Validators.nullValidator],
+        whitepaper:['',[this.isWebsiteValid('whitepaper')]],
+        website:['',[this.isWebsiteValid('website')]],
+        phonenumber:['',[Validators.nullValidator,Validators.minLength(8),Validators.maxLength(13),this.isPhoneNumberValid('phonenumber')]],
         addressline2:['',Validators.nullValidator]
       });
 
@@ -85,6 +85,22 @@ export class AppCompanyComponent {
       }
     }
 
+    isWebsiteValid(control) {
+        return control => {
+          var regex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
+          return regex.test(control.value) || control.value == '' ? null : { invalidWebSite: true };
+        }
+    }
+
+    isPhoneNumberValid(control) {
+      return control => {
+        var regex = /^[0-9]*$/
+        return regex.test(control.value) || control.value == '' ? null : { invalidPhone: true };
+      }
+  }
+
+   
+
   ngOnInit() {
       //this.fuservice.GetCompanyImage('IMG_0025.jpg').subscribe(data => {
       //this.fileToDisplay = data;
@@ -94,7 +110,9 @@ export class AppCompanyComponent {
   upload() {
     const formData: any = new FormData();
     formData.append('file',this.filesToUpload,this.filesToUpload.name);
-    this.fuservice.UploadCompanyImage(formData);
+    this.fuservice.UploadCompanyImage(formData).subscribe(data => {
+          return data;
+    });
 }
 
 fileChangeEvent(fileInput: any) {
@@ -139,39 +157,62 @@ fileChangeEvent(fileInput: any) {
 
   CCompany(companyform:FormGroup){
     if(companyform.valid){
-      let companydata = {
-        companyname: companyform.controls['companyname'].value,
-        email: companyform.controls['email'].value,
-        whitepapaer: companyform.controls['whitepaper'].value,
-        website: companyform.controls['website'].value,
-        aboutcomapny: companyform.controls['aboutcompany'].value,
-        phonenumber: companyform.controls['phonenumber'].value,
-        address1: companyform.controls['addressline1'].value,
-        address2: companyform.controls['addressline2'].value,
-        city_id: this.city.id,
-        state_id: this.state.id,
-        country_id: this.country.id,
-        zip_code: companyform.controls['postcode'].value,
-      }
-      this.comserv.GetCompanyByName(companydata.companyname,companydata.email).subscribe(data => {
-        if(data.companydata != undefined){
-          alert("comapny details already exist");
-        }
-        else{
-          this.comserv.CreateCompany(companydata).subscribe(data => {
-            if(data.companydata != undefined){
-              alert("comapny details inserted");
-            }
-            else{
-              alert('something went wrong')
-            }
-          })
-        }
-      });
+      //gettting userid
+      var userid;
+      let UserData = JSON.parse(localStorage.getItem('UserData'));
+      if(UserData != null){
+        userid = UserData.id;
+        //checking company name existing or not
+        var nameofcompany = companyform.controls['companyname'].value;
+        var emailofcompany = companyform.controls['email'].value;
+        this.comserv.GetCompanyByName(nameofcompany,emailofcompany).subscribe(data => {
+          if(data.companydata != undefined){
+            alert("comapny details already exist");
+          }
+          else{
+            //uploading compnayimage
+            const formData: any = new FormData();
+            var modifiedfilename = nameofcompany + Date.now() + this.filesToUpload.name;
+            formData.append('file',this.filesToUpload,modifiedfilename);
+            this.fuservice.UploadCompanyImage(formData).subscribe(filename => {
+              let companydata = {
+                companyname: nameofcompany,
+                email: emailofcompany,
+                whitepapaer: companyform.controls['whitepaper'].value,
+                website: companyform.controls['website'].value,
+                aboutcomapny: companyform.controls['aboutcompany'].value,
+                phonenumber: companyform.controls['phonenumber'].value,
+                address1: companyform.controls['addressline1'].value,
+                address2: companyform.controls['addressline2'].value,
+                city_id: this.city.id,
+                state_id: this.state.id,
+                country_id: this.country.id,
+                zip_code: companyform.controls['postcode'].value,
+                userid:userid,
+                imagename:filename,
+              }
+              this.comserv.CreateCompany(companydata).subscribe(data => {
+                if(data.companydata != undefined){
+                  let key = 'CompanyId';
+                  localStorage.setItem(key, data.companydata.id);
+                  alert("comapny details inserted");
+                  this.router.navigate(['/Company']);
+                }
+                else{
+                  alert('something went wrong')
+                }
+              })
+            });
+          }
+        });
       }
       else{
-        alert("given details are not valid")
+        alert("user not found");
       }
+    }
+    else{
+      alert("given details are not valid")
+    }
   }
 
 }

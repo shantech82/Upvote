@@ -12,8 +12,8 @@ export class FileuploadService {
   constructor(private http: Http) { }
 
   UploadCompanyImage(formData){
-    this.http.post(Config.ApiURL + 'uploadCompanyLogo', formData)
-    .map(files => files.json())
+   return this.http.post(Config.ApiURL + 'uploadCompanyLogo', formData)
+        .map((response: Response) => response.json())       
   }
   
   GetCompanyImage(filename){

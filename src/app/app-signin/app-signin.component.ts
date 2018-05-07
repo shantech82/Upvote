@@ -12,6 +12,7 @@ import {RegistrationService} from '../services/registration.service';
 import { DatePipe } from '@angular/common';
 import { PasswordService } from '../services/password.service';
 import { EmailService } from '../services/email.service';
+import { CompanyService } from '../services/company.service';
 
 @Component({
   selector: 'app-app-signin',
@@ -30,7 +31,7 @@ export class AppSigninComponent implements OnInit {
   username:string="";
   loginpassword:string="";
 
-  constructor( private socialAuthService: AuthService,private regservice: RegistrationService,
+  constructor( private socialAuthService: AuthService,private regservice: RegistrationService,private compserv: CompanyService,
   private router: Router,private fb: FormBuilder,private securepass : PasswordService,private emailservice:EmailService) {
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
@@ -71,7 +72,6 @@ export class AppSigninComponent implements OnInit {
   
   ngOnInit() {
     let UserData = JSON.parse(localStorage.getItem('UserData'));
-    console.log(UserData);
     if(UserData != null)
     {
       this.router.navigate(['/Home']);
@@ -103,6 +103,11 @@ export class AppSigninComponent implements OnInit {
     this.loggedIn = (userData != null);
     let key = 'UserData';
     localStorage.setItem(key, JSON.stringify(userData));
+
+    this.compserv.GetCompanyByUserId(userData.id).subscribe(data => {
+      let key = 'CompanyId';
+      localStorage.setItem(key, data.data.id);
+    });
   }
 
 

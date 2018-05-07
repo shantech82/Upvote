@@ -8,35 +8,40 @@ import 'rxjs/add/operator/do';
 import { Config } from '../app.config';
 
 @Injectable()
-export class CompanyService {
+export class CompanyvideoService {
 
   constructor(private http: Http) { }
 
-  CreateCompany(CompanyData){
+  CreateCompanyVideo(CVidoeData){
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({headers: headers});
 
-    return this.http.post(Config.ApiURL + 'createCompany', JSON.stringify(CompanyData), options)  
+    return this.http.post(Config.ApiURL + 'createCompanyvideo', JSON.stringify(CVidoeData), options)  
     .map((response: Response) =>response.json())              
   }  
   
-  GetAllCompany(){       
-    return this.http.get(Config.ApiURL + 'getAllCompany/')  
+  GetAllVideos(){       
+    return this.http.get(Config.ApiURL + 'getAllVidoes')  
             .map((response: Response) => response.json())              
   }  
 
-  GetCompanyById(Id){       
-    return this.http.get(Config.ApiURL + 'getCompanybyID/' + Id)  
-            .map((response: Response) => response.json())              
-  } 
-
-  GetCompanyByUserId(Id){       
-    return this.http.get(Config.ApiURL + 'getCompanyIDByUser/' + Id)  
+  GetVidoeById(Id){       
+    return this.http.get(Config.ApiURL + 'getVideobyID/' + Id)  
             .map((response: Response) => response.json())              
   } 
   
-  GetCompanyByName(companyname,email){       
-    return this.http.get(Config.ApiURL + 'getCompanybyName?companyname=' + companyname + '&&email=' + email)  
+  DeleteVidoeById(Id){       
+    return this.http.delete(Config.ApiURL + 'deleteVideobyID/' + Id)  
+            .map((response: Response) => response.json())              
+  } 
+
+  GetVidoesByCompany(Id){       
+    return this.http.get(Config.ApiURL + 'getVidoesByCompany/' + Id)  
+            .map((response: Response) => response.json())              
+  } 
+
+  GetVideoByUrl(vidoeurl){       
+    return this.http.get(Config.ApiURL + 'getVideoByUrl?vidoeurl=' + vidoeurl)  
             .map((response: Response) => response.json())              
   } 
 }

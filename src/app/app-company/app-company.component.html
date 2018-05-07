@@ -1,155 +1,175 @@
 <app-app-home></app-app-home>
-<div class="container">
-  <div class="col-md-12">
-  <legend>Company Details</legend>
-  <form [formGroup] = 'companyform' (ngSubmit)="CCompany(companyform)">
-      <div class="col-md-6">
-        <img [src] = 'fileToDisplay'>
-      </div>
-      <div class="col-md-6">
-          <label class="control-label" for="textinput">Company Name</label>
-      </div>
-      <div class="col-md-6">
-          <input type="text" formControlName="companyname" placeholder="Company Name" class="form-control" [formGroup] = 'companyform'>
-          <div *ngIf="companyform.controls['companyname'].touched && !companyform.controls['companyname'].valid">  
-            <span *ngIf="companyform.controls['companyname'].hasError('required') " class="alert-danger">  
-              Company Name is required  
-            </span>  
-          </div>  
-      </div>
-      <div class="col-md-6">
-          <label class="control-label" for="textinput">Company Image</label>
-      </div>
-      <div class="col-md-6">
-          <input id="cin" name="cin" type="file" class="form-control" (change)="fileChangeEvent($event)" placeholder="Upload a file..." multiple/>
-        </div>
-           <!-- Text input-->
-           <div class="col-md-6">
-            <label class="control-label" for="textinput">Email</label>
-            </div>
-            <div class="col-md-6">
-              <input type="text" formControlName="email" placeholder="email" class="form-control" [formGroup] = 'companyform'>
-              <div *ngIf="companyform.controls['email'].touched && !companyform.controls['email'].valid">  
-                <span *ngIf="companyform.controls['email'].hasError('required') " class="alert-danger">  
-                  Company Email is required  
-                </span>  
-                <span *ngIf="companyform.controls['email'].hasError('invalidEmail') " class="alert-danger">  
-                    Check your email format
-                </span> 
-              </div>  
-            </div>
-          
-           <!-- Text input-->
-           <div class="col-md-6">
-            <label class="control-label" for="textinput">White Paper</label>
+  <div class="container">
+    <div class="row">
+        <legend>Company Details</legend>
+      <form [formGroup] = 'companyform' (ngSubmit)="CCompany(companyform)">
+          <div class="col-s-6">
+              <label class="control-label" for="textinput">Company Name</label>
           </div>
-            <div class="col-md-6">
-              <input type="text" formControlName="whitepaper" placeholder="White Paper" class="form-control" [formGroup] = 'companyform'>
-            </div>
-           <!-- Text input-->
-           <div class="col-md-6">
-            <label class="control-label" for="textinput">Web Site</label>
-          </div>
-            <div class="col-md-6">
-              <input type="text" formControlName="website" placeholder="Web Site" class="form-control" [formGroup] = 'companyform'>
-            </div>
-           <!-- Text input-->
-           <div class="col-md-6">
-            <label class="control-label" for="textinput">About Company</label>
-          </div>
-            <div class="col-md-6">
-              <textarea class="form-control" formControlName="aboutcompany" rows="5" [formGroup] = 'companyform'></textarea>
-              <div *ngIf="companyform.controls['aboutcompany'].touched && !companyform.controls['aboutcompany'].valid">  
-                <span *ngIf="companyform.controls['aboutcompany'].hasError('required') " class="alert-danger">  
-                  Say something about company
+          <div class="col-s-6">
+              <input type="text" formControlName="companyname" placeholder="Company Name" class="form-control" [formGroup] = 'companyform'>
+              <div *ngIf="companyform.controls['companyname'].touched && !companyform.controls['companyname'].valid">  
+                <span *ngIf="companyform.controls['companyname'].hasError('required') " class="alert-danger">  
+                  Company Name is required  
                 </span>  
               </div>  
-            </div>
-           <!-- Text input-->
-           <div class="col-md-6">
-            <label class="control-label" for="textinput">Phone #</label>
           </div>
-            <div class="col-md-6">
-              <input type="text" formControlName="phonenumber" placeholder="Phone #" class="form-control" [formGroup] = 'companyform'>
-            </div>
-          <!-- Text input-->
-          <div class="col-md-6">
-            <label class="control-label" for="textinput">Line 1</label>
+          <div class="col-s-6">
+              <label class="control-label" for="textinput">Company Image</label>
           </div>
-            <div class="col-md-6">
-              <input type="text" formControlName="addressline1" placeholder="Address Line 1" class="form-control" [formGroup] = 'companyform'>
-              <div *ngIf="companyform.controls['addressline1'].touched && !companyform.controls['addressline1'].valid">  
-                <span *ngIf="companyform.controls['addressline1'].hasError('required') " class="alert-danger">  
-                  Address is required  
-                </span>  
-              </div>  
+          <div class="col-s-6">
+              <input id="cin" name="cin" type="file" class="form-control" (change)="fileChangeEvent($event)" placeholder="Upload a file..." multiple/>
             </div>
-
-          <!-- Text input-->
-          <div class="col-md-6">
-            <label class="control-label" for="textinput">Line 2</label>
-          </div>
-            <div class="col-md-6">
-              <input type="text" formControlName="addressline2" placeholder="Address Line 2" class="form-control" [formGroup] = 'companyform'>
-             
-            </div>
-
-          <!-- Text input-->
-          <div class="col-md-6">
-            <label class="control-label" for="textinput">City</label>
-          </div>
-            <div class="col-md-6">
-              <ng2-completer inputClass="completer-input form-control" (keypress)="City_onKeyPrss($event)" formControlName = "city" (selected)="City_OnSelected($event)" 
-              class="completer-limit" [formGroup] = 'companyform' [(ngModel)]="searchStr" [datasource]="dataService" [minSearchLength]="0"></ng2-completer>
-              <div *ngIf="companyform.controls['city'].touched && !companyform.controls['city'].valid">  
-                <span *ngIf="companyform.controls['city'].hasError('required') " class="alert-danger">  
-                  City is required  
-                </span>  
-              </div>  
-            </div>
-
-          <!-- Text input-->
-          <div class="col-md-6">
-            <label class="control-label" for="textinput">State</label>
-          </div>
-            <div class="col-md-6">
-              <input type="text"  formControlName="state" placeholder="State" class="form-control" [formGroup] = 'companyform' [(ngModel)]="state.name">
-              <div *ngIf="companyform.controls['state'].touched && !companyform.controls['state'].valid">  
-                <span *ngIf="companyform.controls['state'].hasError('required') " class="alert-danger">  
-                  State is required  
-                </span>  
-              </div>  
-            </div>
-
-          <div class="col-md-6">
-            <label class="control-label" for="textinput">Postcode</label>
-          </div>
-            <div class="col-md-6">
-              <input type="text" formControlName="postcode" placeholder="Post Code" class="form-control" [formGroup] = 'companyform'>
-              <div *ngIf="companyform.controls['postcode'].touched && !companyform.controls['postcode'].valid">  
-                <span *ngIf="companyform.controls['postcode'].hasError('required') " class="alert-danger">  
-                  Postal Code is required  
-                </span>  
-              </div>  
-            </div>
-          <!-- Text input-->
-          <div class="col-md-6">
-            <label class="control-label" for="textinput">Country</label>
-          </div>
-            <div class="col-md-6">
-              <input type="text" formControlName="country" placeholder="Country" class="form-control" [formGroup] = 'companyform' [(ngModel)]="country.name">
-              <div *ngIf="companyform.controls['country'].touched && !companyform.controls['country'].valid">  
-                <span *ngIf="companyform.controls['country'].hasError('required') " class="alert-danger">  
-                  Country is required  
-                </span>  
-              </div>  
-            </div>
-          <div class="col-md-6">
-              <div class="pull-right">
-                <button type="submit" class="btn btn-default">Cancel</button>
-                <button type="submit" class="btn btn-primary">Save</button>
+              <!-- Text input-->
+              <div class="col-s-6">
+                <label class="control-label" for="textinput">Email</label>
+                </div>
+                <div class="col-s-6">
+                  <input type="text" formControlName="email" placeholder="email" class="form-control" [formGroup] = 'companyform'>
+                  <div *ngIf="companyform.controls['email'].touched && !companyform.controls['email'].valid">  
+                    <span *ngIf="companyform.controls['email'].hasError('required') " class="alert-danger">  
+                      Company Email is required  
+                    </span>  
+                    <span *ngIf="companyform.controls['email'].hasError('invalidEmail') " class="alert-danger">  
+                        Check your email format
+                    </span> 
+                  </div>  
+                </div>
+              <!-- Text input-->
+              <div class="col-s-6">
+                <label class="control-label" for="textinput">White Paper</label>
               </div>
-            </div>
-      </form>
-    </div><!-- /.col-lg-12 -->
-</div><!-- /.row -->
+                <div class="col-s-6">
+                  <input type="text" formControlName="whitepaper" placeholder="White Paper" class="form-control" [formGroup] = 'companyform'>
+                  <div *ngIf="companyform.controls['whitepaper'].touched && !companyform.controls['whitepaper'].valid && companyform.controls['whitepaper'].v">  
+                    <span *ngIf="companyform.controls['whitepaper'].hasError('invalidWebSite') " class="alert-danger">  
+                        Check your website format
+                    </span> 
+                  </div>  
+                </div>
+              <!-- Text input-->
+              <div class="col-s-6">
+                <label class="control-label" for="textinput">Web Site</label>
+              </div>
+                <div class="col-s-6">
+                  <input type="text" formControlName="website" placeholder="Web Site" class="form-control" [formGroup] = 'companyform'>
+                  <div *ngIf="companyform.controls['website'].touched && !companyform.controls['website'].valid">  
+                    <span *ngIf="companyform.controls['website'].hasError('invalidWebSite') " class="alert-danger">  
+                        Check your white paper url format
+                    </span> 
+                  </div>
+                </div>
+              <!-- Text input-->
+              <div class="col-s-6">
+                <label class="control-label" for="textinput">About Company</label>
+              </div>
+                <div class="col-s-6">
+                  <textarea class="form-control" formControlName="aboutcompany" rows="5" [formGroup] = 'companyform'></textarea>
+                  <div *ngIf="companyform.controls['aboutcompany'].touched && !companyform.controls['aboutcompany'].valid">  
+                    <span *ngIf="companyform.controls['aboutcompany'].hasError('required') " class="alert-danger">  
+                      Say something about company
+                    </span>  
+                    <span *ngIf="companyform.controls['aboutcompany'].hasError('minlength') " class="alert-danger">  
+                      Please descripe about your company in minimum 100 characters
+                    </span>  
+                  </div>  
+                </div>
+              <!-- Text input-->
+              <div class="col-s-6">
+                <label class="control-label" for="textinput">Phone #</label>
+              </div>
+                <div class="col-s-6">
+                  <input type="text" formControlName="phonenumber" placeholder="Phone #" class="form-control" [formGroup] = 'companyform'>
+                  <div *ngIf="companyform.controls['phonenumber'].touched && !companyform.controls['phonenumber'].valid">  
+                    <span *ngIf="companyform.controls['phonenumber'].hasError('invalidPhone') " class="alert-danger">  
+                        Check your phone number
+                    </span> 
+                    <span *ngIf="companyform.controls['phonenumber'].hasError('maxlength') " class="alert-danger">  
+                      phone number has exceed length
+                    </span> 
+                    <span *ngIf="companyform.controls['phonenumber'].hasError('minlength') " class="alert-danger">  
+                      Check your phone number
+                    </span>  
+                  </div>
+                </div>
+              <!-- Text input-->
+              <div class="col-s-6">
+                <label class="control-label" for="textinput">Line 1</label>
+              </div>
+                <div class="col-s-6">
+                  <input type="text" formControlName="addressline1" placeholder="Address Line 1" class="form-control" [formGroup] = 'companyform'>
+                  <div *ngIf="companyform.controls['addressline1'].touched && !companyform.controls['addressline1'].valid">  
+                    <span *ngIf="companyform.controls['addressline1'].hasError('required') " class="alert-danger">  
+                      Address is required  
+                    </span>  
+                  </div>  
+                </div>
+
+              <!-- Text input-->
+              <div class="col-s-6">
+                <label class="control-label" for="textinput">Line 2</label>
+              </div>
+                <div class="col-s-6">
+                  <input type="text" formControlName="addressline2" placeholder="Address Line 2" class="form-control" [formGroup] = 'companyform'>
+                
+                </div>
+
+              <!-- Text input-->
+              <div class="col-s-6">
+                <label class="control-label" for="textinput">City</label>
+              </div>
+                <div class="col-s-6">
+                  <ng2-completer inputClass="completer-input form-control" (keypress)="City_onKeyPrss($event)" formControlName = "city" (selected)="City_OnSelected($event)" 
+                  class="completer-limit" [formGroup] = 'companyform' [(ngModel)]="searchStr" [datasource]="dataService" [minSearchLength]="0"></ng2-completer>
+                  <div *ngIf="companyform.controls['city'].touched && !companyform.controls['city'].valid">  
+                    <span *ngIf="companyform.controls['city'].hasError('required') " class="alert-danger">  
+                      City is required  
+                    </span>  
+                  </div>  
+                </div>
+
+              <!-- Text input-->
+              <div class="col-s-6">
+                <label class="control-label" for="textinput">State</label>
+              </div>
+                <div class="col-s-6">
+                  <input type="text"  formControlName="state" placeholder="State" class="form-control" [formGroup] = 'companyform' [(ngModel)]="state.name">
+                  <div *ngIf="companyform.controls['state'].touched && !companyform.controls['state'].valid">  
+                    <span *ngIf="companyform.controls['state'].hasError('required') " class="alert-danger">  
+                      State is required  
+                    </span>  
+                  </div>  
+                </div>
+
+              <div class="col-s-6">
+                <label class="control-label" for="textinput">Postcode</label>
+              </div>
+                <div class="col-s-6">
+                  <input type="text" formControlName="postcode" placeholder="Post Code" class="form-control" [formGroup] = 'companyform'>
+                  <div *ngIf="companyform.controls['postcode'].touched && !companyform.controls['postcode'].valid">  
+                    <span *ngIf="companyform.controls['postcode'].hasError('required') " class="alert-danger">  
+                      Postal Code is required  
+                    </span>  
+                  </div>  
+                </div>
+              <!-- Text input-->
+              <div class="col-s-6">
+                <label class="control-label" for="textinput">Country</label>
+              </div>
+                <div class="col-s-6">
+                  <input type="text" formControlName="country" placeholder="Country" class="form-control" [formGroup] = 'companyform' [(ngModel)]="country.name">
+                  <div *ngIf="companyform.controls['country'].touched && !companyform.controls['country'].valid">  
+                    <span *ngIf="companyform.controls['country'].hasError('required') " class="alert-danger">  
+                      Country is required  
+                    </span>  
+                  </div>  
+                </div>
+              <div class="col-s-6">
+                  <div class="pull-right">
+                    <button type="submit" class="btn btn-default">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                  </div>
+                </div>
+          </form>
+    </div><!-- /.row -->
+</div>

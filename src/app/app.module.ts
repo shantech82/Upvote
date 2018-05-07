@@ -27,9 +27,11 @@ import { EmailService } from './services/email.service';
 import { CompanyService } from './services/company.service';
 import { MasterDataService } from './services/masterdata.service';
 import { FileuploadService } from './services/fileupload.service';
+import { CompanyvideoService } from './services/companyvideo.service';
 import { AppCompanyComponent } from './app-company/app-company.component';
 import { AppCompanylistComponent } from './app-companylist/app-companylist.component';
 import { Config } from './app.config';
+import { AppVideoComponent } from './app-video/app-video.component';
 
 const appRoutes: Routes = [
   { path: 'Company', component: AppIcocompanyComponent },
@@ -37,7 +39,9 @@ const appRoutes: Routes = [
   { path: 'Home', component: AppCompanylistComponent },
   { path: '', component: AppCompanylistComponent },
   { path: 'Activate', component: AppActivateComponent },
-  { path: 'CCompany', component: AppCompanyComponent }
+  { path: 'CCompany', component: AppCompanyComponent },
+  { path: 'CVCompany', component: AppVideoComponent }
+  
 ];
 
 export function getAuthServiceConfigs() {
@@ -69,7 +73,8 @@ export function getAuthServiceConfigs() {
     AppSigninComponent,
     AppActivateComponent,
     AppCompanyComponent,
-    AppCompanylistComponent
+    AppCompanylistComponent,
+    AppVideoComponent
   ],
   imports: [
     BrowserModule,
@@ -79,15 +84,17 @@ export function getAuthServiceConfigs() {
     AngularFontAwesomeModule,
     ReactiveFormsModule,
     HttpModule,
-    Ng2CompleterModule
+    Ng2CompleterModule, 
   ],
-  providers: [RegistrationService,PasswordService,EmailService,CompanyService,MasterDataService,FileuploadService,
+  providers: [RegistrationService,PasswordService,EmailService,CompanyService,MasterDataService,FileuploadService,CompanyvideoService,
     {
       provide: AuthServiceConfig,
       useFactory: getAuthServiceConfigs,
     }
   ],
-  bootstrap: [AppComponent,AppNavbarComponent,AppFooterComponent],
+  bootstrap: [
+    AppComponent,
+  ],
 })
 export class AppModule  { 
 }

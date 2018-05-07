@@ -1,0 +1,64 @@
+<app-app-home></app-app-home>
+     <!-- Page Content -->
+<div class="container">
+    <div *ngIf = "isCompanyCreated">
+  <div class="row" >
+      <legend>Company Video Details</legend>
+      <form [formGroup] = 'companyVideoform' (ngSubmit)="CVCompany(companyVideoform)">
+          <div class="col-md-12">
+          <div class="col-xs-12">
+              <label class="control-label" for="textinput">Video Name</label>
+            </div>
+            <div class="col-xs-12">
+                <input type="text" formControlName="videoname" placeholder="Video Name" class="form-control" [formGroup] = 'companyVideoform'>
+                <div *ngIf="companyVideoform.controls['videoname'].touched && !companyVideoform.controls['videoname'].valid">  
+                    <span *ngIf="companyVideoform.controls['videoname'].hasError('required') " class="alert-danger">  
+                        video name is required  
+                    </span>  
+                </div>  
+            </div>
+            <div class="col-s-12">
+                <label class="control-label" for="textinput">Video URL</label>
+              </div>
+              <div class="col-s-12">
+                  <input type="text" formControlName="videourl" placeholder="Video URL" class="form-control" [formGroup] = 'companyVideoform'>
+                  <div *ngIf="companyVideoform.controls['videourl'].touched && !companyVideoform.controls['videourl'].valid">  
+                    <span *ngIf="companyVideoform.controls['videourl'].hasError('required') " class="alert-danger">  
+                        video URL is required  
+                    </span>  
+                </div>  
+                </div>
+            <div class="col-s-12">
+                    <span>Live <input  type="checkbox" value="checked" formControlName="live" class="form-control" [formGroup] = 'companyVideoform'></span>
+            </div>
+              <div class="col-s-12">
+                <div class="pull-right">
+                  <button type="submit" class="btn btn-default">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+              </div>
+            </div>
+      </form>
+  </div>
+  <br>
+  <div class="row">
+      <table class="table table-striped">
+        <thead>
+            <td>Name</td>
+            <td>Vidoe URL</td>
+            <td>Live</td>
+            <td>Delete</td>
+        </thead>
+        <tbody *ngFor="let vd of VData" >
+            <td>{{vd.name}}</td>
+            <td>{{vd.vidoeurl}}</td>
+            <td>{{vd.live}}</td>
+            <td><button type="button" (click)="deleteVideo(vd.id)">Delete</button></td>
+        </tbody>
+      </table>
+  </div>
+</div>
+  <div class="row" *ngIf = "!isCompanyCreated">
+<p>there is no assoicated company for you. please create company and come here to upload your videos</p>
+  </div>
+</div>

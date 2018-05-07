@@ -1,12 +1,70 @@
 <app-app-home></app-app-home>
-  <div id="flashContent">
-    <object width='640' height='377' id='SampleMediaPlayback' name='SampleMediaPlayback' type='application/x-shockwave-flash' classid='clsid:d27cdb6e-ae6d-11cf-96b8-444553540000' >
-      <param name='movie' value='../assets/swfs/SampleMediaPlayback.swf' /> 
-      <param name='quality' value='high' /> <param name='bgcolor' value='#000000' /> 
-      <param name='allowfullscreen' value='true' /> 
-      <param name='flashvars' value= '&src=rtmp://localhost/live/livestream&autoHideControlBar=true&streamType=live&autoPlay=true&verbose=true'/>
-      <embed src='../assets/swfs/SampleMediaPlayback.swf' width='640' height='377' id='SampleMediaPlayback' quality='high' bgcolor='#000000' name='SampleMediaPlayback' allowfullscreen='true' pluginspage='http://www.adobe.com/go/getflashplayer' flashvars='&src=rtmp://localhost/live/livestream&autoHideControlBar=true&streamType=live&autoPlay=true&verbose=true' type='application/x-shockwave-flash'/> 
-    </object>
-  </div>
+     <!-- Page Content -->
+    <div class="container">
 
+      <!-- Heading Row -->
+      <div class="row my-4">
+        <div class="col-lg-8">
+          <img class="img-fluid rounded" src="{{ company.imageUrl }}" alt="">
+        </div>
+        <!-- /.col-lg-8 -->
+        <div class="col-lg-4">
+          <h1>{{ company.companyname }}</h1>
+          <p>{{ company.aboutcomapny }}</p>
+        </div>
+        <!-- /.col-md-4 -->
+      </div>
+      <!-- /.row -->
 
+      <!-- Call to Action Well -->
+      <div class="card text-white bg-secondary my-4 text-center">
+        <div class="card-body">
+            <p>something we can design here</p>
+        </div>
+      </div>
+
+      <!-- Content Row -->
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h2 class="card-title">Information</h2>
+              <p class="card-text"><a href = "{{ company.whitepaper }}" target = "_blank">WhitePaper</a></p>
+              <p class="card-text"><a href = "{{ company.website }}" target = "_blank">website</a></p>
+            </div>
+          </div>
+        </div>
+        <!-- /.col-md-4 -->
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h2 class="card-title">Address</h2>
+              <p class="card-text">{{company.address1}}</p>
+              <p class="card-text">{{company.address2}}</p>
+              <p class="card-text">{{company.city}}</p>
+              <p class="card-text">{{company.state}} - {{company.postalcode}}</p>
+              <p class="card-text">{{company.country}}</p>
+            </div>
+          
+          </div>
+        </div>
+        <!-- /.col-md-4 -->
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h2 class="card-title">Contact</h2>
+              <p class="card-text">{{company.email}}</p>
+              <p class="card-text">{{company.phonenumber}}</p>
+            </div>
+           
+          </div>
+        </div>
+        <!-- /.col-md-4 -->
+      </div>
+      <!-- /.row -->
+      <div class="row">
+        <iframe width="560" height="315" [src]="liveURL" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      </div>
+     
+    </div>
+    <!-- /.container -->

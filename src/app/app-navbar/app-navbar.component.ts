@@ -4,6 +4,7 @@ import {
   SocialUser ,
 } from 'angular5-social-auth';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-app-navbar',
   templateUrl: './app-navbar.component.html',
@@ -37,6 +38,7 @@ export class AppNavbarComponent implements OnInit {
     let UserData = JSON.parse(localStorage.getItem('UserData'));
     if(UserData.type === '2'){
       localStorage.removeItem('UserData');
+      localStorage.removeItem('CompanyId');
         this.user == null;
         this.loggedIn = false;
         this.router.navigate(['/SignIn']);
@@ -47,6 +49,7 @@ export class AppNavbarComponent implements OnInit {
     else
     {
       localStorage.removeItem('UserData');
+      localStorage.removeItem('CompanyId');
         this.user == null;
         this.loggedIn = false;
         this.router.navigate(['/SignIn']);
