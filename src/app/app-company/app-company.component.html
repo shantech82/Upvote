@@ -41,7 +41,7 @@
               </div>
                 <div class="col-s-6">
                   <input type="text" formControlName="whitepaper" placeholder="White Paper" class="form-control" [formGroup] = 'companyform'>
-                  <div *ngIf="companyform.controls['whitepaper'].touched && !companyform.controls['whitepaper'].valid && companyform.controls['whitepaper'].v">  
+                  <div *ngIf="companyform.controls['whitepaper'].touched && !companyform.controls['whitepaper'].valid">  
                     <span *ngIf="companyform.controls['whitepaper'].hasError('invalidWebSite') " class="alert-danger">  
                         Check your website format
                     </span> 
