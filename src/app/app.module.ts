@@ -32,6 +32,7 @@ import { AppCompanyComponent } from './app-company/app-company.component';
 import { AppCompanylistComponent } from './app-companylist/app-companylist.component';
 import { Config } from './app.config';
 import { AppVideoComponent } from './app-video/app-video.component';
+import "webrtc-adapter";
 
 const appRoutes: Routes = [
   { path: 'Company', component: AppIcocompanyComponent },

@@ -56,15 +56,12 @@
               <p class="card-text">{{company.email}}</p>
               <p class="card-text">{{company.phonenumber}}</p>
             </div>
-           
           </div>
         </div>
         <!-- /.col-md-4 -->
       </div>
+      <button (click)="stopStream()">Stop Streaming</button>
       <!-- /.row -->
-      <div class="row">
-        <iframe width="560" height="315" [src]="liveURL" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-      </div>
-     
+      <video #livevideo autoplay></video>
     </div>
     <!-- /.container -->

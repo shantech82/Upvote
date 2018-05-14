@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import {CompanyService} from '../services/company.service'; 
 import {CompanyvideoService} from '../services/companyvideo.service'; 
 import { Config } from '../app.config';
 import { Url } from 'url';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import "webrtc-adapter";
 
 export interface ICompany{
   id:number,
@@ -37,6 +38,12 @@ export interface IVideo{
 })
 export class AppIcocompanyComponent implements OnInit {
 
+  constraints = { audio: false, video: true };
+  @ViewChild('livevideo') livevideo: any;
+
+  _navigator = <any> navigator;
+  localStream;
+
   constructor(private comserv :CompanyService,private cvserv: CompanyvideoService,
     private sanitizer: DomSanitizer) { }
   company: ICompany = {
@@ -69,6 +76,25 @@ export class AppIcocompanyComponent implements OnInit {
 
   ngOnInit() {
     this.getCompanyInfo()
+    const video = this.livevideo.nativeElement;
+    this._navigator = <any>navigator;
+
+    this._navigator.getUserMedia = ( this._navigator.getUserMedia || this._navigator.webkitGetUserMedia
+      || this._navigator.mozGetUserMedia || this._navigator.msGetUserMedia );
+  
+      this._navigator.mediaDevices.getUserMedia({video: true})
+        .then((stream) => {
+          this.localStream = stream;
+          video.src = window.URL.createObjectURL(stream);
+          video.play();
+      });
+  }
+
+  stopStream() {
+    const tracks = this.localStream.getTracks();
+    tracks.forEach((track) => {
+      track.stop();
+    });
   }
 
   getCompanyInfo(){
