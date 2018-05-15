@@ -58,10 +58,16 @@
             </div>
           </div>
         </div>
-        <!-- /.col-md-4 -->
+        </div>
+      <div class ="row">
+        <div class="col-md-3">
+          <input type="text" name="room-id" id="room-id">
+        </div>
+          <div class="col-md-2">
+              <button id="startlive" name="startlive">start live</button>
+          </div>
       </div>
-      <button (click)="stopStream()">Stop Streaming</button>
-      <!-- /.row -->
-      <video #livevideo autoplay></video>
-    </div>
+      <section class="make-center">
+        <div id="videos-container"></div>
+      </section>
     <!-- /.container -->

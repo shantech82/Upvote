@@ -1,10 +1,22 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit,ViewChild,Inject, AfterViewInit, ElementRef  } from '@angular/core';
 import {CompanyService} from '../services/company.service'; 
 import {CompanyvideoService} from '../services/companyvideo.service'; 
 import { Config } from '../app.config';
 import { Url } from 'url';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import "webrtc-adapter";
+import { DOCUMENT } from '@angular/common';
+
+//import * as RTCMultiConnection  from '../../assets/js/webrtc/RTCMultiConnection.min.js';
+//import * as adapter from '../../assets/js/webrtc/adapter.js';
+//import * as socket from '../../assets/js/webrtc/socket.io.js';
+//import * as getHTMLMediaElement from '../../assets/js/webrtc/getHTMLMediaElement.js';
+
+//declare const RTCMultiConnection = new RTCMultiConnection();
+//declare const adapter; 
+//declare const socket; 
+//declare const getHTMLMediaElement; 
+
+//export declare var RTCMultiConnection: any;
 
 export interface ICompany{
   id:number,
@@ -36,16 +48,12 @@ export interface IVideo{
   templateUrl: './app-icocompany.component.html',
   styleUrls: ['./app-icocompany.component.css']
 })
-export class AppIcocompanyComponent implements OnInit {
-
-  constraints = { audio: false, video: true };
-  @ViewChild('livevideo') livevideo: any;
-
-  _navigator = <any> navigator;
-  localStream;
+export class AppIcocompanyComponent implements OnInit,AfterViewInit  {
 
   constructor(private comserv :CompanyService,private cvserv: CompanyvideoService,
-    private sanitizer: DomSanitizer) { }
+    private sanitizer: DomSanitizer,@Inject(DOCUMENT) private document, private elementRef: ElementRef) { 
+  }
+
   company: ICompany = {
     id:0,
     companyname:"",
@@ -76,25 +84,38 @@ export class AppIcocompanyComponent implements OnInit {
 
   ngOnInit() {
     this.getCompanyInfo()
-    const video = this.livevideo.nativeElement;
-    this._navigator = <any>navigator;
-
-    this._navigator.getUserMedia = ( this._navigator.getUserMedia || this._navigator.webkitGetUserMedia
-      || this._navigator.mozGetUserMedia || this._navigator.msGetUserMedia );
-  
-      this._navigator.mediaDevices.getUserMedia({video: true})
-        .then((stream) => {
-          this.localStream = stream;
-          video.src = window.URL.createObjectURL(stream);
-          video.play();
-      });
   }
 
-  stopStream() {
-    const tracks = this.localStream.getTracks();
-    tracks.forEach((track) => {
-      track.stop();
-    });
+  ngAfterViewInit() {
+    const RTCMultiConnectionScript = this.document.createElement('script');
+    RTCMultiConnectionScript.type = 'text/javascript';
+    RTCMultiConnectionScript.src = '../../assets/js/webrtc/RTCMultiConnection.min.js';
+    this.elementRef.nativeElement.appendChild(RTCMultiConnectionScript);
+
+    const adapterScript = this.document.createElement('script');
+    adapterScript.type = 'text/javascript';
+    adapterScript.src = '../../assets/js/webrtc/adapter.js';
+    this.elementRef.nativeElement.appendChild(adapterScript);
+
+    const socketScript = this.document.createElement('script');
+    socketScript.type = 'text/javascript';
+    socketScript.src = '../../assets/js/webrtc/socket.io.js';
+    this.elementRef.nativeElement.appendChild(socketScript);
+
+    const getHTMLMediaElementScript = this.document.createElement('script');
+    getHTMLMediaElementScript.type = 'text/javascript';
+    getHTMLMediaElementScript.src = '../../assets/js/webrtc/getHTMLMediaElement.js';
+    this.elementRef.nativeElement.appendChild(getHTMLMediaElementScript);
+
+    const broadcastScript = this.document.createElement('script');
+    broadcastScript.type = 'text/javascript';
+    broadcastScript.src = '../../assets/js/webrtc/broadcast.js';
+    this.elementRef.nativeElement.appendChild(broadcastScript);
+
+    const handlingliveScript = this.document.createElement('script');
+    handlingliveScript.type = 'text/javascript';
+    handlingliveScript.src = '../../assets/js/webrtc/handlinglive.js';
+    this.elementRef.nativeElement.appendChild(handlingliveScript);
   }
 
   getCompanyInfo(){
