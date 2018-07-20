@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class AppNavbarComponent implements OnInit {
 
-  private user: SocialUser;
+  public user: SocialUser;
   public loggedIn: boolean;
 
 

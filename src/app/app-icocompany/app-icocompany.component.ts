@@ -88,7 +88,7 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit  {
 
     const CompanyID = localStorage.getItem('CompanyId');
 
-    this.comserv.GetCompanyById(CompanyID).subscribe(companyData => {
+    /* this.comserv.(CompanyID).subscribe(companyData => {
       if (companyData !== undefined) {
         this.newCompanyData.id = companyData.id;
         this.newCompanyData.companyname = companyData.companyname;
@@ -115,7 +115,7 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit  {
         }
       });
     }
-  });
+  });*/
 
   }
 }
