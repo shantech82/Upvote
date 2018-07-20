@@ -35,8 +35,8 @@ import { AppVideoComponent } from './app-video/app-video.component';
 import { AppProfileCreateComponent } from './app-profile-create/app-profile-create.component';
 import { environment } from '../environments/environment';
 import { AppProfileViewComponent } from './app-profile-view/app-profile-view.component';
-import { AppIcocardComponent } from './shared/app-icocard/app-icocard.component';
-import { IcofilterPipe } from './shared/icofilter.pipe';
+import { AppIcocardComponent } from './Shared/app-icocard/app-icocard.component';
+import { IcofilterPipe } from './Shared/icofilter.pipe';
 import { AlertCenterModule} from 'ng2-alert-center';
 
 const appRoutes: Routes = [
