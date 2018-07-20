@@ -90,7 +90,8 @@
 				                    <form class="registration-form" [formGroup] = 'registerForm' (ngSubmit)="PostData(registerForm)">
 				                    	<div class="form-group">
 				                    		<label class="sr-only" for="form-name">Name</label>
-											<input type="text" formControlName="name" [formGroup] = 'registerForm' placeholder="Name..." class="form-name form-control" id="form-name">
+											<input type="text" formControlName="name" [formGroup] = 'registerForm' placeholder="Name..." 
+											class="form-name form-control" id="form-name">
 											<div *ngIf="registerForm.controls['name'].touched && !registerForm.controls['name'].valid">  
 												<span *ngIf="registerForm.controls['name'].hasError('required') " class="alert-danger">  
 													Name is required  
@@ -99,12 +100,12 @@
 				                        </div>
 				                        <div class="form-group">
 				                        	<label class="sr-only" for="form-email">Email</label>
-				                        	<input type="text" formControlName="email" [formGroup] = 'registerForm' placeholder="Email..." class="form-email form-control" id="form-email" >
+											<input type="text" formControlName="email" [formGroup] = 'registerForm' placeholder="Email..." 
+											class="form-email form-control" id="form-email">
 											<div *ngIf="registerForm.controls['email'].touched && !registerForm.controls['email'].valid">  
 												<span *ngIf="registerForm.controls['email'].hasError('required') " class="alert-danger">  
 													Eamil is required  
 												</span>  
-												
 												<span *ngIf="registerForm.controls['email'].hasError('invalidEmail') " class="alert-danger">  
 													Invalid email, check your email address 
 												</span> 

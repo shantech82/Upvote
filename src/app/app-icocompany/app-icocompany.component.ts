@@ -1,89 +1,55 @@
-import { Component, OnInit,ViewChild,Inject, AfterViewInit, ElementRef  } from '@angular/core';
-import {CompanyService} from '../services/company.service'; 
-import {CompanyvideoService} from '../services/companyvideo.service'; 
-import { Config } from '../app.config';
-import { Url } from 'url';
+import { Component, OnInit, ViewChild, Inject, AfterViewInit, ElementRef  } from '@angular/core';
+import {CompanyService} from '../services/company.service';
+import {CompanyvideoService} from '../services/companyvideo.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
+import { ICompany } from '../core/Model/ICompany';
+import { environment } from '../../environments/environment';
 
-//import * as RTCMultiConnection  from '../../assets/js/webrtc/RTCMultiConnection.min.js';
+/* //import * as RTCMultiConnection  from '../../assets/js/webrtc/RTCMultiConnection.min.js';
 //import * as adapter from '../../assets/js/webrtc/adapter.js';
 //import * as socket from '../../assets/js/webrtc/socket.io.js';
 //import * as getHTMLMediaElement from '../../assets/js/webrtc/getHTMLMediaElement.js';
 
 //declare const RTCMultiConnection = new RTCMultiConnection();
-//declare const adapter; 
-//declare const socket; 
-//declare const getHTMLMediaElement; 
+//declare const adapter;
+//declare const socket;
+//declare const getHTMLMediaElement;
 
-//export declare var RTCMultiConnection: any;
+//export declare var RTCMultiConnection: any; */
 
-export interface ICompany{
-  id:number,
-  companyname:string,
-  email:string,
-  phonenumber:string,
-  whitepaper:string,
-  website:string,
-  address1:string,
-  address2:string,
-  city:string,
-  state:string,
-  country:string,
-  postalcode:string,
-  imageUrl:string,
-  aboutcomapny:string,
-  liveURL:string;
+export interface IVideo {
+  id: number;
+  video: string;
+  videourl: string;
+  live: string;
 }
 
-export interface IVideo{
-  id:number,
-  video:string,
-  videourl:string,
-  live:string
-}
+
 
 @Component({
   selector: 'app-app-icocompany',
   templateUrl: './app-icocompany.component.html',
   styleUrls: ['./app-icocompany.component.css']
 })
-export class AppIcocompanyComponent implements OnInit,AfterViewInit  {
+export class AppIcocompanyComponent implements OnInit, AfterViewInit  {
 
-  constructor(private comserv :CompanyService,private cvserv: CompanyvideoService,
-    private sanitizer: DomSanitizer,@Inject(DOCUMENT) private document, private elementRef: ElementRef) { 
+  constructor(private comserv: CompanyService, private cvserv: CompanyvideoService,
+    private sanitizer: DomSanitizer, @Inject(DOCUMENT) private document, private elementRef: ElementRef) {
   }
 
-  company: ICompany = {
-    id:0,
-    companyname:"",
-    email:"",
-    phonenumber:"",
-    whitepaper:"",
-    website:"",
-    address1:"",
-    address2:"",
-    city:"",
-    state:"",
-    country:"",
-    postalcode:"",
-    imageUrl:"",
-    aboutcomapny:"",
-    liveURL:""
+  video: IVideo = {
+    id: 0,
+    video: '',
+    videourl: '',
+    live: '0'
   };
 
-  video: IVideo ={
-    id:0,
-    video:"",
-    videourl:"",
-    live:"0"
-  }
-
-  liveURL:any;
-
+  liveURL: any;
+  newCompanyData: ICompany;
 
   ngOnInit() {
-    this.getCompanyInfo()
+    this.getCompanyInfo();
   }
 
   ngAfterViewInit() {
@@ -118,39 +84,38 @@ export class AppIcocompanyComponent implements OnInit,AfterViewInit  {
     this.elementRef.nativeElement.appendChild(handlingliveScript);
   }
 
-  getCompanyInfo(){
-    
-    let CompanyID = localStorage.getItem('CompanyId');
+  getCompanyInfo() {
 
-    this.comserv.GetCompanyById(CompanyID).subscribe(data => {
-      if(data.data != undefined){
-        this.company.id = data.data.id;
-        this.company.companyname = data.data.companyname;
-        this.company.email = data.data.email;
-        this.company.phonenumber = data.data.phonenumber;
-        this.company.whitepaper = data.data.whitepapaer;
-        this.company.website = data.data.website;
-        this.company.address1 = data.data.address1;
-        this.company.address2 = data.data.address2;
-        this.company.city = data.data.cityname;
-        this.company.state = data.data.statename;
-        this.company.country = data.data.countryname;
-        this.company.postalcode = data.data.zip_code;
-        this.company.imageUrl = Config.ApiHostURL + "static/companyimages/" + data.data.imagename;
-        this.company.aboutcomapny = data.data.aboutcomapny;
+    const CompanyID = localStorage.getItem('CompanyId');
+
+    this.comserv.GetCompanyById(CompanyID).subscribe(companyData => {
+      if (companyData !== undefined) {
+        this.newCompanyData.id = companyData.id;
+        this.newCompanyData.companyname = companyData.companyname;
+        this.newCompanyData.email = companyData.email;
+        this.newCompanyData.phonenumber = companyData.phonenumber;
+        this.newCompanyData.whitepapaer = companyData.whitepapaer;
+        this.newCompanyData.website = companyData.website;
+        this.newCompanyData.address1 = companyData.address1;
+        this.newCompanyData.address2 = companyData.address2;
+        this.newCompanyData.city_id = companyData.city_id;
+        this.newCompanyData.country_id = companyData.country_id;
+        this.newCompanyData.zip_code = companyData.zip_code;
+        this.newCompanyData.imagename = environment.ApiHostURL + 'static/companyimages/' + companyData.imagename;
+        this.newCompanyData.aboutcomapny = companyData.aboutcomapny;
       }
     });
   this.cvserv.GetVidoesByCompany(CompanyID).subscribe(data => {
-    if(data.vdata != undefined){
+    if (data.vdata !== undefined) {
       console.log(data.vdata);
       data.vdata.forEach(ele => {
-        if(ele.live == 'Yes'){
-          //this.company.liveURL = 'https://www.youtube.com/embed/' + ele.vidoeurl;
+        if (ele.live === 'Yes') {
+          // this.company.liveURL = 'https://www.youtube.com/embed/' + ele.vidoeurl;
           this.liveURL =  this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + ele.vidoeurl);
         }
       });
     }
-  })
- 
+  });
+
   }
 }

@@ -1,0 +1,216 @@
+.Profile-information {
+  font-family: Heebo;
+  font-size: 42px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  color: #151515;
+  color: var(--black);
+}
+
+.Edit-your-informatio {
+  font-family: Heebo;
+  font-size: 15px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.6;
+  letter-spacing: normal;
+  color: #43494e;
+  color: var(--charcoal-grey);
+}
+
+.base_background {
+  background-color: #f6f8fa;
+  padding: 48px 58px;
+  margin-top: 55px;
+}
+
+.form_inner {
+  padding: 0 25px
+}
+
+.Mask {
+  width: 100%;
+  height: 348px;
+  border-radius: 3px;
+  background-color: #ffffff;
+  box-shadow: 0 10px 30px 0 rgba(207, 213, 218, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.Mask-Copy {
+  width: 100%;
+  height: 100%;
+  border-radius: 3px;
+  border: dashed 1px #b0ddcb;
+}
+
+.Mask-Copy img {
+  margin: 0 auto;
+  width: 90%;
+}
+
+.Upload-Photo {
+  position: absolute;
+  bottom: 30px;
+  left: calc(50% - 83px);
+  border: 0;
+  width: 150px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  font-family: Heebo;
+  font-size: 14px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: center;
+  color: #43494e;
+  color: var(--charcoal-grey);
+}
+
+.btn_full_shape {
+  width: 161px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #3ccf94 !important;
+  background-color: var(--greenish-teal);
+  color: #fff;
+}
+
+.BG {
+  width: 252px;
+  height: 30px;
+  border-radius: 5px;
+  background-color: #e5eaed;
+}
+
+.btn_full_shape:hover,
+.BG:hover,
+.btn_full_shape:active,
+.BG:active,
+.btn_full_shape:focus,
+.BG:focus {
+  color: inherit;
+  outline: none;
+}
+
+.inner_input-copy {
+  width: 100%;
+  height: 50px;
+  background-color: #ffffff;
+  border: solid 1px #e2e2e2;
+  box-shadow: none;
+}
+
+textarea.inner_input-copy {
+  max-width: 100%;
+  min-height: 130px;
+}
+
+.btn:focus,
+.btn:active {
+  outline: 0;
+  color: inherit;
+  box-shadow: none;
+}
+
+.inner_input-copy:focus,
+.inner_input-copy:active {
+  box-shadow: none;
+}
+
+.form-horizontal .upVote_label {
+  font-size: 14px;
+  font-weight: normal;
+  margin-bottom: 12px;
+  display: inline-block
+}
+
+.upvote_form .form-group {
+  margin-bottom: 16px;
+}
+
+@media( min-width:768px) and (max-width:1023px) {
+  .Mask {
+    width: 100%;
+    height: 166px;
+    border-radius: 3px;
+    background-color: #ffffff;
+    box-shadow: 0 10px 30px 0 rgba(207, 213, 218, 0.55);
+  }
+  .Mask-Copy {
+    height: 100%;
+    border: 0;
+    border-radius: 0;
+    width: 100%;
+  }
+  .Mask-Copy img {
+    width: 68%
+  }
+  .base_background {
+    padding: 48px 0px;
+  }
+  .form_inner {
+    padding: 0 15px;
+  }
+  .Upload-Photo {
+    position: relative;
+    bottom: 0;
+    margin-top: 5px;
+    width: 100%;
+    left: 0;
+  }
+}
+
+@media (max-width:767px) {
+  /** profile **/
+  .Profile-information {
+    font-size: 30px
+  }
+  .Mask {
+    height: auto
+  }
+  .Mask-Copy img {
+    margin: 0 auto;
+    width: 50%;
+  }
+  .profile_pic {
+    margin: 30px 0;
+  }
+  .upvote_form .form-group {
+    margin: 0 0 16px 0;
+  }
+  .form_inner {
+    padding: 0
+  }
+  .Mask-Copy {
+    border: 0
+  }
+  .base_background {
+    margin-top: 40px;
+    padding: 0;
+  }
+  .Upload-Photo {
+    position: relative;
+    bottom: 0;
+    margin-top: 5px;
+    width: 100%;
+    left: 0;
+  }
+  .gap105 {
+    height: 50px;
+  }
+  .btn_full_shape,
+  .BG {
+    width: 100%
+  }
+}

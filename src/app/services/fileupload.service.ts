@@ -1,23 +1,23 @@
 import { Injectable } from '@angular/core';
-import {Http,Response, Headers, RequestOptions } from '@angular/http'; 
-
-import { Observable } from 'rxjs/Observable';  
-import 'rxjs/add/operator/map';  
+import { HttpClient } from '@angular/common/http';
+import { resolve } from 'path';
+import * as _ from 'lodash';
+import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
-import { Config } from '../app.config';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class FileuploadService {
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
-  UploadCompanyImage(formData){
-   return this.http.post(Config.ApiURL + 'uploadCompanyLogo', formData)
-        .map((response: Response) => response.json())       
+  UploadCompanyImage(formData) {
+   return this.http.post(environment.ApiURL + 'uploadCompanyLogo', formData)
+   .map(filename => filename.toString());
   }
-  
-  GetCompanyImage(filename){
-    return this.http.get(Config.ApiURL + 'getCompanyLogo?filename=' + filename)  
-    .map(files => files)             
-  } 
+
+  GetCompanyImage(filename) {
+    return this.http.get(environment.ApiURL + 'getCompanyLogo?filename=' + filename)
+    .map(files => files);
+  }
 }

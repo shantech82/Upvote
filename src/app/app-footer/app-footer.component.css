@@ -1,0 +1,136 @@
+.footer_one {
+  position: relative;
+  padding: 25px 0;
+  border-bottom: 1px solid rgba(40, 47, 54, 0.15);
+  display: flex;
+  align-items: center;
+  height: 100px;
+}
+
+.footer_two {
+  height: 100px;
+  position: relative;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+.footer_links ul,
+.footer_social ul {
+  list-style: none;
+  padding: 0;
+  margin: 0
+}
+
+.footer_content p {
+  margin: 0
+}
+
+.footer_links,
+.footer_content .left {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translate(0%, -50%);
+}
+
+.footer_social,
+.footer_content .right {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(0%, -50%);
+}
+
+.footer_links ul li,
+.footer_social ul li {
+  list-style: none;
+  margin: 0;
+  float: left;
+}
+
+.footer_links ul li {
+  padding: 0 40px;
+}
+
+.footer_social ul li {
+  padding: 0 12px;
+}
+
+.footer_links ul li:first-child,
+.footer_social ul li:first-child {
+  padding-left: 0;
+}
+
+.footer_links ul li:last-child,
+.footer_social ul li:last-child {
+  padding-right: 0;
+}
+
+.footer_links ul li a,
+.footer_social ul li a {
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.43;
+  letter-spacing: normal;
+  color: rgba(40, 47, 54, 0.5);
+}
+
+@media( min-width:768px) and (max-width:1023px) {
+  .footer_links ul li {
+    padding: 0 20px;
+  }
+}
+
+@media (max-width:767px) {
+  .footer_one,
+  .footer_two {
+    position: relative;
+    padding: 0px 0;
+    display: block;
+    align-items: center;
+    height: auto;
+    clear: both;
+  }
+  .footer_links,
+  .footer_content .left,
+  .footer_social,
+  .footer_content .right {
+    position: relative;
+    top: 0;
+    right: 0;
+    left: 0;
+    transform: none;
+    text-align: center;
+  }
+  .footer_links ul li {
+    padding: 0 10px;
+  }
+  .footer_links ul li,
+  .footer_social ul li {
+    float: none;
+    display: inline-block;
+  }
+  .footer_links ul li:first-child {
+    width: 100%;
+    text-align: center;
+    padding: 0;
+    margin: 40px 0 15px 0;
+  }
+  .footer_social>ul {
+    width: 80%;
+    margin: 20px auto;
+  }
+  .footer_content {
+    text-align: center
+  }
+  .footer_content .left {
+    margin: 15px 0;
+  }
+  .footer_content .right {
+    margin-bottom: 40px;
+  }
+}

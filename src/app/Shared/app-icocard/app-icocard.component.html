@@ -1,0 +1,38 @@
+<div class="container" *ngIf="isDisplayed">
+  <div>
+    <div class="input-group searchBox">
+      <span class="input-group-addon searchIcon">
+        <img src="..\assets\img\ico-search.png">
+      </span>
+      <input type="search" class="hSearch"  style="padding-top:100px" [(ngModel)]="icosearch" placeholder="Search">
+      <span class="input-group-addon filterIcon">
+        <img src="..\assets\img\filter.png">
+      </span>
+    </div>
+  </div>
+</div>
+<div class="row">
+<div class="col-md-4 col-sm-6 col-lg-4 col-xs-12" *ngFor="let ico of (icolist ? icolist.slice(0,itemCount): []) | icofilter: icosearch">
+<div class="card_layout">
+  <div class="card_image">
+    <img [src]="ico.icologoimage || '..\assets\img\icoimagecard.jpg'" class="img-responsive">
+    <div class="img_tag"  *ngIf="ico.icolivestreamData">Live streaming in: {{ ico.icolivestreamData }} days</div>
+  </div>
+  <div class="card_content">
+    <h4>{{ ico.iconame }}</h4>
+    <p>{{ ico.icoshortdescription }}</p>
+  </div>
+  <div class="card_footer">
+    <a href="javascript:void(0)" class="btn" *ngIf="ico.iswhitelistjoined">Whitelisted</a>
+    <p>
+      <span class="left" *ngIf="ico.icocreatedon">
+        <i class="fa fa-clock-o"></i>Added on {{ ico.icocreatedon | date }}</span>
+      <a href="javascript:void(0)" class="right">
+        <img src="..\assets\img\ico-read-more.png" srcset="..\assets\img\ico-read-more@2x.png 2x, ..\assets\img\ico-read-more@3x.png 3x">
+      </a>
+    </p>
+  </div>
+</div>
+</div>
+</div>
+<button *ngIf="isDisplayed" type="button" class="btn loadMore" (click)="loadMore();">LOAD MORE</button>

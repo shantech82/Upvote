@@ -1,0 +1,89 @@
+.b1_background {
+    background-color: #f6f8fa;
+    padding: 100px 0;
+}
+
+.profile_pic {
+    position: relative;
+    height: 348px;
+}
+
+.profile_pic img {
+    width: 100%;
+    max-height: 100%;
+}
+
+.profile_pic_info {
+    padding: 16px 20px;
+    border-radius: 3px;
+    background-color: #6949c5;
+    color: #fff;
+    position: absolute;
+    float: left;
+    width: 100%;
+    top: 100%;
+}
+
+.profile_pic_info .title {
+    font-family: Heebo;
+    font-size: 42px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    color: #151515;
+    color: var(--black);
+}
+
+.card_info {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.card_info span:after {
+    content: "";
+    position: absolute;
+    border-top: 1px solid #151515;
+    top: 10px;
+    width: 50px;
+    left: 100px;
+}
+
+.profile_info h5 {
+    font-size: 20px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #43494e;
+}
+
+.profile_info p {
+    font-size: 15px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.6;
+    letter-spacing: normal;
+    color: #43494e;
+}
+
+.profile_pic_info .left {
+    float: left;
+}
+
+.profile_pic_info .right {
+    float: right;
+}
+
+@media (max-width:767px) {
+    .profile_pic_info {
+        position: relative;
+    }
+    .profile_info .title {
+        font-size: 30px;
+        line-height: 42px;
+    }
+}

@@ -1,22 +1,26 @@
 
 import { Injectable } from '@angular/core';
-import {Http,Response, Headers, RequestOptions } from '@angular/http'; 
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { resolve } from 'path';
+import * as _ from 'lodash';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/do';
+import { environment } from '../../environments/environment';
 
-import { Observable } from 'rxjs/Observable';  
-import 'rxjs/add/operator/map';  
-import 'rxjs/add/operator/do'; 
-import { Config } from '../app.config';
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json'
+  })
+};
 
 @Injectable()
 export class EmailService {
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
-  SendActivateMail(MailData){
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({headers: headers});
-
-    return this.http.post(Config.ApiURL + 'sendActivateMail', JSON.stringify(MailData), options)  
-    .map((response: Response) =>response.json())              
-  } 
+  SendActivateMail(MailData) {
+    return this.http.post(environment.ApiURL + 'sendActivateMail', JSON.stringify(MailData), httpOptions)
+    .map(data => _.values(data));
+  }
 }

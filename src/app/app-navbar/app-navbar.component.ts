@@ -15,42 +15,39 @@ export class AppNavbarComponent implements OnInit {
   private user: SocialUser;
   public loggedIn: boolean;
 
-  
+
   constructor(private socialAuthService: AuthService,
     private router: Router  ) { }
 
   ngOnInit() {
-    let UserData = JSON.parse(localStorage.getItem('UserData'));
-    if(UserData != null)
-    {
+    const UserData = JSON.parse(localStorage.getItem('UserData'));
+    if (UserData != null) {
       this.user = UserData;
+      if (this.user.image === '') {
+        this.user.image = null;
+      }
       this.loggedIn = true;
-    }
-    else
-    {
+    } else {
       this.loggedIn = false;
       this.router.navigate(['/SignIn']);
     }
   }
 
-  public SignOut()
-  {
-    let UserData = JSON.parse(localStorage.getItem('UserData'));
-    if(UserData.type === '2'){
+  public SignOut() {
+    const UserData = JSON.parse(localStorage.getItem('UserData'));
+    if (UserData.type === '2') {
       localStorage.removeItem('UserData');
       localStorage.removeItem('CompanyId');
-        this.user == null;
+        this.user = null;
         this.loggedIn = false;
         this.router.navigate(['/SignIn']);
       this.socialAuthService.signOut().then((signoutuser) => {
       });
-      
-    }
-    else
-    {
+
+    } else {
       localStorage.removeItem('UserData');
       localStorage.removeItem('CompanyId');
-        this.user == null;
+        this.user = null;
         this.loggedIn = false;
         this.router.navigate(['/SignIn']);
     }

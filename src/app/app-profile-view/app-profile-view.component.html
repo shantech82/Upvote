@@ -1,0 +1,32 @@
+<app-app-home></app-app-home>
+<div class="upVote">
+<div class="container"  *ngIf="forminitialization">
+  <div class="row">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+      <div class="profile_pic">
+        <img [src]="user.profileimageurl || '..\assets\img\profile.jpg'" class="img-responsive">
+        <div class="profile_pic_info">
+          <span class="left" *ngIf="user.isinvestor">Investor</span>
+          <span class="right">{{ averageinvestmentsizeperyear }} / year</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
+      <div class="profile_info">
+        <h1 class="title">{{ user.name }}</h1>
+        <h5>{{ user.title }}, {{ user.location }}</h5>
+        <p>{{ user.bio }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="b1_background">
+  <div class="container">
+    <div class="card_info">
+      <span>Invested ICOs</span>
+    </div>
+      <app-app-icocard [icolist]="icolist" [page]="page"></app-app-icocard>
+</div>
+</div>
+<div class="clearfix gap20"></div>

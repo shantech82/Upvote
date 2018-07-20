@@ -1,108 +1,62 @@
 <app-app-home></app-app-home>
-<div class="album py-5 bg-light">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-4">
-        <div class="card mb-4 box-shadow">
-          <img src="..\assets\img\icoimage.jpg" class="img-responsive" alt="Cinque Terre" width="348" height="225">
-          <div class="card-body">
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            <div style="text-align:right">
-              <a routerLink ="/Company" routerLinkActive="active">see more..</a> 
-            </div>
+<div class="upvote" *ngIf="forminitialization">
+  <div class="background hBg">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+          <div class="video_container">
+            <video width="100%" height="420px" controls>
+              <source src="https://www.youtube.com/watch?v=C0DPdy98e4c" type="video/mp4"> Your browser does not support the video tag.
+            </video>
+            <div class="play_pause"><img src="..\assets\img\btn-play.png"></div>
+            <div class="video_tag">Live Streaming</div>
           </div>
         </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card mb-4 box-shadow">
-          <img src="..\assets\img\icoimage.jpg" class="img-responsive" alt="Cinque Terre" width="348" height="225">
-          <div class="card-body">
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            <div style="text-align:right">
-              <a routerLink ="/Company" routerLinkActive="active">see more..</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card mb-4 box-shadow">
-          <img src="..\assets\img\icoimage.jpg" class="img-responsive" alt="Cinque Terre" width="348" height="225">
-          <div class="card-body">
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            <div style="text-align:right">
-              <a routerLink ="/Company" routerLinkActive="active">see more..</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="card mb-4 box-shadow">
-          <img src="..\assets\img\icoimage.jpg" class="img-responsive" alt="Cinque Terre" width="348" height="225">
-          <div class="card-body">
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            <div style="text-align:right">
-              <a routerLink ="/Company" routerLinkActive="active">see more..</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card mb-4 box-shadow">
-          <img src="..\assets\img\icoimage.jpg" class="img-responsive" alt="Cinque Terre" width="348" height="225">
-          <div class="card-body">
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            <div style="text-align:right">
-              <a routerLink ="/Company" routerLinkActive="active">see more..</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card mb-4 box-shadow">
-          <img src="..\assets\img\icoimage.jpg" class="img-responsive" alt="Cinque Terre" width="348" height="225">
-          <div class="card-body">
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            <div style="text-align:right">
-              <a routerLink ="/Company" routerLinkActive="active">see more..</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="card mb-4 box-shadow">
-          <img src="..\assets\img\icoimage.jpg" class="img-responsive" alt="Cinque Terre" width="348" height="225">
-          <div class="card-body">
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            <div style="text-align:right">
-              <a routerLink ="/Company" routerLinkActive="active">see more..</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card mb-4 box-shadow">
-          <img src="..\assets\img\icoimage.jpg" class="img-responsive" alt="Cinque Terre" width="348" height="225">
-          <div class="card-body">
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            <div style="text-align:right">
-              <a routerLink ="/Company" routerLinkActive="active">see more..</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card mb-4 box-shadow">
-          <img src="..\assets\img\icoimage.jpg" class="img-responsive" alt="Cinque Terre" width="348" height="225">
-          <div class="card-body">
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            <div style="text-align:right">
-              <a routerLink ="/Company" routerLinkActive="active">see more..</a>
-            </div>
+        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+          <div class="intro_info">
+            <h1>
+              <span>{{ topicolist.iconame }}</span>
+            </h1>
+            <p>{{ topicolist.icoshortdescription }}</p>
+            <button type="button" class="btn hBtn">Visit ICO
+              <img src="..\assets\img\ico-read-more.png">
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <div class="clearfix gap50"></div>
+  <div class="container">
+    <div class="Slider_home">
+   <!-- <swiper [config]="config"> !-->
+        <div class="swiper-wrapper" *ngFor="let ico of (icolist ? icolist.slice(1,100): [])">
+          <div class="swiper-slide homeSlider">
+            <div class="img_holder">
+              <img [src]="ico.icologoimage || '..\assets\img\icoimagecard.jpg'" class="img-responsive">
+            </div>
+            <div class="slider_content">
+              <h5>{{ ico.iconame }}</h5>
+              <div class="sContent">
+                {{ ico.icoshortdescription }}
+              </div>
+            </div>
+            <div class="slider_footer">
+              <a href="#">
+                <span> &#x2192; </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-button-next upSlider_arrow"><img src="..\assets\img\slide_arrow_right.png"></div>
+        <div class="swiper-button-prev upSlider_arrow"><img src="..\assets\img\slide_arrow_left.png"></div>
+    <!-- </swiper> !-->
+    </div>
+  </div>
+  <div class="background">
+    <div class="container">
+      <app-app-icocard [icolist]="icolist" [page]="page"></app-app-icocard>
+    </div>
+  </div>
 </div>
+<div class="clearfix"></div>
