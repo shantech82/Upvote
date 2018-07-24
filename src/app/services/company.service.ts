@@ -5,8 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 
-import { ICompany } from '../core/Model/ICompany';
 import { environment } from '../../environments/environment';
+import { IICO } from '../core/Model/IICO';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -20,9 +20,18 @@ export class CompanyService {
 
   constructor(private http: HttpClient) { }
 
-  CreateCompany(CompanyData: ICompany): Observable<ICompany> {
-    return this.http.post<ICompany>(environment.ApiURL + 'createCompany', CompanyData, httpOptions)
+  CreateICO(CompanyData: IICO): Observable<IICO> {
+    return this.http.post<IICO>(environment.ApiURL + 'createICO', CompanyData, httpOptions)
     .map(data => _.values(data));
+  }
+
+  UpdateICO(CompanyData: IICO): Observable<IICO> {
+    return this.http.put<IICO>(environment.ApiURL + 'updateICO', CompanyData, httpOptions)
+    .map(data => _.values(data));
+  }
+
+  DeleteICO(Id) {
+    return this.http.delete(environment.ApiURL + 'deleteICO/' + Id).toPromise();
   }
 
   GetAllICOs() {
@@ -30,18 +39,8 @@ export class CompanyService {
     .then(data => _.values(data));
   }
 
-  GetCompanyById(Id): Observable<ICompany> {
-    return this.http.get<ICompany>(environment.ApiURL + 'getCompanybyID/' + Id)
-    .map(data => _.values(data));
-  }
-
-  GetCompanyByUserId(Id) {
-    return this.http.get(environment.ApiURL + 'getCompanyIDByUser/' + Id)
-    .map(data => _.values(data));
-  }
-
-  GetCompanyByName(companyname, email) {
-    return this.http.get(environment.ApiURL + 'getCompanybyName?companyname=' + companyname + '&&email=' + email)
+  GetICOById(Id): Observable<IICO> {
+    return this.http.get<IICO>(environment.ApiURL + 'getICO/' + Id)
     .map(data => _.values(data));
   }
 }

@@ -2,7 +2,28 @@
 <div class="alertCenter">
   <nac-alert-center [animation]="'fancy'" [htmlTextEnabled]="true"></nac-alert-center>
 </div>
-<div class="upVote">
+<div>
+    <div class="modal fade" id="deletModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="myModalLabel">Warning!!!</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <h4>Are you sure you want to delete your profile?</h4>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="DeleteUserProfile()">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+<div class="upVote" *ngIf="forminitialization">
   <div class="container">
     <h1 class="Profile-information">
       Profile information
@@ -12,7 +33,7 @@
     </h6>
   </div>
   <div class="base_background">
-    <div class="container" *ngIf="forminitialization">
+    <div class="container">
       <div class="row">
         <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4">
           <div class="profile_pic">
@@ -22,12 +43,13 @@
               </div>
             </div>
             <button type="button" class="Upload-Photo" (click)="fileInput.click()">Upload Photo</button>
-            <input #fileInput type="file" class="form-control" style="display: none" (change)="fileChangeEvent($event)" multiple accept='image/*'/>
+            <input #fileInput type="file" class="form-control" style="display: none" (change)="fileChangeEvent($event)" multiple accept='image/*'
+            />
           </div>
         </div>
         <div class="col-md-8 col-sm-8 col-xs-12 col-lg-8">
           <div class="form_inner">
-            <form class="form-horizontal upvote_form" [formGroup] = 'icoprofileform' (ngSubmit)="UpdateICOProfile(icoprofileform)">
+            <form class="form-horizontal upvote_form" [formGroup]='icoprofileform' (ngSubmit)="UpdateICOProfile(icoprofileform)">
               <div class="form-group">
                 <label class="control-label upVote_label">Username</label>
                 <input type="text" formControlName="name" class="form-control inner_input-copy" placeholder="Username" disabled>
@@ -35,11 +57,11 @@
               <div class="form-group">
                 <label class="control-label upVote_label">Title</label>
                 <input type="text" formControlName="title" class="form-control inner_input-copy" placeholder="Title">
-                <div *ngIf="icoprofileform.controls['title'].touched && !icoprofileform.controls['title'].valid">  
-                  <span *ngIf="icoprofileform.controls['title'].hasError('required') " class="alert-danger">  
-                    Title is required  
-                  </span>  
-                </div>  
+                <div *ngIf="icoprofileform.controls['title'].touched && !icoprofileform.controls['title'].valid">
+                  <span *ngIf="icoprofileform.controls['title'].hasError('required') " class="alert-danger">
+                    Title is required
+                  </span>
+                </div>
               </div>
               <div class="form-group">
                 <label class="control-label upVote_label">Email address</label>
@@ -48,31 +70,31 @@
               <div class="form-group">
                 <label class="control-label upVote_label">Location</label>
                 <input type="text" formControlName="location" class="form-control inner_input-copy" placeholder="Location">
-                <div *ngIf="icoprofileform.controls['location'].touched && !icoprofileform.controls['location'].valid">  
-                  <span *ngIf="icoprofileform.controls['location'].hasError('required') " class="alert-danger">  
-                    Location is required  
-                  </span>  
+                <div *ngIf="icoprofileform.controls['location'].touched && !icoprofileform.controls['location'].valid">
+                  <span *ngIf="icoprofileform.controls['location'].hasError('required') " class="alert-danger">
+                    Location is required
+                  </span>
                 </div>
               </div>
               <div class="form-group">
                 <label class="control-label upVote_label">Bio</label>
                 <textarea formControlName="bio" class="form-control inner_input-copy" placeholder="Bio"></textarea>
-                <div *ngIf="icoprofileform.controls['bio'].touched && !icoprofileform.controls['bio'].valid">  
-                  <span *ngIf="icoprofileform.controls['bio'].hasError('required') " class="alert-danger">  
-                    Bio is required  
-                  </span>  
-                  <span *ngIf="icoprofileform.controls['bio'].hasError('minlength') " class="alert-danger">  
-                    Please descripe about your company in minimum 100 characters 
+                <div *ngIf="icoprofileform.controls['bio'].touched && !icoprofileform.controls['bio'].valid">
+                  <span *ngIf="icoprofileform.controls['bio'].hasError('required') " class="alert-danger">
+                    Bio is required
+                  </span>
+                  <span *ngIf="icoprofileform.controls['bio'].hasError('minlength') " class="alert-danger">
+                    Please descripe about your company in minimum 100 characters
                   </span>
                 </div>
               </div>
               <div class="form-group">
                 <label class="control-label upVote_label">Investment focus</label>
                 <input type="text" formControlName="investmentfocus" class="form-control inner_input-copy" placeholder="Investment focus">
-                <div *ngIf="icoprofileform.controls['investmentfocus'].touched && !icoprofileform.controls['investmentfocus'].valid">  
-                  <span *ngIf="icoprofileform.controls['investmentfocus'].hasError('required') " class="alert-danger">  
-                    Investment Focus is required  
-                  </span>  
+                <div *ngIf="icoprofileform.controls['investmentfocus'].touched && !icoprofileform.controls['investmentfocus'].valid">
+                  <span *ngIf="icoprofileform.controls['investmentfocus'].hasError('required') " class="alert-danger">
+                    Investment Focus is required
+                  </span>
                 </div>
               </div>
               <div class="form-group">
@@ -97,8 +119,10 @@
               </div>
               <div class="gap105"></div>
               <div class="form-group">
-                <button type="button" (click)="DeleteUserProfile()" class="BG btn">Delete my account and information</button>
-              </div>
+                  <a href="#" class="btn BG btn" style="color: black" data-toggle="modal" data-target="#deletModal">
+                      Delete my account and information
+                    </a>
+                </div>
             </form>
           </div>
         </div>
@@ -107,3 +131,4 @@
   </div>
 </div>
 <div class="clearfix gap20"></div>
+<ngx-spinner bdColor="rgba(251,244,244,0.8)" size="medium" color="#31d093" type="ball-clip-rotate-multiple"></ngx-spinner>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CompanyService } from '../services/company.service';
 import { IICOList } from '../core/Model/IICOList';
 import { environment } from '../../environments/environment';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-app-companylist',
@@ -14,10 +15,12 @@ export class AppCompanylistComponent implements OnInit {
   forminitialization: boolean;
   page: string;
   topicolist: IICOList;
+  isICOAvailable: boolean;
 
-  constructor(private icoservice: CompanyService) { }
+  constructor(private icoservice: CompanyService, private spinner: NgxSpinnerService) {  }
 
   ngOnInit() {
+    this.spinner.show();
     this.GetUAllICOs();
     this.page = 'ico';
   }
@@ -28,6 +31,12 @@ export class AppCompanylistComponent implements OnInit {
       this.AssignICOData(investorICO);
       this.topicolist = this.icolist[0];
       this.forminitialization = true;
+      if (this.icolist[0].iconame !== null) {
+        this.isICOAvailable = true;
+      } else {
+        this.isICOAvailable = false;
+      }
+      this.spinner.hide();
     });
   }
 

@@ -1,0 +1,35 @@
+export interface IICO {
+  id: number;
+  iconame: string;
+  icologoimage: string;
+  smn_twitter: string;
+  smn_facebook: string;
+  smn_google: string;
+  smn_reddit: string;
+  smn_bitcointalk: string;
+  smn_github: string;
+  smn_others: string;
+  smn_linkedin: string;
+  email: string;
+  city: string;
+  country: string;
+  amountraising: string;
+  website: string;
+  whitepaper: string;
+  shortdescription: string;
+  productlink: string;
+  videouploadurl: string;
+  icostartdate: Date;
+  icoenddate: Date;
+  icocategoryid: number;
+  linktoboundry: string;
+  tokcenname: string;
+  tokeytype: string;
+  pricepertoken: string;
+  iswhitelistjoined: boolean;
+  createdon: Date;
+  smn_youtube: string;
+  phone_number: string;
+  long_description: string;
+  address: string;
+  }

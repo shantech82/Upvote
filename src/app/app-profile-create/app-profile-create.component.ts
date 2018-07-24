@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { RegistrationService } from '../services/registration.service';
 import { IUser } from '../core/Model/IUser';
@@ -8,6 +8,8 @@ import { MasterDataService } from '../services/masterdata.service';
 import { Router } from '@angular/router';
 import { AlertCenterService, Alert, AlertType } from 'ng2-alert-center';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
+
 
 @Component({
   selector: 'app-app-profile-create',
@@ -15,6 +17,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./app-profile-create.component.css']
 })
 export class AppProfileCreateComponent implements OnInit {
+
+  @ViewChild('modalContent') modalContentReference: ElementRef;
 
   icouserprofileupdate: IUser;
   icoprofileform: FormGroup;
@@ -45,7 +49,7 @@ export class AppProfileCreateComponent implements OnInit {
 
   constructor(private icouserprofileservice: RegistrationService, private fuservice: FileuploadService,
     private mdservice: MasterDataService, private router: Router, private alertService: AlertCenterService,
-    private modalService: NgbModal) {
+    private modalService: NgbModal, private spinner: NgxSpinnerService) {
   }
 
   createFormControls() {
@@ -83,6 +87,7 @@ export class AppProfileCreateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.spinner.show();
     this.forminitialization = false;
     this.GetUserInfo();
     this.GetNoOfInvestment();
@@ -97,18 +102,23 @@ export class AppProfileCreateComponent implements OnInit {
   }
 
   GetNoOfInvestment() {
-      this.mdservice.GetNoOfInvestments().subscribe(investmentData => {
-          this.investmentData = investmentData[0];
-          console.log(this.investmentData);
-      });
+    this.mdservice.GetNoOfInvestments().subscribe(investmentData => {
+      this.investmentData = investmentData[0];
+    });
   }
 
   DeleteUserProfile() {
-    this.icouserprofileservice.DeleteUserProfile(this.userId);
-    alert('user deleted');
-    localStorage.removeItem('UserData');
-    this.router.navigate(['/SignIn']);
+    this.fuservice.DeleteFile(this.updatedprofileimageurl).subscribe(() => {
+      this.icouserprofileservice.DeleteUserProfile(this.userId)
+        .then(() => {
+          localStorage.removeItem('UserData');
+          this.router.navigate(['/SignIn']);
+        }, error => {
+          this.alertService.alert(new Alert(AlertType.DANGER, 'There was a problem deleting the user. Please, try again'));
+        });
+    });
   }
+
   AssignProfileImage() {
     if (this.icoUserGet !== undefined) {
       if (this.IfNotEmptyNullUndefined(this.icoUserGet.profileimageurl)) {
@@ -136,8 +146,10 @@ export class AppProfileCreateComponent implements OnInit {
       const formData: any = new FormData();
       const modifiedfilename = nameofUser + Date.now() + this.filesToUpload.name;
       formData.append('file', this.filesToUpload, modifiedfilename);
-      this.fuservice.UploadCompanyImage(formData).subscribe(filename => {
-        this.updatedprofileimageurl = filename;
+      this.fuservice.DeleteFile(this.updatedprofileimageurl).subscribe(() => {
+        this.fuservice.UploadCompanyImage(formData).subscribe(filename => {
+          this.updatedprofileimageurl = filename;
+        });
       });
     } else {
       this.imageSrc = '../../assets/img/ico-user@2x.png';
@@ -155,6 +167,7 @@ export class AppProfileCreateComponent implements OnInit {
         this.AssignProfileImage();
         this.createFormControls();
         this.createForm();
+        this.spinner.hide();
         this.forminitialization = true;
       });
     }
@@ -163,6 +176,7 @@ export class AppProfileCreateComponent implements OnInit {
   UpdateICOProfile(icoprofileform: FormGroup) {
     if (icoprofileform.valid) {
       // gettting userid
+      this.spinner.show();
       const UserData = JSON.parse(localStorage.getItem('UserData'));
       if (UserData != null) {
         const userid = UserData.id;
@@ -186,12 +200,16 @@ export class AppProfileCreateComponent implements OnInit {
         };
         this.icouserprofileservice.UpdateICOUserProfile(this.icoUser).subscribe(returnValue => {
           if (returnValue !== undefined) {
+            this.spinner.hide();
             this.alertService.alert(new Alert(AlertType.SUCCESS, 'Your profile has been updated!!!'));
+            this.router.navigate(['/UProfile']);
           } else {
+            this.spinner.hide();
             this.alertService.alert(new Alert(AlertType.DANGER, 'Something went wrong, please try again after some time'));
           }
         });
       } else {
+        this.spinner.hide();
         this.alertService.alert(new Alert(AlertType.WARNING, 'Your profile not found'));
       }
     } else {

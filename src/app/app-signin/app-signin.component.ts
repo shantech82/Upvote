@@ -8,12 +8,14 @@ import {
   SocialUser
 } from 'angular5-social-auth';
 import { Router } from '@angular/router';
-import {RegistrationService} from '../services/registration.service';
+import { RegistrationService } from '../services/registration.service';
 import { PasswordService } from '../services/password.service';
 import { EmailService } from '../services/email.service';
 import { CompanyService } from '../services/company.service';
-import {IUser} from '../core/Model/IUser';
+import { IUser } from '../core/Model/IUser';
 import { environment } from '../../environments/environment';
+import { AlertCenterService, Alert, AlertType } from 'ng2-alert-center';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-app-signin',
@@ -36,17 +38,18 @@ export class AppSigninComponent implements OnInit {
   private loggedIn: boolean;
   userData: IUser;
 
-  constructor( private socialAuthService: AuthService, private regservice: RegistrationService, private compserv: CompanyService,
-  private router: Router, private fb: FormBuilder, private securepass: PasswordService, private emailservice: EmailService) {
+  constructor(private socialAuthService: AuthService, private regservice: RegistrationService, private compserv: CompanyService,
+    private router: Router, private fb: FormBuilder, private securepass: PasswordService, private emailservice: EmailService,
+    private alertService: AlertCenterService, private spinner: NgxSpinnerService) {
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
-      email: ['', [Validators.required,this.isEmailValid('email')]],
+      email: ['', [Validators.required, this.isEmailValid('email')]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmpassword: ['', Validators.required],
       aboutyourself: ['', Validators.required]
     }, {
-      validator: this.MatchPassword // your validation method
-    });
+        validator: this.MatchPassword // your validation method
+      });
 
     this.loginForm = fb.group({
       username: ['', Validators.required],
@@ -57,19 +60,19 @@ export class AppSigninComponent implements OnInit {
   MatchPassword(AC: AbstractControl) {
     const password = AC.get('password').value; // to get value in input tag
     const confirmPassword = AC.get('confirmpassword').value; // to get value in input tag
-     if (password !== confirmPassword) {
-         AC.get('confirmpassword').setErrors( {MatchPassword: true} );
-     } else {
-         return null;
-     }
- }
+    if (password !== confirmPassword) {
+      AC.get('confirmpassword').setErrors({ MatchPassword: true });
+    } else {
+      return null;
+    }
+  }
 
- isEmailValid(emailControl) {
-  return emailControl => {
-    var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    return regex.test(emailControl.value) ? null : { invalidEmail: true };
-  };
-}
+  isEmailValid(emailControl) {
+    return emailControl => {
+      var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      return regex.test(emailControl.value) ? null : { invalidEmail: true };
+    };
+  }
 
   ngOnInit() {
     const UserData = JSON.parse(localStorage.getItem('UserData'));
@@ -80,6 +83,7 @@ export class AppSigninComponent implements OnInit {
 
   PostData(registerForm: FormGroup) {
     if (registerForm.valid) {
+      this.spinner.show();
       const tempUserData = {
         name: registerForm.controls['name'].value,
         email: registerForm.controls['email'].value,
@@ -89,9 +93,21 @@ export class AppSigninComponent implements OnInit {
         isactive: false,
       };
       this.RegisterUser(tempUserData, '1');
-      } else {
-        alert('given details are not valid');
-      }
+    } else {
+      this.alertService.alert(new Alert(AlertType.DANGER, 'Given details are not valid'));
+    }
+  }
+
+  ClearData() {
+    this.registerForm = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, this.isEmailValid('email')]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmpassword: ['', Validators.required],
+      aboutyourself: ['', Validators.required]
+    }, {
+        validator: this.MatchPassword // your validation method
+      });
   }
 
   AssignLocalStorageData(dbUserData, type) {
@@ -101,81 +117,83 @@ export class AppSigninComponent implements OnInit {
       image: dbUserData[0].profileimageurl,
       id: dbUserData[0].id,
       type: type
-      };
+    };
     this.loggedIn = (userData != null);
     const key = 'UserData';
     localStorage.setItem(key, JSON.stringify(userData));
-
-    this.compserv.GetCompanyByUserId(userData.id).subscribe(Companydata => {
-      if (Companydata[0] !== undefined) {
-        const companyKey = 'CompanyId';
-        localStorage.setItem(companyKey, Companydata[0].id);
-      }
-    });
   }
   RegisterUser(UserData, type) {
-      this.regservice.GetUserEmail(UserData.email).subscribe(userData => {
-        if (userData[0] !== undefined) {
-          if (type === '1') {
-            alert('email already exist');
-            return;
-          } else {
-            this.AssignLocalStorageData(userData, '2');
-            this.router.navigate(['/Home']);
-          }
+    this.regservice.GetUserEmail(UserData.email).subscribe(userData => {
+      if (userData[0] !== undefined) {
+        if (type === '1') {
+          this.spinner.hide();
+          this.alertService.alert(new Alert(AlertType.INFO, 'Your email is already present in our system!!!'));
+          return;
         } else {
-            this.userData = {
-              name: UserData.name,
-              email: UserData.email,
-              password: UserData.password,
-              bio: UserData.bio,
-              id: 0,
-              isinvestor: false,
-              profileimageurl: UserData.image,
-              location: '',
-              investmentfocus: '',
-              averagenoofinvestment: 0,
-              averageinvestmentsizeperyear: 0,
-              isactive: UserData.isactive,
-              activatekey: this.guid(),
-              createdon: new Date().toLocaleDateString(),
-              title: ''
-            };
-
-            this.regservice.RegisterUser(this.userData).subscribe(registeredData => {
-              if (type === '2' && registeredData[0] !== undefined) {
-                this.AssignLocalStorageData(registeredData, '2');
-                this.router.navigate(['/Home']);
-              } else {
-                const mailData = {
-                  linktoActivate: environment.AppHostURL + '/Activate?key=' + registeredData[0].activatekey + '&&email=' + registeredData[0].email,
-                  userName: registeredData[0].name,
-                  toMailAddress: registeredData[0].email
-                };
-                this.emailservice.SendActivateMail(mailData).subscribe(alertMessage => {
-                  alert('Activation code send to your mail address, kinldy activate your account to login here');
-                });
-              }
-            },
-            error => alert('something error'));
+          this.spinner.hide();
+          this.AssignLocalStorageData(userData, '2');
+          this.router.navigate(['/Home']);
         }
+      } else {
+        this.userData = {
+          name: UserData.name,
+          email: UserData.email,
+          password: UserData.password,
+          bio: UserData.bio,
+          id: 0,
+          isinvestor: false,
+          profileimageurl: UserData.image,
+          location: '',
+          investmentfocus: '',
+          averagenoofinvestment: 0,
+          averageinvestmentsizeperyear: 0,
+          isactive: UserData.isactive,
+          activatekey: this.guid(),
+          createdon: new Date().toLocaleDateString(),
+          title: ''
+        };
+
+        this.regservice.RegisterUser(this.userData).subscribe(registeredData => {
+          if (type === '2' && registeredData[0] !== undefined) {
+            this.spinner.hide();
+            this.AssignLocalStorageData(registeredData, '2');
+            this.router.navigate(['/Home']);
+          } else {
+            const mailData = {
+              linktoActivate: environment.AppHostURL + '/Activate?key=' + registeredData[0].activatekey + '&&email=' + registeredData[0].email,
+              userName: registeredData[0].name,
+              toMailAddress: registeredData[0].email
+            };
+            this.emailservice.SendActivateMail(mailData).subscribe(alertMessage => {
+              this.ClearData();
+              this.spinner.hide();
+              this.alertService.alert(new Alert(AlertType.SUCCESS, 'Please check your mail to activate your account!!!'));
+            });
+          }
+        },
+          error => alert('something error'));
+        this.spinner.hide();
+      }
     });
   }
 
   SignIn(loginForm: FormGroup) {
+    this.spinner.show();
     this.regservice.GetUserSignIn(loginForm.controls['username'].value, loginForm.controls['loginpassword'].value).subscribe(singInData => {
       if (singInData[1] === true) {
+        this.spinner.hide();
         this.AssignLocalStorageData(singInData, '1');
         this.router.navigate(['/Home']);
       } else {
-        alert(singInData[2]);
+        this.spinner.hide();
+        this.alertService.alert(new Alert(AlertType.WARNING, singInData[2]));
       }
-     });
+    });
   }
 
   guid() {
     return this.s4() + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' +
-    this.s4() + '-' + this.s4() + this.s4() + this.s4();
+      this.s4() + '-' + this.s4() + this.s4() + this.s4();
   }
 
   s4() {

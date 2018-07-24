@@ -38,17 +38,20 @@ import { AppProfileViewComponent } from './app-profile-view/app-profile-view.com
 import { AppIcocardComponent } from './Shared/app-icocard/app-icocard.component';
 import { IcofilterPipe } from './Shared/icofilter.pipe';
 import { AlertCenterModule} from 'ng2-alert-center';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgDatepickerModule } from 'ng2-datepicker';
 
 const appRoutes: Routes = [
-  { path: 'Company/:id', component: AppIcocompanyComponent },
+  { path: 'ICO/:id', component: AppIcocompanyComponent },
   { path: 'User', component: AppProfileCreateComponent },
   { path: 'UProfile', component: AppProfileViewComponent },
   { path: 'SignIn', component: AppSigninComponent },
   { path: 'Home', component: AppCompanylistComponent },
   { path: '', component: AppCompanylistComponent },
   { path: 'Activate', component: AppActivateComponent },
-  { path: 'CCompany', component: AppCompanyComponent },
-  { path: 'CVCompany', component: AppVideoComponent }
+  { path: 'CVCompany', component: AppVideoComponent },
+  { path: 'ListICO', component: AppCompanyComponent },
+  { path: 'ListICO/:id', component: AppCompanyComponent },
 ];
 
 export function getAuthServiceConfigs() {
@@ -99,6 +102,8 @@ export function getAuthServiceConfigs() {
     FormsModule,
     AlertCenterModule,
     BrowserAnimationsModule,
+    NgxSpinnerModule,
+    NgDatepickerModule
   ],
   providers: [RegistrationService, PasswordService, EmailService, CompanyService, MasterDataService, FileuploadService, CompanyvideoService,
     {

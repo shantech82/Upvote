@@ -1,8 +1,15 @@
-<div *ngIf='!userActivatestatus'>
-  sorry something went wrong, we can't activate your account now. please contact Upvote ICO team
-</div>
+<div class="upVote">
+  <div class="container">
+    <div class="divcenter">
+      <div *ngIf='!userActivatestatus'>
+        sorry something went wrong, we can't activate your account now. please contact Upvote ICO team
+      </div>
 
-<div *ngIf='userActivatestatus'>
-    your account is active now. please <a routerLink="/SignIn" routerLinkActive="active-link">click here</a>  to login now
+      <div *ngIf='userActivatestatus'>
+        <p> your account is activating now. please
+          <a routerLink="/SignIn" routerLinkActive="active-link">click here</a> to login now </p>
+      </div>
+    </div>
+  </div>
 </div>
-
+<ngx-spinner bdColor="rgba(251,244,244,0.8)" size="medium" color="#31d093" type="ball-clip-rotate-multiple"></ngx-spinner>

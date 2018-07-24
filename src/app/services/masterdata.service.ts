@@ -28,6 +28,10 @@ export class MasterDataService {
     return this.http.get(environment.ApiURL + 'getNoOfInvestment')
     .map(data => _.values(data));
   }
+  GetICOCategory() {
+    return this.http.get(environment.ApiURL + 'getICOCategory')
+    .map(data => _.values(data));
+  }
   GetStateCountries(cityid) {
     return this.http.get(environment.ApiURL + 'getStateCountry?cityid=' + cityid)
     .map(data => _.values(data));

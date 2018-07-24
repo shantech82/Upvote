@@ -1,175 +1,347 @@
 <app-app-home></app-app-home>
-  <div class="container">
-    <div class="row">
-        <legend>Company Details</legend>
-      <form [formGroup] = 'companyform' (ngSubmit)="CCompany(companyform)">
-          <div class="col-s-6">
-              <label class="control-label" for="textinput">Company Name</label>
-          </div>
-          <div class="col-s-6">
-              <input type="text" formControlName="companyname" placeholder="Company Name" class="form-control" [formGroup] = 'companyform'>
-              <div *ngIf="companyform.controls['companyname'].touched && !companyform.controls['companyname'].valid">  
-                <span *ngIf="companyform.controls['companyname'].hasError('required') " class="alert-danger">  
-                  Company Name is required  
-                </span>  
-              </div>  
-          </div>
-          <div class="col-s-6">
-              <label class="control-label" for="textinput">Company Image</label>
-          </div>
-          <div class="col-s-6">
-              <input id="cin" name="cin" type="file" class="form-control" (change)="fileChangeEvent($event)" placeholder="Upload a file..." multiple/>
-            </div>
-              <!-- Text input-->
-              <div class="col-s-6">
-                <label class="control-label" for="textinput">Email</label>
-                </div>
-                <div class="col-s-6">
-                  <input type="text" formControlName="email" placeholder="email" class="form-control" [formGroup] = 'companyform'>
-                  <div *ngIf="companyform.controls['email'].touched && !companyform.controls['email'].valid">  
-                    <span *ngIf="companyform.controls['email'].hasError('required') " class="alert-danger">  
-                      Company Email is required  
-                    </span>  
-                    <span *ngIf="companyform.controls['email'].hasError('invalidEmail') " class="alert-danger">  
-                        Check your email format
-                    </span> 
-                  </div>  
-                </div>
-              <!-- Text input-->
-              <div class="col-s-6">
-                <label class="control-label" for="textinput">White Paper</label>
-              </div>
-                <div class="col-s-6">
-                  <input type="text" formControlName="whitepaper" placeholder="White Paper" class="form-control" [formGroup] = 'companyform'>
-                  <div *ngIf="companyform.controls['whitepaper'].touched && !companyform.controls['whitepaper'].valid">  
-                    <span *ngIf="companyform.controls['whitepaper'].hasError('invalidWebSite') " class="alert-danger">  
-                        Check your website format
-                    </span> 
-                  </div>  
-                </div>
-              <!-- Text input-->
-              <div class="col-s-6">
-                <label class="control-label" for="textinput">Web Site</label>
-              </div>
-                <div class="col-s-6">
-                  <input type="text" formControlName="website" placeholder="Web Site" class="form-control" [formGroup] = 'companyform'>
-                  <div *ngIf="companyform.controls['website'].touched && !companyform.controls['website'].valid">  
-                    <span *ngIf="companyform.controls['website'].hasError('invalidWebSite') " class="alert-danger">  
-                        Check your white paper url format
-                    </span> 
-                  </div>
-                </div>
-              <!-- Text input-->
-              <div class="col-s-6">
-                <label class="control-label" for="textinput">About Company</label>
-              </div>
-                <div class="col-s-6">
-                  <textarea class="form-control" formControlName="aboutcompany" rows="5" [formGroup] = 'companyform'></textarea>
-                  <div *ngIf="companyform.controls['aboutcompany'].touched && !companyform.controls['aboutcompany'].valid">  
-                    <span *ngIf="companyform.controls['aboutcompany'].hasError('required') " class="alert-danger">  
-                      Say something about company
-                    </span>  
-                    <span *ngIf="companyform.controls['aboutcompany'].hasError('minlength') " class="alert-danger">  
-                      Please descripe about your company in minimum 100 characters
-                    </span>  
-                  </div>  
-                </div>
-              <!-- Text input-->
-              <div class="col-s-6">
-                <label class="control-label" for="textinput">Phone #</label>
-              </div>
-                <div class="col-s-6">
-                  <input type="text" formControlName="phonenumber" placeholder="Phone #" class="form-control" [formGroup] = 'companyform'>
-                  <div *ngIf="companyform.controls['phonenumber'].touched && !companyform.controls['phonenumber'].valid">  
-                    <span *ngIf="companyform.controls['phonenumber'].hasError('invalidPhone') " class="alert-danger">  
-                        Check your phone number
-                    </span> 
-                    <span *ngIf="companyform.controls['phonenumber'].hasError('maxlength') " class="alert-danger">  
-                      phone number has exceed length
-                    </span> 
-                    <span *ngIf="companyform.controls['phonenumber'].hasError('minlength') " class="alert-danger">  
-                      Check your phone number
-                    </span>  
-                  </div>
-                </div>
-              <!-- Text input-->
-              <div class="col-s-6">
-                <label class="control-label" for="textinput">Line 1</label>
-              </div>
-                <div class="col-s-6">
-                  <input type="text" formControlName="addressline1" placeholder="Address Line 1" class="form-control" [formGroup] = 'companyform'>
-                  <div *ngIf="companyform.controls['addressline1'].touched && !companyform.controls['addressline1'].valid">  
-                    <span *ngIf="companyform.controls['addressline1'].hasError('required') " class="alert-danger">  
-                      Address is required  
-                    </span>  
-                  </div>  
-                </div>
-
-              <!-- Text input-->
-              <div class="col-s-6">
-                <label class="control-label" for="textinput">Line 2</label>
-              </div>
-                <div class="col-s-6">
-                  <input type="text" formControlName="addressline2" placeholder="Address Line 2" class="form-control" [formGroup] = 'companyform'>
-                
-                </div>
-
-              <!-- Text input-->
-              <div class="col-s-6">
-                <label class="control-label" for="textinput">City</label>
-              </div>
-                <div class="col-s-6">
-                  <ng2-completer inputClass="completer-input form-control" (keypress)="City_onKeyPrss($event)" formControlName = "city" (selected)="City_OnSelected($event)" 
-                  class="completer-limit" [formGroup] = 'companyform' [(ngModel)]="searchStr" [datasource]="dataService" [minSearchLength]="0"></ng2-completer>
-                  <div *ngIf="companyform.controls['city'].touched && !companyform.controls['city'].valid">  
-                    <span *ngIf="companyform.controls['city'].hasError('required') " class="alert-danger">  
-                      City is required  
-                    </span>  
-                  </div>  
-                </div>
-
-              <!-- Text input-->
-              <div class="col-s-6">
-                <label class="control-label" for="textinput">State</label>
-              </div>
-                <div class="col-s-6">
-                  <input type="text"  formControlName="state" placeholder="State" class="form-control" [formGroup] = 'companyform' [(ngModel)]="state.name">
-                  <div *ngIf="companyform.controls['state'].touched && !companyform.controls['state'].valid">  
-                    <span *ngIf="companyform.controls['state'].hasError('required') " class="alert-danger">  
-                      State is required  
-                    </span>  
-                  </div>  
-                </div>
-
-              <div class="col-s-6">
-                <label class="control-label" for="textinput">Postcode</label>
-              </div>
-                <div class="col-s-6">
-                  <input type="text" formControlName="postcode" placeholder="Post Code" class="form-control" [formGroup] = 'companyform'>
-                  <div *ngIf="companyform.controls['postcode'].touched && !companyform.controls['postcode'].valid">  
-                    <span *ngIf="companyform.controls['postcode'].hasError('required') " class="alert-danger">  
-                      Postal Code is required  
-                    </span>  
-                  </div>  
-                </div>
-              <!-- Text input-->
-              <div class="col-s-6">
-                <label class="control-label" for="textinput">Country</label>
-              </div>
-                <div class="col-s-6">
-                  <input type="text" formControlName="country" placeholder="Country" class="form-control" [formGroup] = 'companyform' [(ngModel)]="country.name">
-                  <div *ngIf="companyform.controls['country'].touched && !companyform.controls['country'].valid">  
-                    <span *ngIf="companyform.controls['country'].hasError('required') " class="alert-danger">  
-                      Country is required  
-                    </span>  
-                  </div>  
-                </div>
-              <div class="col-s-6">
-                  <div class="pull-right">
-                    <button type="submit" class="btn btn-default">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                  </div>
-                </div>
-          </form>
-    </div><!-- /.row -->
+<div class="alertCenter">
+  <nac-alert-center [animation]="'fancy'" [htmlTextEnabled]="true"></nac-alert-center>
 </div>
+<div class="listico_head">
+  <div class="container">
+    <h1>List your ICO</h1>
+    <p>Quick explanation of what is going to happen.</p>
+  </div>
+</div>
+<div class="listico" *ngIf="forminitialization">
+  <div class="upload_profile">
+    <div class="profile_icon">
+      <div class="profile_inner">
+          <img [src]="imageSrc || '..\assets\img\empty_image.png'" class="img-responsive">
+      </div>
+    </div>
+    <div class="profile_btn">
+      <button type="button" (click)="fileInput.click()" class="btn upload_btn">Upload logo</button>
+    </div>
+    <input #fileInput type="file" class="form-control" style="display: none" (change)="imgfileChangeEvent($event)" multiple accept='image/*'>
+  </div>
+  <div class="container">
+    <form class="form-horizontal" [formGroup]='icoform' (ngSubmit)="UpdateICO(icoform)">
+      <div class="row">
+        <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+          <div class="form-group">
+            <label class="control-label">ICO Name</label>
+            <input type="text" formControlName="iconame" class="form-control listInp" placeholder="">
+            <div *ngIf="icoform.controls['iconame'].touched && !icoform.controls['iconame'].valid">
+                <span *ngIf="icoform.controls['iconame'].hasError('required') " class="alert-danger">
+                  ICO Name is required
+                </span>
+              </div>
+          </div>
+        </div>
+      </div>
+      <p>Social Media links</p>
+      <div class="row">
+        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+          <div class="form-group">
+            <input type="text" formControlName="smn_twitter" class="form-control listInp" placeholder="Twitter:">
+            <div *ngIf="icoform.controls['smn_twitter'].touched && !icoform.controls['smn_twitter'].valid">
+                <span *ngIf="icoform.controls['smn_twitter'].hasError('invalidWebSite') " class="alert-danger">
+                  Please provide valid URL
+                </span>
+              </div>
+          </div>
+          <div class="form-group">
+            <input type="text" formControlName="smn_facebook" class="form-control listInp" placeholder="Facebook:">
+            <div *ngIf="icoform.controls['smn_facebook'].touched && !icoform.controls['smn_facebook'].valid">
+                <span *ngIf="icoform.controls['smn_facebook'].hasError('invalidWebSite') " class="alert-danger">
+                  Please provide valid URL
+                </span>
+              </div>
+          </div>
+          <div class="form-group">
+            <input type="text" formControlName="smn_google" class="form-control listInp" placeholder="Google:">
+            <div *ngIf="icoform.controls['smn_google'].touched && !icoform.controls['smn_google'].valid">
+                <span *ngIf="icoform.controls['smn_google'].hasError('invalidWebSite') " class="alert-danger">
+                  Please provide valid URL
+                </span>
+              </div>
+          </div>
+          <div class="form-group">
+            <input type="text" formControlName="smn_linkedin" class="form-control listInp" placeholder="Linkedin:">
+            <div *ngIf="icoform.controls['smn_linkedin'].touched && !icoform.controls['smn_linkedin'].valid">
+                <span *ngIf="icoform.controls['smn_linkedin'].hasError('invalidWebSite') " class="alert-danger">
+                  Please provide valid URL
+                </span>
+              </div>
+          </div>
+        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+          <div class="form-group">
+            <input type="text" formControlName="smn_reddit" class="form-control listInp" placeholder="Reddit:">
+            <div *ngIf="icoform.controls['smn_reddit'].touched && !icoform.controls['smn_reddit'].valid">
+                <span *ngIf="icoform.controls['smn_reddit'].hasError('invalidWebSite') " class="alert-danger">
+                  Please provide valid URL
+                </span>
+              </div>
+          </div>
+          <div class="form-group">
+            <input type="text" formControlName="smn_bitcointalk" class="form-control listInp" placeholder="Bitcointalk:">
+            <div *ngIf="icoform.controls['smn_bitcointalk'].touched && !icoform.controls['smn_bitcointalk'].valid">
+                <span *ngIf="icoform.controls['smn_bitcointalk'].hasError('invalidWebSite') " class="alert-danger">
+                  Please provide valid URL
+                </span>
+              </div>
+          </div>
+          <div class="form-group">
+            <input type="text" formControlName="smn_github" class="form-control listInp" placeholder="Github:">
+            <div *ngIf="icoform.controls['smn_github'].touched && !icoform.controls['smn_github'].valid">
+                <span *ngIf="icoform.controls['smn_github'].hasError('invalidWebSite') " class="alert-danger">
+                  Please provide valid URL
+                </span>
+              </div>
+          </div>
+          <div class="form-group">
+            <input type="text" formControlName="smn_others" class="form-control listInp" placeholder="Others:">
+            <div *ngIf="icoform.controls['smn_others'].touched && !icoform.controls['smn_others'].valid">
+                <span *ngIf="icoform.controls['smn_others'].hasError('invalidWebSite') " class="alert-danger">
+                  Please provide valid URL
+                </span>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+          <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+            <div class="form-group">
+              <label class="control-label">You Tube</label>
+              <input type="email" formControlName="smn_youtube" class="form-control listInp" placeholder="">
+              <div *ngIf="icoform.controls['smn_youtube'].touched && !icoform.controls['smn_youtube'].valid">
+                  <span *ngIf="icoform.controls['smn_youtube'].hasError('invalidWebSite') " class="alert-danger">
+                    Please provide valid URL
+                  </span>
+                </div>
+            </div>
+          </div>
+        </div>
+      <div class="row">
+        <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+          <div class="form-group">
+            <label class="control-label">Email address</label>
+            <input type="email" formControlName="email" class="form-control listInp" placeholder="">
+            <div *ngIf="icoform.controls['email'].touched && !icoform.controls['email'].valid">
+                <span *ngIf="icoform.controls['email'].hasError('required') " class="alert-danger">
+                  Eamil is required
+                </span>
+                <span *ngIf="icoform.controls['email'].hasError('invalidEmail') " class="alert-danger">
+                  Invalid email, check your email address
+                </span>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+          <div class="form-group">
+            <label class="control-label">Phone (Please enter with country code)</label>
+            <div class="input-group">
+              <input type="text" formControlName="phone_number" class="form-control listInp" placeholder="">
+              <div *ngIf="icoform.controls['phone_number'].touched && !icoform.controls['phone_number'].valid">
+                  <span *ngIf="icoform.controls['phone_number'].hasError('required') " class="alert-danger">
+                    Phone number is required
+                  </span>
+                  <span *ngIf="icoform.controls['phone_number'].hasError('invalidPhone') || icoform.controls['phone_number'].hasError('minlength') || icoform.controls['phone_number'].hasError('maxlength')" class="alert-danger">
+                    Invalid phone number, check your Phone number, don't include +
+                  </span>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+          <div class="form-group">
+            <label class="control-label">Address</label>
+            <textarea type="text" formControlName="address" class="form-control listInp" placeholder=""></textarea>
+            <div *ngIf="icoform.controls['address'].touched && !icoform.controls['address'].valid">
+                <span *ngIf="icoform.controls['address'].hasError('required') " class="alert-danger">
+                  Address is required
+                </span>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+          <div class="form-group">
+            <label class="control-label">City</label>
+            <input type="text" formControlName="city" class="form-control listInp" placeholder="">
+            <div *ngIf="icoform.controls['city'].touched && !icoform.controls['city'].valid">
+                <span *ngIf="icoform.controls['city'].hasError('required') " class="alert-danger">
+                  City is required
+                </span>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+          <div class="form-group">
+            <label class="control-label">County</label>
+            <input type="text" formControlName="country" class="form-control listInp" placeholder="">
+            <div *ngIf="icoform.controls['country'].touched && !icoform.controls['country'].valid">
+                <span *ngIf="icoform.controls['country'].hasError('required') " class="alert-danger">
+                  Country is required
+                </span>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+          <div class="form-group">
+            <label class="control-label">Amount raising</label>
+            <input type="text" formControlName="amountraising" class="form-control listInp" placeholder="$">
+            <div *ngIf="icoform.controls['amountraising'].touched && !icoform.controls['amountraising'].valid">
+                <span *ngIf="icoform.controls['amountraising'].hasError('required') " class="alert-danger">
+                  Amount raising is required
+                </span>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+          <div class="form-group">
+            <label class="control-label">Website</label>
+            <input type="text" formControlName="website" class="form-control listInp" placeholder="http://...">
+            <div *ngIf="icoform.controls['website'].touched && !icoform.controls['website'].valid">
+                <span *ngIf="icoform.controls['website'].hasError('invalidWebSite') " class="alert-danger">
+                  Please provide valid URL
+                </span>
+                <span *ngIf="icoform.controls['website'].hasError('required') " class="alert-danger">
+                    Website is required
+                  </span>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+          <div class="form-group">
+            <label class="control-label">Whitepaper</label>
+            <input type="text" formControlName="whitepaper" class="form-control listInp" placeholder="http://...">
+            <div *ngIf="icoform.controls['whitepaper'].touched && !icoform.controls['whitepaper'].valid">
+                <span *ngIf="icoform.controls['whitepaper'].hasError('invalidWebSite') " class="alert-danger">
+                  Please provide valid URL
+                </span>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+          <div class="form-group">
+            <label class="control-label">Short description</label>
+            <textarea type="textarea" formControlName="shortdescription" class="form-control listInp" placeholder=""></textarea>
+            <div *ngIf="icoform.controls['shortdescription'].touched && !icoform.controls['shortdescription'].valid">
+                <span *ngIf="icoform.controls['shortdescription'].hasError('required') " class="alert-danger">
+                  Description is required
+                </span>
+              </div>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+          <div class="form-group">
+            <label class="control-label">Product link (MVP / Prototype / etc)</label>
+            <input type="text" formControlName="productlink" class="form-control listInp" placeholder="http://...">
+            <div *ngIf="icoform.controls['productlink'].touched && !icoform.controls['productlink'].valid">
+                <span *ngIf="icoform.controls['productlink'].hasError('invalidWebSite') " class="alert-danger">
+                  Please provide valid URL
+                </span>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+          <div class="form-group">
+            <label class="control-label">Video upload</label>
+            <div class="input-group videoUpload">
+              <input type="text" [value]="updatedVideoFileName" class="form-control listInp" placeholder="">
+              <span class="input-group-addon">
+                <button class="btn" (click)="fileInput.click()">Select file</button>
+              </span>
+              <input #videoInput type="file" class="form-control" style="display: none" (change)="videofileChangeEvent($event)" multiple accept='video/*'>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+          <div class="form-group">
+            <label class="control-label">ICO Start date</label>
+            <input type="date" formControlName="icostartdate" class="form-control listInp" placeholder="dd/mm/yyyy">
+            <div *ngIf="icoform.controls['icostartdate'].touched && !icoform.controls['icostartdate'].valid">
+                <span *ngIf="icoform.controls['icostartdate'].hasError('required') " class="alert-danger">
+                  ICO Start date is required
+                </span>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+          <div class="form-group">
+            <label class="control-label">ICO End date</label>
+            <input type="date" formControlName="icoenddate" class="form-control listInp" placeholder="dd/mm/yyyy">
+            <div *ngIf="icoform.controls['icoenddate'].touched && !icoform.controls['icoenddate'].valid">
+                <span *ngIf="icoform.controls['icoenddate'].hasError('required') " class="alert-danger">
+                  ICO End date is required
+                </span>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+          <div class="form-group">
+            <label class="control-label">ICO Category</label>
+            <select type="text" formControlName="icocategoryid" class="form-control listInp">
+              <option *ngFor="let ic of ICOCategory" [ngValue]="ic.id">{{ic.value}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+          <div class="form-group">
+            <label class="control-label">Link to boundary</label>
+            <input type="text" formControlName="linktoboundry" class="form-control listInp" placeholder="">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+          <div class="form-group">
+            <label class="control-label">Token / Ticket</label>
+            <input type="text" formControlName="tokcenname" class="form-control listInp" placeholder="">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+          <div class="form-group">
+            <label class="control-label">Platform / Token Type</label>
+            <input type="text" formControlName="tokeytype" class="form-control listInp" placeholder="">
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+          <div class="form-group">
+            <label class="control-label">Price per token</label>
+            <input type="text" formControlName="pricepertoken" class="form-control listInp" placeholder="">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group">
+          <label class="custom_radio">Join to whitelist?
+            <input type="checkbox">
+            
+          </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group width100">
+          <button type="submit" class="btn list_submit">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<ngx-spinner bdColor="rgba(251,244,244,0.8)" size="medium" color="#31d093" type="ball-clip-rotate-multiple"></ngx-spinner>

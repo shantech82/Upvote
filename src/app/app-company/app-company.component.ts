@@ -1,27 +1,14 @@
-import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild, ElementRef, } from '@angular/core';
+import { FormGroup, FormControl, Validators, Form } from '@angular/forms';
 import { CompanyService } from '../services/company.service';
-import { MasterDataService } from '../services/masterdata.service';
+import { IICO } from '../core/Model/IICO';
 import { FileuploadService } from '../services/fileupload.service';
-import { CompleterService, CompleterData, CompleterItem } from 'ng2-completer';
-import { ICompany } from '../core/Model/ICompany';
-
-export interface IState {
-  id: number;
-  name: string;
-}
-
-export interface ICountry {
-  id: number;
-  name: string;
-}
-
-export interface ICity {
-  id: number;
-  name: string;
-}
-
+import { environment } from '../../environments/environment';
+import { MasterDataService } from '../services/masterdata.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AlertCenterService, Alert, AlertType } from 'ng2-alert-center';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-app-company',
@@ -29,175 +16,302 @@ export interface ICity {
   styleUrls: ['./app-company.component.css']
 })
 
-export class AppCompanyComponent {
+export class AppCompanyComponent implements OnInit {
 
-  public searchStr: string;
-  public dataService: CompleterData;
-  private cityData = [];
-  private previousecityvalue: string;
-  private cityValue: string;
   filesToUpload: File = null;
   fileToDisplay: any = null;
+  videoToUpload: File = null;
 
-  companyform: FormGroup;
-  companyname: string;
-  email: string;
-  whitepaper: string;
-  website: string;
-  aboutcompany: string;
-  phonenumber: string;
-  addressline1: string;
-  addressline2: string;
-  city: ICity = { id: 0, name: '' };
-  state: IState = { id: 0, name: '' };
-  country: ICountry = { id: 0, name: '' };
-  postcode: string;
+  iconame: FormControl;
+  smn_twitter: FormControl;
+  smn_facebook: FormControl;
+  smn_google: FormControl;
+  smn_reddit: FormControl;
+  smn_bitcointalk: FormControl;
+  smn_github: FormControl;
+  smn_others: FormControl;
+  smn_linkedin: FormControl;
+  email: FormControl;
+  city: FormControl;
+  country: FormControl;
+  amountraising: FormControl;
+  website: FormControl;
+  whitepaper: FormControl;
+  shortdescription: FormControl;
+  productlink: FormControl;
+  icostartdate: FormControl;
+  icoenddate: FormControl;
+  icocategoryid: FormControl;
+  linktoboundry: FormControl;
+  tokcenname: FormControl;
+  tokeytype: FormControl;
+  pricepertoken: FormControl;
+  iswhitelistjoined: FormControl;
+  createdon: FormControl;
+  smn_youtube: FormControl;
+  phone_number: FormControl;
+  address: FormControl;
 
-  newCompanyData: ICompany;
+  ico: IICO;
+  icoform: FormGroup;
+  forminitialization: boolean;
+  icoGet: IICO;
+  imageSrc: string;
+  updatedprofileimageurl: string;
+  icoid: number;
+  updatedVideoFileName: string;
+  ICOCategory: any;
+  isDateCompare: boolean;
 
-  constructor(private fb: FormBuilder, private comserv: CompanyService, private completerService: CompleterService, private router: Router,
-    private mdservice: MasterDataService, private fuservice: FileuploadService) {
-    this.companyform = this.fb.group({
-      companyname: ['', Validators.required],
-      email: ['', [Validators.required, this.isEmailValid('email')]],
-      aboutcompany: ['', [Validators.required, Validators.minLength(100)]],
-      addressline1: ['', Validators.required],
-      city: ['', Validators.required],
-      state: [{ value: '', disabled: true }, Validators.required],
-      country: [{ value: '', disabled: true }, Validators.required],
-      postcode: ['', Validators.required],
-      whitepaper: ['', [this.isWebsiteValid('whitepaper')]],
-      website: ['', [this.isWebsiteValid('website')]],
-      phonenumber: ['', [Validators.nullValidator, Validators.minLength(8),
-      Validators.maxLength(13), this.isPhoneNumberValid('phonenumber')]],
-      addressline2: ['', Validators.nullValidator]
+  constructor(private icoservice: CompanyService, private fuservice: FileuploadService, private activateRoute: ActivatedRoute,
+    private mdservice: MasterDataService, private router: Router, private alertService: AlertCenterService,
+    private modalService: NgbModal, private spinner: NgxSpinnerService) {
+      this.activateRoute.params.subscribe(params => {
+        this.icoid = params['id'];
+        if (this.icoid === undefined) {
+          this.icoid = 0;
+        }
+      });
+  }
+
+  ngOnInit() {
+    this.spinner.show();
+    this.forminitialization = false;
+    this.GetICOCategory();
+    this.GetICOInfo();
+  }
+
+  createFormControls() {
+    this.iconame = new FormControl(this.icoGet.iconame, Validators.required);
+    this.smn_twitter = new FormControl(this.icoGet.smn_twitter, this.isWebsiteValid('smn_twitter'));
+    this.smn_facebook = new FormControl(this.icoGet.smn_facebook, this.isWebsiteValid('smn_facebook'));
+    this.smn_google = new FormControl(this.icoGet.smn_google, this.isWebsiteValid('smn_google'));
+    this.smn_reddit = new FormControl(this.icoGet.smn_reddit, this.isWebsiteValid('smn_reddit'));
+    this.smn_bitcointalk = new FormControl(this.icoGet.smn_bitcointalk, this.isWebsiteValid('smn_bitcointalk'));
+    this.smn_github = new FormControl(this.icoGet.smn_github, this.isWebsiteValid('smn_github'));
+    this.smn_others = new FormControl(this.icoGet.smn_others, this.isWebsiteValid('smn_others'));
+    this.smn_linkedin = new FormControl(this.icoGet.smn_linkedin, this.isWebsiteValid('smn_linkedin'));
+    this.smn_youtube = new FormControl(this.icoGet.smn_youtube, this.isWebsiteValid('smn_youtube'));
+    this.email = new FormControl(this.icoGet.email, [Validators.required, this.isEmailValid('email')]);
+    this.city = new FormControl(this.icoGet.city, Validators.required);
+    this.country = new FormControl(this.icoGet.country, Validators.required);
+    this.amountraising = new FormControl(this.icoGet.amountraising, Validators.required);
+    this.website = new FormControl(this.icoGet.website, [Validators.required, this.isWebsiteValid('website')]);
+    this.whitepaper = new FormControl(this.icoGet.whitepaper, this.isWebsiteValid('whitepaper'));
+    this.shortdescription = new FormControl(this.icoGet.shortdescription, Validators.required);
+    this.productlink = new FormControl(this.icoGet.productlink, [Validators.required, this.isWebsiteValid('productlink')]);
+    this.icostartdate = new FormControl(this.icoGet.icostartdate, Validators.required);
+    this.icoenddate = new FormControl(this.icoGet.icoenddate, Validators.required);
+    this.icocategoryid = new FormControl(this.icoGet.icocategoryid);
+    this.linktoboundry = new FormControl(this.icoGet.linktoboundry, this.isWebsiteValid('linktoboundry'));
+    this.tokcenname = new FormControl(this.icoGet.tokcenname, Validators.required);
+    this.tokeytype = new FormControl(this.icoGet.tokeytype, Validators.required);
+    this.pricepertoken = new FormControl(this.icoGet.pricepertoken, Validators.required);
+    this.iswhitelistjoined = new FormControl(this.icoGet.iswhitelistjoined);
+    this.phone_number = new FormControl(this.icoGet.phone_number, [Validators.required, Validators.maxLength(13),
+                              Validators.minLength(8), this.isPhoneNumberValid('phone_number')]);
+    this.address = new FormControl(this.icoGet.address, Validators.required);
+  }
+
+  createForm() {
+    this.icoform = new FormGroup({
+      iconame: this.iconame, smn_twitter: this.smn_twitter, smn_facebook: this.smn_facebook, smn_google: this.smn_google,
+      smn_reddit: this.smn_reddit, smn_bitcointalk: this.smn_bitcointalk, smn_github: this.smn_github, smn_others: this.smn_others,
+      email: this.email, city: this.city, country: this.country, amountraising: this.amountraising, website: this.website,
+      whitepaper: this.whitepaper, shortdescription: this.shortdescription, productlink: this.productlink,
+      icostartdate: this.icostartdate, icoenddate: this.icoenddate, icocategoryid: this.icocategoryid,
+      linktoboundry: this.linktoboundry, tokcenname: this.tokcenname,
+      tokeytype: this.tokeytype, pricepertoken: this.pricepertoken, iswhitelistjoined: this.iswhitelistjoined,
+      smn_youtube: this.smn_youtube, phone_number: this.phone_number,
+      address: this.address, smn_linkedin: this.smn_linkedin
     });
-
-    this.dataService = this.completerService.local(this.cityData, 'cityname', 'cityname');
   }
 
   isEmailValid(control) {
-    return value => {
-      const regex = new RegExp(['/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}',
-        '\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;'].join(''));
+    return control => {
+      const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return regex.test(control.value) ? null : { invalidEmail: true };
     };
   }
 
   isWebsiteValid(control) {
-    return value => {
+    return control => {
       const regex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
       return regex.test(control.value) || control.value === '' ? null : { invalidWebSite: true };
     };
   }
 
   isPhoneNumberValid(control) {
-    return value => {
+    return control => {
       const regex = /^[0-9]*$/;
       return regex.test(control.value) || control.value === '' ? null : { invalidPhone: true };
     };
   }
 
-  upload() {
-    const formData: any = new FormData();
-    formData.append('file', this.filesToUpload, this.filesToUpload.name);
-    this.fuservice.UploadCompanyImage(formData).subscribe(data => {
-      return data;
+  imgfileChangeEvent(fileInput: any) {
+    if (fileInput.target.files[0].type.startsWith('image')) {
+      this.filesToUpload = fileInput.target.files[0];
+      const reader = new FileReader();
+      reader.onload = e => this.imageSrc = reader.result;
+      reader.readAsDataURL(fileInput.target.files[0]);
+      // uploading user profile image
+      const formData: any = new FormData();
+      const modifiedfilename = Date.now() + this.filesToUpload.name;
+      formData.append('file', this.filesToUpload, modifiedfilename);
+      this.fuservice.DeleteFile(this.updatedprofileimageurl).subscribe(() => {
+        this.fuservice.UploadCompanyImage(formData).subscribe(filename => {
+          this.updatedprofileimageurl = filename;
+        });
+      });
+    } else {
+      this.imageSrc = '../../assets/img/empty_image.png';
+      this.alertService.alert(new Alert(AlertType.WARNING, 'please check your profile image format'));
+    }
+  }
+
+  videofileChangeEvent(fileInput: any) {
+    if (fileInput.target.files[0].type.startsWith('image')) {
+      this.videoToUpload = fileInput.target.files[0];
+      const formData: any = new FormData();
+      const modifiedfilename = Date.now() + this.videoToUpload.name;
+      formData.append('file', this.videoToUpload, modifiedfilename);
+      this.fuservice.DeleteFile(this.updatedVideoFileName).subscribe(() => {
+        this.fuservice.UploadCompanyImage(formData).subscribe(filename => {
+          this.updatedVideoFileName = filename;
+        });
+      });
+    } else {
+      this.alertService.alert(new Alert(AlertType.WARNING, 'please check your profile image format'));
+    }
+  }
+
+  GetICOCategory() {
+    this.mdservice.GetICOCategory().subscribe(ICOCategoryData => {
+      this.ICOCategory = ICOCategoryData[0];
     });
   }
 
-  fileChangeEvent(fileInput: any) {
-    this.filesToUpload = fileInput.target.files[0];
+  compareTwoDates(): boolean {
+    if (new Date(this.icoform.controls['icoenddate'].value) < new Date(this.icoform.controls['icostartdate'].value)) {
+       return true;
+    } else {
+      return false;
+    }
+ }
+
+  GetICOInfo() {
+    if (this.icoid === 0) {
+      this.icoGet = {} as IICO;
+      this.AssignProfileImage();
+      this.createFormControls();
+      this.createForm();
+      this.spinner.hide();
+      this.forminitialization = true;
+    } else {
+      this.icoservice.GetICOById(this.icoid).subscribe(icoData => {
+        this.icoGet = icoData[0][0];
+        this.AssignProfileImage();
+        this.createFormControls();
+        this.createForm();
+        this.spinner.hide();
+        this.forminitialization = true;
+      });
+    }
   }
 
+  IfNotEmptyNullUndefined(value: string) {
+    if (value !== null && value !== '' && value !== ' ' && value !== undefined) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-  City_onKeyPrss(event) {
-    this.cityValue = event.target.value;
-    if (this.cityValue.length > 0 && !this.cityValue.startsWith(this.previousecityvalue)) {
-      this.mdservice.GetCities(event.target.value + '%').subscribe(data => {
-        if (data !== undefined && data.data !== undefined && data.data.length > 0) {
-          this.cityData = [];
-          data.data.forEach(ele => {
-            this.cityData.push({ id: ele.id, citystatename: ele.cityname + '-' + ele.statename, cityname: ele.cityname });
-          });
+  AssignProfileImage() {
+    if (this.icoGet !== undefined) {
+      if (this.IfNotEmptyNullUndefined(this.icoGet.icologoimage)) {
+        if (this.icoGet.icologoimage.indexOf('http') === -1) {
+          this.imageSrc = environment.ApiHostURL + 'static/companyimages/' + this.icoGet.icologoimage;
+          this.updatedprofileimageurl = this.icoGet.icologoimage;
+        } else {
+          this.imageSrc = this.icoGet.icologoimage;
+          this.updatedprofileimageurl = this.icoGet.icologoimage;
         }
-        this.dataService = this.completerService.local(this.cityData, 'cityname', 'citystatename');
-      });
-      this.previousecityvalue = event.target.value;
-    }
-    if (this.cityValue.length <= 0) {
-      this.cityData = [];
-      this.dataService = this.completerService.local(this.cityData, 'cityname', 'cityname');
+      } else {
+        this.imageSrc = '../../assets/img/empty_image.png';
+      }
     }
   }
 
-  City_OnSelected(selected: CompleterItem) {
-    if (selected) {
-      this.mdservice.GetStateCountries(selected.originalObject.id).subscribe(data => {
-        this.state.id = data.data[0].stateid;
-        this.state.name = data.data[0].statename;
-        this.country.id = data.data[0].countryid;
-        this.country.name = data.data[0].countryname;
-        this.city.id = selected.originalObject.id;
-        this.city.name = selected.originalObject.title;
-      });
+  UpdateICO(icoform: FormGroup) {
+    if (this.compareTwoDates()) {
+      this.alertService.alert(new Alert(AlertType.WARNING, 'ICO start date shoule be less then ICO end date'));
+      return;
     }
-  }
-
-  CCompany(companyform: FormGroup) {
-    if (companyform.valid) {
-      // gettting userid
-      let userid;
-      const UserData = JSON.parse(localStorage.getItem('UserData'));
-      if (UserData != null) {
-        userid = UserData.id;
-        // checking company name existing or not
-        const nameofcompany = companyform.controls['companyname'].value;
-        const emailofcompany = companyform.controls['email'].value;
-        this.comserv.GetCompanyByName(nameofcompany, emailofcompany).subscribe(data => {
-          if (data !== undefined) {
-            alert('comapny details already exist');
+    if (icoform.valid) {
+      // this.spinner.show();
+      console.log(this.updatedprofileimageurl);
+      this.ico = {
+        iconame: icoform.controls['iconame'].value,
+        icologoimage: this.updatedprofileimageurl === undefined ? '' : this.updatedprofileimageurl,
+        smn_twitter: icoform.controls['smn_twitter'].value,
+        smn_facebook: icoform.controls['smn_facebook'].value,
+        smn_google: icoform.controls['smn_google'].value,
+        smn_reddit: icoform.controls['smn_reddit'].value,
+        smn_bitcointalk: icoform.controls['smn_bitcointalk'].value,
+        smn_github: icoform.controls['smn_github'].value,
+        smn_others: icoform.controls['smn_others'].value,
+        smn_linkedin: icoform.controls['smn_linkedin'].value,
+        email: icoform.controls['email'].value,
+        city: icoform.controls['city'].value,
+        country: icoform.controls['country'].value,
+        amountraising: icoform.controls['amountraising'].value,
+        website: icoform.controls['website'].value,
+        whitepaper: icoform.controls['whitepaper'].value,
+        shortdescription: icoform.controls['shortdescription'].value,
+        productlink: icoform.controls['productlink'].value,
+        videouploadurl: this.updatedVideoFileName  === undefined  ? '' : this.updatedVideoFileName,
+        icostartdate: icoform.controls['icostartdate'].value,
+        icoenddate: icoform.controls['icoenddate'].value,
+        icocategoryid: icoform.controls['icocategoryid'].value,
+        linktoboundry: icoform.controls['linktoboundry'].value,
+        tokcenname: icoform.controls['tokcenname'].value,
+        tokeytype: icoform.controls['tokeytype'].value,
+        pricepertoken: icoform.controls['pricepertoken'].value,
+        iswhitelistjoined: icoform.controls['iswhitelistjoined'].value,
+        smn_youtube: icoform.controls['smn_youtube'].value,
+        phone_number: icoform.controls['phone_number'].value,
+        long_description: icoform.controls['shortdescription'].value,
+        address: icoform.controls['address'].value,
+        createdon: new Date(),
+        id: this.icoid,
+      };
+      if (this.icoid === 0) {
+        this.icoservice.CreateICO(this.ico).subscribe(returnValue => {
+          if (returnValue !== undefined) {
+            this.spinner.hide();
+            this.alertService.alert(new Alert(AlertType.SUCCESS, 'ICO has been created!!!'));
+            this.router.navigate(['/Home']);
           } else {
-            // uploading compnayimage
-            const formData: any = new FormData();
-            const modifiedfilename = nameofcompany + Date.now() + this.filesToUpload.name;
-            formData.append('file', this.filesToUpload, modifiedfilename);
-            this.fuservice.UploadCompanyImage(formData).subscribe(filename => {
-              this.newCompanyData = {
-                companyname: nameofcompany,
-                email: emailofcompany,
-                whitepapaer: companyform.controls['whitepaper'].value,
-                website: companyform.controls['website'].value,
-                aboutcomapny: companyform.controls['aboutcompany'].value,
-                phonenumber: companyform.controls['phonenumber'].value,
-                address1: companyform.controls['addressline1'].value,
-                address2: companyform.controls['addressline2'].value,
-                city_id: this.city.id,
-                country_id: this.country.id,
-                zip_code: companyform.controls['postcode'].value,
-                userid: userid,
-                imagename: filename,
-                id: 0
-              };
-              this.comserv.CreateCompany(this.newCompanyData).subscribe(returnValue => {
-                if (returnValue !== undefined) {
-                  const key = 'CompanyId';
-                  localStorage.setItem(key, returnValue.id.toString());
-                  alert('comapny details inserted');
-                  this.router.navigate(['/Company']);
-                } else {
-                  alert('something went wrong');
-                }
-              });
-            });
+            this.spinner.hide();
+            this.alertService.alert(new Alert(AlertType.DANGER, 'Something went wrong, please try again after some time'));
           }
         });
       } else {
-        alert('user not found');
+        this.icoservice.UpdateICO(this.ico).subscribe(returnValue => {
+          if (returnValue !== undefined) {
+            this.spinner.hide();
+            this.alertService.alert(new Alert(AlertType.SUCCESS, 'ICO has been Updated!!!'));
+            this.router.navigate(['/Home']);
+          } else {
+            this.spinner.hide();
+            this.alertService.alert(new Alert(AlertType.DANGER, 'Something went wrong, please try again after some time'));
+          }
+        });
       }
+      
     } else {
-      alert('given details are not valid');
+      this.alertService.alert(new Alert(AlertType.WARNING, 'Your input is not valid'));
     }
   }
-
 }

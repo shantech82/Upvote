@@ -28,7 +28,7 @@
   </div>
   <div class="clearfix gap50"></div>
   <div class="container">
-    <div class="Slider_home">
+    <div class="Slider_home" *ngIf="isICOAvailable">
    <!-- <swiper [config]="config"> !-->
         <div class="swiper-wrapper" *ngFor="let ico of (icolist ? icolist.slice(1,100): [])">
           <div class="swiper-slide homeSlider">
@@ -53,10 +53,11 @@
     <!-- </swiper> !-->
     </div>
   </div>
-  <div class="background">
+  <div class="background" *ngIf="isICOAvailable">
     <div class="container">
       <app-app-icocard [icolist]="icolist" [page]="page"></app-app-icocard>
     </div>
   </div>
 </div>
 <div class="clearfix"></div>
+<ngx-spinner bdColor = "rgba(251,244,244,0.8)" size = "medium" color = "#31d093" type = "ball-clip-rotate-multiple"></ngx-spinner>

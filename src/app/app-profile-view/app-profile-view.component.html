@@ -21,12 +21,13 @@
   </div>
 </div>
 </div>
-<div class="b1_background">
+<div class="b1_background"  *ngIf="isICOAvailable">
   <div class="container">
     <div class="card_info">
       <span>Invested ICOs</span>
     </div>
-      <app-app-icocard [icolist]="icolist" [page]="page"></app-app-icocard>
+      <app-app-icocard [icolist]="icolist" [page]="page" ></app-app-icocard>
 </div>
 </div>
-<div class="clearfix gap20"></div>
+<div class="clearfix gap20" style="padding: 20px"></div>
+<ngx-spinner bdColor = "rgba(251,244,244,0.8)" size = "medium" color = "#31d093" type = "ball-clip-rotate-multiple"></ngx-spinner>

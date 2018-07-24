@@ -3,6 +3,7 @@ import { RegistrationService } from '../services/registration.service';
 import { IUser } from '../core/Model/IUser';
 import { IICOList } from '../core/Model/IICOList';
 import { environment } from '../../environments/environment';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-app-profile-view',
@@ -19,10 +20,12 @@ export class AppProfileViewComponent implements OnInit {
   icolist: IICOList[];
   averageinvestmentsizeperyear: string;
   page: string;
+  isICOAvailable: boolean;
 
-  constructor(private icouserprofileservice: RegistrationService) { }
+  constructor(private icouserprofileservice: RegistrationService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
+    this.spinner.show();
     this.GetUserWithICOsInfo();
     this.page = 'investor';
   }
@@ -56,6 +59,12 @@ export class AppProfileViewComponent implements OnInit {
         this.AssignICOData(investorICO);
         this.AssignProfileImage();
         this.forminitialization = true;
+        if (this.icolist[0].iconame !== null) {
+          this.isICOAvailable = true;
+        } else {
+          this.isICOAvailable = false;
+        }
+        this.spinner.hide();
         });
       }
     }

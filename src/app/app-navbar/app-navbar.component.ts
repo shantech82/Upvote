@@ -4,6 +4,7 @@ import {
   SocialUser ,
 } from 'angular5-social-auth';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-app-navbar',
@@ -23,13 +24,33 @@ export class AppNavbarComponent implements OnInit {
     const UserData = JSON.parse(localStorage.getItem('UserData'));
     if (UserData != null) {
       this.user = UserData;
-      if (this.user.image === '') {
-        this.user.image = null;
-      }
+      this.AssignProfileImage();
       this.loggedIn = true;
     } else {
       this.loggedIn = false;
       this.router.navigate(['/SignIn']);
+    }
+  }
+
+  AssignProfileImage() {
+    if (this.user !== undefined) {
+      if (this.IfNotEmptyNullUndefined(this.user.image)) {
+        if (this.user.image.indexOf('http') === -1) {
+          this.user.image = environment.ApiHostURL + 'static/companyimages/' + this.user.image;
+        } else {
+          this.user.image = this.user.image;
+        }
+      } else {
+        this.user.image = '../../assets/img/profile.jpg';
+      }
+    }
+  }
+
+  IfNotEmptyNullUndefined(value: string) {
+    if (value !== null && value !== '' && value !== undefined) {
+      return true;
+    } else {
+      return false;
     }
   }
 

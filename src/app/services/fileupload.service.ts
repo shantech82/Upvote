@@ -20,4 +20,9 @@ export class FileuploadService {
     return this.http.get(environment.ApiURL + 'getCompanyLogo?filename=' + filename)
     .map(files => files);
   }
+
+  DeleteFile(filename) {
+    return this.http.delete(environment.ApiURL + 'deleteFile?filename=' + filename)
+    .map(message => console.log(message));
+  }
 }
