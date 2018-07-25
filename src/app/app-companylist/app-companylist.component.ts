@@ -11,13 +11,44 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class AppCompanylistComponent implements OnInit {
 
+  config: any = {
+    paginationClickable: true,
+    nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+    spaceBetween: 30,
+    slidesPerView: 4,
+    loops: false,
+    breakpoints: {
+        // when window width is <= 320px
+        320: {
+            slidesPerView: 1,
+            spaceBetween: 10
+        },
+        // when window width is <= 480px
+        480: {
+            slidesPerView: 2,
+            spaceBetween: 20
+        },
+        // when window width is <= 640px
+        640: {
+            slidesPerView: 3,
+            spaceBetween: 30
+        },
+        // when window width is <= 1024px
+        1024: {
+            slidesPerView: 4,
+            spaceBetween: 30
+        }
+    }
+};
+
   icolist: IICOList[];
   forminitialization: boolean;
   page: string;
   topicolist: IICOList;
   isICOAvailable: boolean;
 
-  constructor(private icoservice: CompanyService, private spinner: NgxSpinnerService) {  }
+  constructor(private icoservice: CompanyService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.spinner.show();

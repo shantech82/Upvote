@@ -19,8 +19,8 @@ export interface IICO {
   shortdescription: string;
   productlink: string;
   videouploadurl: string;
-  icostartdate: Date;
-  icoenddate: Date;
+  icostartdate: any;
+  icoenddate: any;
   icocategoryid: number;
   linktoboundry: string;
   tokcenname: string;

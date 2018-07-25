@@ -40,6 +40,9 @@ import { IcofilterPipe } from './Shared/icofilter.pipe';
 import { AlertCenterModule} from 'ng2-alert-center';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgDatepickerModule } from 'ng2-datepicker';
+import { SwiperModule } from 'ngx-useful-swiper';
+import { AppRegisterComponent } from './app-register/app-register.component';
+import { AppLoginComponent } from './app-login/app-login.component';
 
 const appRoutes: Routes = [
   { path: 'ICO/:id', component: AppIcocompanyComponent },
@@ -52,6 +55,8 @@ const appRoutes: Routes = [
   { path: 'CVCompany', component: AppVideoComponent },
   { path: 'ListICO', component: AppCompanyComponent },
   { path: 'ListICO/:id', component: AppCompanyComponent },
+  { path: 'Register', component: AppRegisterComponent },
+  { path: 'Login', component: AppLoginComponent },
 ];
 
 export function getAuthServiceConfigs() {
@@ -88,7 +93,9 @@ export function getAuthServiceConfigs() {
     AppProfileCreateComponent,
     AppProfileViewComponent,
     AppIcocardComponent,
-    IcofilterPipe
+    IcofilterPipe,
+    AppRegisterComponent,
+    AppLoginComponent
   ],
   imports: [
     BrowserModule,
@@ -103,7 +110,8 @@ export function getAuthServiceConfigs() {
     AlertCenterModule,
     BrowserAnimationsModule,
     NgxSpinnerModule,
-    NgDatepickerModule
+    NgDatepickerModule,
+    SwiperModule
   ],
   providers: [RegistrationService, PasswordService, EmailService, CompanyService, MasterDataService, FileuploadService, CompanyvideoService,
     {

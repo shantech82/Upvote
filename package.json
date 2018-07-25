@@ -39,10 +39,12 @@
     "ng2-completer": "^1.6.3",
     "ng2-datepicker": "^3.1.0",
     "ngx-spinner": "^6.0.0",
+    "ngx-useful-swiper": "^0.3.1-beta",
     "path": "^0.12.7",
     "popper.js": "^1.14.1",
     "rtcmulticonnection-v3": "^3.4.4",
     "rxjs": "^5.5.6",
+    "swiper": "^3.4.2",
     "typescript": "~2.5.3",
     "zone.js": "^0.8.19"
   },

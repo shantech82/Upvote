@@ -43,8 +43,9 @@ export class AppIcocompanyComponent implements OnInit  {
   GetICO() {
     console.log(this.icoid);
       this.icoservice.GetICOById(this.icoid).subscribe(ICOData => {
-        this.ico = ICOData[0];
+        this.ico = ICOData[0][0];
         this.forminitialization = true;
+        console.log(this.ico.iconame);
         if (this.ico.iconame !== null) {
           this.ico.icologoimage = this.AssignLogomage(this.ico.icologoimage);
           this.forminitialization = true;

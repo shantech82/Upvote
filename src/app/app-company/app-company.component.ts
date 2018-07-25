@@ -62,6 +62,8 @@ export class AppCompanyComponent implements OnInit {
   updatedVideoFileName: string;
   ICOCategory: any;
   isDateCompare: boolean;
+  ICOStartDate: any;
+  ICOEndDate: any;
 
   constructor(private icoservice: CompanyService, private fuservice: FileuploadService, private activateRoute: ActivatedRoute,
     private mdservice: MasterDataService, private router: Router, private alertService: AlertCenterService,
@@ -111,6 +113,7 @@ export class AppCompanyComponent implements OnInit {
     this.phone_number = new FormControl(this.icoGet.phone_number, [Validators.required, Validators.maxLength(13),
                               Validators.minLength(8), this.isPhoneNumberValid('phone_number')]);
     this.address = new FormControl(this.icoGet.address, Validators.required);
+    console.log(this.icostartdate);
   }
 
   createForm() {
@@ -210,6 +213,9 @@ export class AppCompanyComponent implements OnInit {
     } else {
       this.icoservice.GetICOById(this.icoid).subscribe(icoData => {
         this.icoGet = icoData[0][0];
+        this.ICOStartDate = this.icoGet.icostartdate;
+        this.ICOEndDate = this.icoGet.icoenddate;
+        console.log(this.ICOStartDate);
         this.AssignProfileImage();
         this.createFormControls();
         this.createForm();
@@ -250,7 +256,6 @@ export class AppCompanyComponent implements OnInit {
     }
     if (icoform.valid) {
       // this.spinner.show();
-      console.log(this.updatedprofileimageurl);
       this.ico = {
         iconame: icoform.controls['iconame'].value,
         icologoimage: this.updatedprofileimageurl === undefined ? '' : this.updatedprofileimageurl,
