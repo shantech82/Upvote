@@ -1,3 +1,12 @@
+.List-your-ICO {
+  width: 152px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #3ccf94;
+  background-color: var(--greenish-teal);
+  margin-left: 800px;
+}
+
 header {
   position: relative;
   background-color: #fff;
@@ -28,12 +37,70 @@ header {
   top: 50%;
   transform: translate(0%, -50%);
 }
-.profile_icon .dropdown_profile img {
-  width: 50px;
-  height: 50px;
-  display: inline-block;
-  border-radius: 50%
-}
+
 .profile_icon .dropdown_profile i {
   display: inline-block;
+}
+.dropdown_profile {
+  display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.dropdown_profile > div {  
+  display: inline-block;
+  margin-right:10px;
+  overflow:hidden;
+  width:50px;
+  height:50px;  
+  transform:rotate(45deg);
+  border-radius:15px;
+}
+
+.dropdown_profile > div  img {
+  display: block;
+  transform:rotate(-45deg);
+  transform-origin:18px 46px;
+  width:70px;
+}
+
+.mydrop {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.mydrop a.btn:active {
+  box-shadow: none;
+  outline: none;
+}
+.mydrop>ul {
+  padding: 0;
+  margin: 0;
+}
+.mydrop>ul>li {
+  padding: 5px 10px;
+}
+.mydrop>ul>li.divider {
+  border-top: 1px solid #ddd;
+  margin: 10px 0
+}
+.mydrop>ul>li>a {
+  text-decoration: none;
+  color: #151515
+}
+.mydrop a.btn {
+  display: inline-block;
+  margin-right: 10px;
+  overflow: hidden;
+  width: 50px;
+  height: 50px;
+  transform: rotate(45deg);
+  border-radius: 15px;
+}
+.mydrop a.btn img {
+  display: block;
+  transform: rotate(-45deg);
+  transform-origin: 6px 46px;
+  width: 60px;
+  height: 60px;
+  border-radius: 0;
 }

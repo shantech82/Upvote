@@ -6,13 +6,34 @@
             </div>
             <div class="profile_icon">
                 <div class="dropdown_profile">
-                    <div *ngIf="loggedIn && user!==null && user.image!==null">
-                            <img src="{{ user.image }}">
+                    <div class="col mydrop">
+                        <div ngbDropdown class="d-inline-block">
+                            <a class="btn" id="dropdownBasic1" ngbDropdownToggle>
+                                <div *ngIf="loggedIn && user!==null && user.image!==null">
+                                    <img src="{{ user.image }}">
+                                </div>
+                                <div *ngIf="loggedIn && user.image===null">
+                                    <img src="..\assets\img\ico-user.png">
+                                </div>
+                            </a>
+                            <ul ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                <li class="dropdown-item">
+                                    <a href="#">One</a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a href="#">Two</a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a href="#">Three</a>
+                                </li>
+                                <li class="dropdown-item divider"></li>
+                                <li class="dropdown-item">
+                                    <a href="#">Four</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <i class="fa fa-caret-down"></i>
                     </div>
-                    <div *ngIf="loggedIn && user.image===null">
-                            <img src="..\assets\img\ico-user.png">
-                    </div>
-                    <i class="fa fa-caret-down"></i>
                 </div>
             </div>
         </div>

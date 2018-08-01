@@ -253,7 +253,7 @@
   
   .chat_profile {
     background-color: #e5eaed;
-    padding: 90px 0;
+    padding: 50px 0;
     margin-bottom: 60px;
   }
   
@@ -261,10 +261,9 @@
     display: block;
     position: relative;
     background: #fff;
-    height: 468px;
+    height: 560px;
     border-radius: 3px;
     background-color: #ffffff;
-    max-height: 468px;
   }
   
   .chat_box h5 {
@@ -361,6 +360,74 @@
     align-items: center;
     justify-content: center;
     width: 35px;
+  }
+
+  .custom-day {
+    display: block;
+    width: 100%;
+    height: 100%;
+    line-height: 14px;
+    text-align: center;
+  }
+  
+  .custom-day.weekend {
+    color: red;
+  }
+  
+  :host .myDatePicker {
+    width: 100%;
+    border: 0;
+  }
+  
+  :host /deep/.ngb-dp-header {
+    display: none
+  }
+  
+  :host /deep/ .ngb-dp-month {
+    width: 100%;
+  }
+  
+  :host /deep/.ngb-dp-weekdays {
+    border: 0 !important;
+  }
+  
+  :host /deep/ .ngb-dp-day,
+  :host /deep/ .ngb-dp-weekday,
+  :host /deep/ .ngb-dp-week-number {
+    width: 16.6% !important;
+    height: 3rem !important;
+    color: #43494e;
+    font-size: 14px;
+  }
+  
+  :host /deep/ .ngb-dp-weekday {
+    color: #43494e !important;
+    font-weight: bold;
+  }
+  
+  :host /deep/ .ngb-dp-day {
+    cursor: pointer;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  
+  :host /deep/.ngb-dp-day /deep/.bg-primary {
+    color: #fff;
+    background-color: #43494e !important;
+    border-radius: 50% !important;
+    width: 3rem;
+    height: 3rem;
+    line-height: 3rem;
+  }
+  
+  :host /deep/.ngb-dp-weekday,
+  :host /deep/.ngb-dp-week-number {
+    line-height: 3rem !important;
+  }
+  
+  :host /deep/ ngb-datepicker.myDatePicker.ng-valid.ng-touched.ng-dirty:focus {
+    outline: none !important;
   }
   
   @media(min-width:1024px) {

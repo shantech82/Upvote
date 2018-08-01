@@ -48,7 +48,6 @@ const appRoutes: Routes = [
   { path: 'ICO/:id', component: AppIcocompanyComponent },
   { path: 'User', component: AppProfileCreateComponent },
   { path: 'UProfile', component: AppProfileViewComponent },
-  { path: 'SignIn', component: AppSigninComponent },
   { path: 'Home', component: AppCompanylistComponent },
   { path: '', component: AppCompanylistComponent },
   { path: 'Activate', component: AppActivateComponent },

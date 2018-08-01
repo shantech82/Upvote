@@ -1,9 +1,9 @@
 <app-app-home></app-app-home>
 <div class="alertCenter">
-    <nac-alert-center [animation]="'fancy'" [htmlTextEnabled]="true"></nac-alert-center>
-  </div>
-  <div  *ngIf="forminitialization">
-<div class="pro_info">
+  <nac-alert-center [animation]="'fancy'" [htmlTextEnabled]="true"></nac-alert-center>
+</div>
+<div>
+  <div class="pro_info" *ngIf="forminitialization">
     <div class="container">
       <div class="row">
         <div class="col-md-2 col-lg-2 col-sm-4 col-xs-6">
@@ -15,7 +15,9 @@
           <div class="pro_info_content">
             <h1>{{ ico.iconame }}</h1>
             <p class="block-with-text">{{ ico.shortdescription }}</p>
-            <div class="pro_tag WhitePaper" *ngIf="ico.whitepaper"><a [attr.href]="ico.whitepaper" target="_blank">White Paper</a></div>
+            <div class="pro_tag WhitePaper" *ngIf="ico.whitepaper">
+              <a [attr.href]="ico.whitepaper" target="_blank">White Paper</a>
+            </div>
             <div class="join" *ngIf="!ico.iswhitelistjoined">JOIN WHITELIST</div>
             <div class="join" *ngIf="ico.iswhitelistjoined">Whitelisted</div>
             <div class="pro_social">
@@ -42,64 +44,35 @@
       </div>
     </div>
   </div>
-  
+
   <div class="pro_bg">
-    <div class="container">
-      <button type="button" class="btn stream_btn stop"> ► Start live streaming </button>
+    <input type="text" value="Q12345" name="room-id" id="room-id" style="display: none;">
+    <div class="container" [style.display]="companyUser ? 'block' : 'none'">
+      <button type="button" id="startlive" name="startlive" class="btn stream_btn"> ► Start live streaming </button>
+      <button type="button" id="stoplive" name="stoplive" style="display: none;" class="btn stream_btn stop"> ► Stop live streaming </button>
     </div>
-    <!--- stream chat ---->
-    <div class="chat_profile" *ngIf="isLiveStreaming">
+
+    <div class="container" [style.display]="!companyUser ? 'block' : 'none'">
+      <button type="button" id="joinlive" name="joinlive" class="btn stream_btn"> ► Join live streaming </button>
+    </div>
+
+    <!--- stream chat  *ngIf="isLiveStreaming" ---->
+    <div class="chat_profile" id="livstream" style="display: none">
       <div class="container">
         <div class="row">
           <div class="col-md-8 col-lg-8 col-xs-12 col-sm-6">
-            <video width="100%" height="468px" controls>
-              <source src="https://www.youtube.com/watch?v=C0DPdy98e4c" type="video/mp4"> Your browser does not support the video tag.
-            </video>
+            <div id="videos-container"></div>
           </div>
-          <div class="col-md-4 col-lg-4 col-xs-12 col-sm-6">
+          <div class="col-md-4 col-lg-4 col-xs-12 col-sm-6" style="padding-top: 20px">
             <div class="chat_box">
               <h5>CHAT</h5>
-              <ul>
-                <li class="orange">
-                  <div class="user_name">Eva Richardson
-                    <span>10h54 am</span>
-                  </div>
-                  I like the direction of the concept. What else can you tell me about it?
-                </li>
-                <li class="red">
-                  <div class="user_name">Matthew Bowers
-                    <span>10h55 am</span>
-                  </div>
-                  Thank you - there are two considerations to be made when it comes to planning strategy.
-                </li>
-                <li class="orange">
-                  <div class="user_name">Eva Richardson
-                    <span>10h56 am</span>
-                  </div>
-                  I like the direction of the concept. What else can you tell me about it?
-                </li>
-                <li class="red">
-                  <div class="user_name">Matthew Bowers
-                    <span>10h57 am</span>
-                  </div>
-                  Thank you - there are two considerations to be made when it comes to planning strategy.
-                </li>
-              </ul>
-              <div class="chat_input">
-                <div class="input-group">
-                  <input type="text" class="form-control chat_inp" placeholder="write your message">
-                  <span class="input-group-addon">
-                    <img src="..\assets\img\btn-send.png">
-                  </span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
     <!--- stream chat ---->
-    <div class="container">
+    <div class="container" *ngIf="forminitialization">
       <div class="row">
         <div class="col-md-8 col-lg-8 col-sm-6 col-xs-12">
           <div class="row">
@@ -114,13 +87,13 @@
               </div>
               <div class="summary">
                 <p>
-                    {{ ico.long_description }}
-                    
+                  {{ ico.long_description }}
+
                 </p>
               </div>
             </div>
           </div>
-  
+
         </div>
         <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
           <div class="event_container">
@@ -137,7 +110,12 @@
               <div class="cal_holder">
                 <p>NEXT Live streaming (July)</p>
                 <div class="datepicker-container">
-                  <ng-datepicker [(ngModel)]="date" [options]="options"></ng-datepicker>
+                  <ngb-datepicker class="myDatePicker" #dtp [(ngModel)]="model" (navigate)="date = $event.next" firstDayOfWeek=7 [dayTemplate]="t"></ngb-datepicker>
+                  <ng-template #t let-date="date" let-focused="focused">
+                    <span class="custom-day" [class.weekend]="isSunday(date)" [class.focused]="focused" [class.bg-primary]="selected" [class.text-muted]="disabled">
+                      {{ date.day }}
+                    </span>
+                  </ng-template>
                 </div>
                 <a href="#">Download / add to your calendar</a>
               </div>
@@ -145,66 +123,82 @@
             <div class="event_details">
               <div class="divider"></div>
               <div *ngIf="ico.email || ico.phone_number">
-              <div class="contact_details">
-                <h5>CONTACT DETAILS</h5>
-                <div class="in_display" *ngIf="ico.phone_number">
-                  <div class="ico_phone">
-                    <img src="..\assets\img\ico-phone.png">
+                <div class="contact_details">
+                  <h5>CONTACT DETAILS</h5>
+                  <div class="in_display" *ngIf="ico.phone_number">
+                    <div class="ico_phone">
+                      <img src="..\assets\img\ico-phone.png">
+                    </div>
+                    <div class="ico_phone_num">
+                      + {{ ico.country_code }} {{ ico.phone_number }}
+                    </div>
                   </div>
-                  <div class="ico_phone_num">
-                    + {{ ico.country_code }} {{ ico.phone_number }} 
-                  </div>
-                </div>
-                <div class="in_display"  *ngIf="ico.email">
-                  <div class="ico_email ">
-                    <img src="..\assets\img\ico-email.png">
-                  </div>
-                  <div class="ico_email_add">
-                    {{ ico.email }}
-                  </div>
-                </div>
-              </div>
-              <div class="divider"></div>
-            </div>
-            <div *ngIf="ico.address || ico.city || ico.country">
-              <div class="address_details">
-                <h5>ADDRESS</h5>
-                <div class="in_display">
-                  <div class="ico_loca">
-                    <img src="..\assets\img\ico-location.png" class="aln_img">
-                  </div>
-                  <div class="ico_add">
-                    <div>  {{ ico.address }}
-                      <br> {{ ico.city }}  {{ ico.country }}</div>
+                  <div class="in_display" *ngIf="ico.email">
+                    <div class="ico_email ">
+                      <img src="..\assets\img\ico-email.png">
+                    </div>
+                    <div class="ico_email_add">
+                      {{ ico.email }}
+                    </div>
                   </div>
                 </div>
+                <div class="divider"></div>
               </div>
-              <div class="divider"></div>
-            </div>
-            <div *ngIf="ico.tokcenname">
-              <div class="token">
-                <h5>TOKEN</h5>
-                <div>{{ ico.tokcenname }}</div>
+              <div *ngIf="ico.address || ico.city || ico.country">
+                <div class="address_details">
+                  <h5>ADDRESS</h5>
+                  <div class="in_display">
+                    <div class="ico_loca">
+                      <img src="..\assets\img\ico-location.png" class="aln_img">
+                    </div>
+                    <div class="ico_add">
+                      <div> {{ ico.address }}
+                        <br> {{ ico.city }} {{ ico.country }}</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="divider"></div>
               </div>
-              <div class="divider"></div>
-            </div>
-            <div *ngIf="ico.website">
-              <div class="website">
-                <h5>WEBSITE</h5>
-                <div>{{ ico.website }}</div>
+              <div *ngIf="ico.tokcenname">
+                <div class="token">
+                  <h5>TOKEN</h5>
+                  <div>{{ ico.tokcenname }}</div>
+                </div>
+                <div class="divider"></div>
               </div>
-              <div class="divider"></div>
-            </div>
-              <div class="WhitePaper" *ngIf="ico.whitepaper">
-                <h5>WHITEPAPER</h5>
-                <a [attr.href]="ico.whitepaper" target="_blank">Open</a>
+              <div *ngIf="ico.website">
+                <div class="website">
+                  <h5>WEBSITE</h5>
+                  <div>{{ ico.website }}</div>
+                </div>
+                <div class="divider"></div>
+              </div>
+              <div *ngIf="ico.whitepaper">
+                <div class="WhitePaper">
+                  <h5>WHITEPAPER</h5>
+                  <a [attr.href]="ico.whitepaper" target="_blank">Open</a>
+                </div>
+                <div class="divider"></div>
+              </div>
+              <div *ngIf="ico.tokeytype">
+                <div class="token">
+                  <h5>TOKEN TYPE</h5>
+                  <div>{{ ico.tokeytype }}</div>
+                </div>
+                <div class="divider"></div>
+              </div>
+              <div *ngIf="ico.pricepertoken">
+                <div class="token">
+                  <h5>PRICE PER TOKEN</h5>
+                  <div>{{ ico.pricepertoken }}</div>
+                </div>
+                <div class="divider"></div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </div>
-</div>
-    <ngx-spinner bdColor = "rgba(251,244,244,0.8)" size = "medium" color = "#31d093" type = "ball-clip-rotate-multiple"></ngx-spinner>
-  
+<ngx-spinner bdColor="rgba(251,244,244,0.8)" size="medium" color="#31d093" type="ball-clip-rotate-multiple"></ngx-spinner>

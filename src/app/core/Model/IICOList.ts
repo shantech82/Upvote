@@ -5,4 +5,5 @@ export interface IICOList {
     icocreatedon: string;
     icolivestreamData: number;
     iswhitelistjoined: boolean;
+    id: number;
   }

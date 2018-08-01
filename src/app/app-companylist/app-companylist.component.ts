@@ -3,6 +3,7 @@ import { CompanyService } from '../services/company.service';
 import { IICOList } from '../core/Model/IICOList';
 import { environment } from '../../environments/environment';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-app-companylist',
@@ -48,7 +49,8 @@ export class AppCompanylistComponent implements OnInit {
   topicolist: IICOList;
   isICOAvailable: boolean;
 
-  constructor(private icoservice: CompanyService, private spinner: NgxSpinnerService) { }
+  constructor(private icoservice: CompanyService, private spinner: NgxSpinnerService,
+  private router: Router) { }
 
   ngOnInit() {
     this.spinner.show();
@@ -79,7 +81,8 @@ export class AppCompanylistComponent implements OnInit {
         icoshortdescription: o.icoshortdescription,
         icocreatedon: o.createdon,
         icolivestreamData: this.getDiferenceInDays(o.icolivestreamdata),
-        iswhitelistjoined: o.iswhitelistjoined
+        iswhitelistjoined: o.iswhitelistjoined,
+        id: o.id
       };
     });
   }

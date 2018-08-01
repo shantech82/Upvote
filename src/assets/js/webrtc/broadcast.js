@@ -13,6 +13,8 @@ connection.session = {
     oneway: true
 };
 
+connection.stream
+
 connection.sdpConstraints.mandatory = {
     OfferToReceiveAudio: false,
     OfferToReceiveVideo: false
@@ -50,10 +52,12 @@ connection.onstreamended = function(event) {
     }
 };
 
-
 document.getElementById('startlive').onclick = function() {
     //disableInputButtons();
     connection.openOrJoin(document.getElementById('room-id').value, function(isRoomExist, roomid) {
+        document.getElementById('livstream').style.display = "block";
+        document.getElementById('stoplive').style.display = "block";
+        document.getElementById('startlive').style.display = "none";
         if (!isRoomExist) {
             showRoomURL(roomid);
         }
@@ -65,6 +69,34 @@ document.getElementById('startlive').onclick = function() {
         }
     });
 };
+
+document.getElementById('joinlive').onclick = function() {
+    //disableInputButtons();
+    connection.openOrJoin(document.getElementById('room-id').value, function(isRoomExist, roomid) {
+        document.getElementById('livstream').style.display = "block";
+        if (!isRoomExist) {
+            showRoomURL(roomid);
+        }
+        else {
+            connection.sdpConstraints.mandatory = {
+                OfferToReceiveAudio: true,
+                OfferToReceiveVideo: true
+            };
+        }
+    });
+};
+
+document.getElementById('stoplive').onclick = function() {
+    //disableInputButtons();
+    connection.attachStreams.forEach(function(stream) {
+        stream.stop();
+    });
+    document.getElementById('stoplive').style.display = "none";
+    document.getElementById('livstream').style.display = "none";
+    document.getElementById('startlive').style.display = "block";
+};
+
+
 
 function showRoomURL(roomid) {
     var roomHashURL = '#' + roomid;

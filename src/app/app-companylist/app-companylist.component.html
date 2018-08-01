@@ -20,9 +20,12 @@
                             <span>{{ topicolist.iconame }}</span>
                         </h1>
                         <p>{{ topicolist.icoshortdescription }}</p>
-                        <button type="button" class="btn hBtn">Visit ICO
+                        <a [routerLink]="['ICO', topicolist.id]" routerLinkActive="active-link" target="_blank">
+                        <button type="button" class="btn hBtn">
+                            Visit ICO
                             <img src="..\assets\img\ico-read-more.png">
                         </button>
+                    </a>
                     </div>
                 </div>
             </div>
@@ -44,7 +47,7 @@
                             </div>
                         </div>
                         <div class="slider_footer">
-                            <a href="#">
+                            <a [routerLink]="['ICO', ico.id]" routerLinkActive="active-link" target="_blank">
                                 <span>
                                     <img src="..\assets\img\ico-read-more.png"> </span>
                             </a>

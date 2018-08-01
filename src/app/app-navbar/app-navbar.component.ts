@@ -28,7 +28,7 @@ export class AppNavbarComponent implements OnInit {
       this.loggedIn = true;
     } else {
       this.loggedIn = false;
-      this.router.navigate(['/SignIn']);
+      this.router.navigate(['/Login']);
     }
   }
 
@@ -61,7 +61,7 @@ export class AppNavbarComponent implements OnInit {
       localStorage.removeItem('CompanyId');
         this.user = null;
         this.loggedIn = false;
-        this.router.navigate(['/SignIn']);
+        this.router.navigate(['/Login']);
       this.socialAuthService.signOut().then((signoutuser) => {
       });
 
@@ -70,7 +70,7 @@ export class AppNavbarComponent implements OnInit {
       localStorage.removeItem('CompanyId');
         this.user = null;
         this.loggedIn = false;
-        this.router.navigate(['/SignIn']);
+        this.router.navigate(['/Login']);
     }
   }
 }

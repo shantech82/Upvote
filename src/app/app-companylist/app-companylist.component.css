@@ -1,3 +1,8 @@
+.Slider_home {
+  overflow: hidden;
+  position: relative;
+}
+
 .Slider_home .homeSlider {
   height: 280px;
   border-radius: 3px;

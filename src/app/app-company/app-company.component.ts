@@ -256,6 +256,8 @@ export class AppCompanyComponent implements OnInit {
     }
     if (icoform.valid) {
       // this.spinner.show();
+      const UserData = JSON.parse(localStorage.getItem('UserData'));
+      if (UserData !== undefined && UserData !== null) {
       this.ico = {
         iconame: icoform.controls['iconame'].value,
         icologoimage: this.updatedprofileimageurl === undefined ? '' : this.updatedprofileimageurl,
@@ -290,6 +292,7 @@ export class AppCompanyComponent implements OnInit {
         address: icoform.controls['address'].value,
         createdon: new Date(),
         id: this.icoid,
+        userid: UserData.id
       };
       if (this.icoid === 0) {
         this.icoservice.CreateICO(this.ico).subscribe(returnValue => {
@@ -314,7 +317,9 @@ export class AppCompanyComponent implements OnInit {
           }
         });
       }
-      
+    } else {
+      this.alertService.alert(new Alert(AlertType.WARNING, 'User details not valid, please login in again'));
+    }
     } else {
       this.alertService.alert(new Alert(AlertType.WARNING, 'Your input is not valid'));
     }

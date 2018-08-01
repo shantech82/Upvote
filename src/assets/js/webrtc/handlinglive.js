@@ -9,8 +9,8 @@
         params[d(match[1])] = d(match[2]);
     window.params = params;
 })();
-var roomid = '';
-if (localStorage.getItem(connection.socketMessageEvent)) {
+var roomid = document.getElementById('room-id').value;
+/* if (localStorage.getItem(connection.socketMessageEvent)) {
     roomid = localStorage.getItem(connection.socketMessageEvent);
 } else {
     roomid = connection.token();
@@ -18,7 +18,7 @@ if (localStorage.getItem(connection.socketMessageEvent)) {
 document.getElementById('room-id').value = roomid;
 document.getElementById('room-id').onkeyup = function() {
     localStorage.setItem(connection.socketMessageEvent, this.value);
-};
+};*/
 var hashString = location.hash.replace('#', '');
 if (hashString.length && hashString.indexOf('comment-') == 0) {
     hashString = '';
@@ -44,5 +44,5 @@ if (roomid && roomid.length) {
             setTimeout(reCheckRoomPresence, 5000);
         });
     })();
-    disableInputButtons();
+    //disableInputButtons();
 }

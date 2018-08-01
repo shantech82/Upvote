@@ -112,7 +112,7 @@ export class AppProfileCreateComponent implements OnInit {
       this.icouserprofileservice.DeleteUserProfile(this.userId)
         .then(() => {
           localStorage.removeItem('UserData');
-          this.router.navigate(['/SignIn']);
+          this.router.navigate(['/Login']);
         }, error => {
           this.alertService.alert(new Alert(AlertType.DANGER, 'There was a problem deleting the user. Please, try again'));
         });

@@ -9,3 +9,16 @@ body {
   z-index: 100;
   margin: 20px 20px 20px 20px;
 }
+
+.alert-danger {
+  background: none;
+  top: 100%;
+  position: absolute;
+  left:0;
+  font-size: 11px;
+  font-weight: 600
+}
+
+.form-group {
+  position: relative;
+}

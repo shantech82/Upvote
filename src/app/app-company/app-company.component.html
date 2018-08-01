@@ -268,7 +268,8 @@
         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
           <div class="form-group">
             <label class="control-label">ICO Start date</label>
-            <input type="date" formControlName="icostartdate" class="form-control listInp" placeholder="dd/mm/yyyy">
+            <input class="form-control" placeholder="dd/mm/yyyy" (click)="d.toggle()"
+            name="dp" formControlName="icostartdate" class="form-control listInp" ngbDatepicker #d="ngbDatepicker">
             <div *ngIf="icoform.controls['icostartdate'].touched && !icoform.controls['icostartdate'].valid">
               <span *ngIf="icoform.controls['icostartdate'].hasError('required') " class="alert-danger">
                 ICO Start date is required

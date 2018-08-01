@@ -32,4 +32,5 @@ export interface IICO {
   phone_number: string;
   long_description: string;
   address: string;
+  userid: number;
   }
