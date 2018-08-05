@@ -85,7 +85,7 @@ export class AppProfileViewComponent implements OnInit {
           this.user.profileimageurl = this.user.profileimageurl;
         }
       } else {
-        this.user.profileimageurl = '../../assets/img/profile.jpg';
+        this.user.profileimageurl = '../../assets/img/ico-user.png';
       }
     }
   }

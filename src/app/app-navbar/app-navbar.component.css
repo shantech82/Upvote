@@ -46,23 +46,6 @@ header {
     justify-content: center;
     align-items: center;
 }
-.dropdown_profile > div {  
-  display: inline-block;
-  margin-right:10px;
-  overflow:hidden;
-  width:50px;
-  height:50px;  
-  transform:rotate(45deg);
-  border-radius:15px;
-}
-
-.dropdown_profile > div  img {
-  display: block;
-  transform:rotate(-45deg);
-  transform-origin:18px 46px;
-  width:70px;
-}
-
 .mydrop {
   display: flex;
   justify-content: center;
@@ -103,4 +86,8 @@ header {
   width: 60px;
   height: 60px;
   border-radius: 0;
+}
+
+:host /deep/ .mydrop .dropdown-menu {
+ left:-45px !important;
 }

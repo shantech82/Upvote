@@ -51,7 +51,6 @@
       <button type="button" id="startlive" name="startlive" class="btn stream_btn"> ► Start live streaming </button>
       <button type="button" id="stoplive" name="stoplive" style="display: none;" class="btn stream_btn stop"> ► Stop live streaming </button>
     </div>
-
     <div class="container" [style.display]="!companyUser ? 'block' : 'none'">
       <button type="button" id="joinlive" name="joinlive" class="btn stream_btn"> ► Join live streaming </button>
     </div>
@@ -66,6 +65,33 @@
           <div class="col-md-4 col-lg-4 col-xs-12 col-sm-6" style="padding-top: 20px">
             <div class="chat_box">
               <h5>CHAT</h5>
+              <ul>
+                <li class="orange">
+                  <div class="user_name">Eva Richardson
+                    <span>10h54 am</span>
+                  </div>
+                  I like the direction of the concept. What else can you tell me about it?
+                </li>
+              </ul>
+              
+<ul class="chatusmm">
+  <li tabindex="0">
+  <div class="user_name">shanmugasundaram
+  <span>5:42:53 PM</span>
+  </div>
+  hi
+  </li>
+  </ul>
+
+              <ul class="chatul"></ul>
+              <div class="chat_input">
+                <div class="input-group">
+                  <input type="text" id="input-text-chat" class="form-control chat_inp" placeholder="write your message">
+                  <span class="input-group-addon">
+                    <img src="../assets/img/btn-send.png">
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

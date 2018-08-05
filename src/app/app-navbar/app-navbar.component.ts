@@ -41,7 +41,7 @@ export class AppNavbarComponent implements OnInit {
           this.user.image = this.user.image;
         }
       } else {
-        this.user.image = '../../assets/img/profile.jpg';
+        this.user.image = '../../assets/img/ico-user.png';
       }
     }
   }

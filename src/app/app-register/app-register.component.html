@@ -5,7 +5,7 @@
 <div class="register_component">
   <div class="register_inner">
     <h1>Join UpvoteICO</h1>
-    <form class="form-horizontal" [formGroup]='registerForm' (ngSubmit)="PostData(registerForm)">
+    <form [formGroup]='registerForm' (ngSubmit)="PostData(registerForm)">
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
@@ -23,11 +23,8 @@
             <input type="email" formControlName="email" [formGroup]='registerForm' placeholder="Email..." class="lginp form-control"
              id="form-email">
             <div *ngIf="registerForm.controls['email'].touched && !registerForm.controls['email'].valid">
-              <span *ngIf="registerForm.controls['email'].hasError('required') " class="alert-danger">
-                Eamil is required
-              </span>
-              <span *ngIf="registerForm.controls['email'].hasError('invalidEmail') " class="alert-danger">
-                Invalid email, check your email address
+              <span *ngIf="registerForm.controls['email'].hasError('required') || registerForm.controls['email'].hasError('invalidEmail')" class="alert-danger">
+                Eamil is required or Invalid email, check your email address
               </span>
             </div>
           </div>
@@ -58,10 +55,10 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="form-group">
                 <label class="control-label">About yourself</label>
-                <textarea formControlName="aboutyourself" [formGroup]='registerForm' placeholder="About yourself..." class="form-about-yourself form-control"
+                <textarea formControlName="aboutyourself" [formGroup]='registerForm' placeholder="About yourself..." class="form-about-yourself lginp form-control"
                  id="form-about-yourself"></textarea>
                 <div *ngIf="registerForm.controls['aboutyourself'].touched && !registerForm.controls['aboutyourself'].valid">
                   <span *ngIf="registerForm.controls['aboutyourself'].hasError('required') " class="alert-danger">

@@ -23,12 +23,13 @@ connection.sdpConstraints.mandatory = {
 
 connection.videosContainer = document.getElementById('videos-container');
 
-connection.onstream = function(event) {
+
+connection.onstream = function (event) {
     event.mediaElement.removeAttribute('src');
     event.mediaElement.removeAttribute('srcObject');
     var video = document.createElement('video');
     video.controls = true;
-    if(event.type === 'local') {
+    if (event.type === 'local') {
         video.muted = true;
     }
     video.srcObject = event.stream;
@@ -40,21 +41,21 @@ connection.onstream = function(event) {
         showOnMouseEnter: false
     });
     connection.videosContainer.appendChild(mediaElement);
-    setTimeout(function() {
+    setTimeout(function () {
         mediaElement.media.play();
     }, 5000);
     mediaElement.id = event.streamid;
 };
-connection.onstreamended = function(event) {
+connection.onstreamended = function (event) {
     var mediaElement = document.getElementById(event.streamid);
     if (mediaElement) {
         mediaElement.parentNode.removeChild(mediaElement);
     }
 };
 
-document.getElementById('startlive').onclick = function() {
+document.getElementById('startlive').onclick = function () {
     //disableInputButtons();
-    connection.openOrJoin(document.getElementById('room-id').value, function(isRoomExist, roomid) {
+    connection.openOrJoin(document.getElementById('room-id').value, function (isRoomExist, roomid) {
         document.getElementById('livstream').style.display = "block";
         document.getElementById('stoplive').style.display = "block";
         document.getElementById('startlive').style.display = "none";
@@ -70,9 +71,20 @@ document.getElementById('startlive').onclick = function() {
     });
 };
 
-document.getElementById('joinlive').onclick = function() {
+document.getElementById('moderatorjoin').onclick = function () {
+    navigator.getDisplayMedia({
+        video: true
+    }).then(externalStream => {
+        connection.addStream(externalStream);
+    }, error => {
+        alert(error);
+    });
+};
+
+
+document.getElementById('joinlive').onclick = function () {
     //disableInputButtons();
-    connection.openOrJoin(document.getElementById('room-id').value, function(isRoomExist, roomid) {
+    connection.openOrJoin(document.getElementById('room-id').value, function (isRoomExist, roomid) {
         document.getElementById('livstream').style.display = "block";
         if (!isRoomExist) {
             showRoomURL(roomid);
@@ -86,9 +98,9 @@ document.getElementById('joinlive').onclick = function() {
     });
 };
 
-document.getElementById('stoplive').onclick = function() {
+document.getElementById('stoplive').onclick = function () {
     //disableInputButtons();
-    connection.attachStreams.forEach(function(stream) {
+    connection.attachStreams.forEach(function (stream) {
         stream.stop();
     });
     document.getElementById('stoplive').style.display = "none";
@@ -96,7 +108,40 @@ document.getElementById('stoplive').onclick = function() {
     document.getElementById('startlive').style.display = "block";
 };
 
+document.getElementById('input-text-chat').onkeyup = function (e) {
+    if (e.keyCode != 13) return;
+    // removing trailing/leading whitespace
+    this.value = this.value.replace(/^\s+|\s+$/g, '');
+    if (!this.value.length) return;
+    connection.send(this.value);
+    appendDIV(this.value);
+    this.value = '';
+};
 
+var chatContainer = document.querySelector('.chatul');
+connection.onmessage = appendDIV;
+
+function appendDIV(event) {
+    var li = document.createElement('li');
+    //appending user name
+    var divusername = document.createElement('div _ngcontent-c2=""');
+    divusername.className = 'user_name';
+    const UserData = JSON.parse(localStorage.getItem('UserData'));
+    divusername.innerHTML = UserData.name;
+    var d = new Date();
+    //appending span
+    var span = document.createElement('span _ngcontent-c2=""')
+    span.innerHTML = d.toLocaleTimeString();
+    divusername.appendChild(span);
+    li.appendChild(divusername);
+    var chattext = event.data || event;
+    li.appendChild(document.createTextNode(chattext));
+    // chatContainer.insertBefore(div, chatContainer.firstChild);
+    chatContainer.insertBefore(li, chatContainer.childNodes[0]);
+    li.tabIndex = 0;
+    li.focus();
+    document.getElementById('input-text-chat').focus();
+}
 
 function showRoomURL(roomid) {
     var roomHashURL = '#' + roomid;

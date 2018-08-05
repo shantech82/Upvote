@@ -1,73 +1,73 @@
 <app-app-home></app-app-home>
 <div class="upvote" *ngIf="forminitialization">
-    <div class="background hBg">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
-                    <div class="video_container">
-                        <video width="100%" height="420px" controls>
-                            <source src="https://www.youtube.com/watch?v=C0DPdy98e4c" type="video/mp4"> Your browser does not support the video tag.
-                        </video>
-                        <div class="play_pause">
-                            <img src="..\assets\img\btn-play.png">
-                        </div>
-                        <div class="video_tag">Live Streaming</div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
-                    <div class="intro_info">
-                        <h1>
-                            <span>{{ topicolist.iconame }}</span>
-                        </h1>
-                        <p>{{ topicolist.icoshortdescription }}</p>
-                        <a [routerLink]="['ICO', topicolist.id]" routerLinkActive="active-link" target="_blank">
-                        <button type="button" class="btn hBtn">
-                            Visit ICO
-                            <img src="..\assets\img\ico-read-more.png">
-                        </button>
-                    </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="clearfix gap50"></div>
+  <div class="background hBg">
     <div class="container">
-        <div class="Slider_home" *ngIf="isICOAvailable">
-            <swiper [config]="config">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide homeSlider" *ngFor="let ico of (icolist ? icolist.slice(1,100): [])">
-                        <div class="img_holder">
-                            <img [src]="ico.icologoimage || '..\assets\img\icoimagecard.jpg'" class="img-responsive">
-                        </div>
-                        <div class="slider_content">
-                            <h5>{{ ico.iconame }}</h5>
-                            <div class="sContent">
-                                {{ ico.icoshortdescription }}
-                            </div>
-                        </div>
-                        <div class="slider_footer">
-                            <a [routerLink]="['ICO', ico.id]" routerLinkActive="active-link" target="_blank">
-                                <span>
-                                    <img src="..\assets\img\ico-read-more.png"> </span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-button-next upSlider_arrow">
-                    <img src="..\assets\img\slide_arrow_right.png">
-                </div>
-                <div class="swiper-button-prev upSlider_arrow">
-                    <img src="..\assets\img\slide_arrow_left.png">
-                </div>
-            </swiper>
+      <div class="row">
+        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+          <div class="video_container">
+            <video width="100%" height="100%" controls>
+              <source src="https://www.youtube.com/watch?v=C0DPdy98e4c" type="video/mp4"> Your browser does not support the video tag.
+            </video>
+            <div class="play_pause">
+              <img src="..\assets\img\btn-play.png">
+            </div>
+            <div class="video_tag">Live Streaming</div>
+          </div>
         </div>
-    </div>
-    <div class="background" *ngIf="isICOAvailable">
-        <div class="container">
-            <app-app-icocard [icolist]="icolist" [page]="page"></app-app-icocard>
+        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+          <div class="intro_info">
+            <h1>
+              <span>{{ topicolist.iconame }}</span>
+            </h1>
+            <p>{{ topicolist.icoshortdescription }}</p>
+            <a [routerLink]="['ICO', topicolist.id]" routerLinkActive="active-link" target="_blank">
+              <button type="button" class="btn hBtn">
+                Visit ICO
+                <img src="..\assets\img\ico-read-more.png">
+              </button>
+            </a>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
+  <div class="clearfix gap50"></div>
+  <div class="container">
+    <div class="Slider_home" *ngIf="isICOAvailable">
+      <swiper [config]="config">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide homeSlider" *ngFor="let ico of (icolist ? icolist.slice(1,100): [])">
+            <div class="img_holder">
+              <img [src]="ico.icologoimage || '..\assets\img\icoimagecard.jpg'" class="img-responsive">
+            </div>
+            <div class="slider_content">
+              <h5>{{ ico.iconame }}</h5>
+              <div class="sContent">
+                {{ ico.icoshortdescription }}
+              </div>
+            </div>
+            <div class="slider_footer">
+              <a [routerLink]="['ICO', ico.id]" routerLinkActive="active-link" target="_blank">
+                <span>
+                  <img src="..\assets\img\ico-read-more.png"> </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-button-next upSlider_arrow">
+          <img src="..\assets\img\slide_arrow_right.png">
+        </div>
+        <div class="swiper-button-prev upSlider_arrow">
+          <img src="..\assets\img\slide_arrow_left.png">
+        </div>
+      </swiper>
+    </div>
+  </div>
+  <div class="background bg2" *ngIf="isICOAvailable">
+    <div class="container">
+      <app-app-icocard [icolist]="icolist" [page]="page"></app-app-icocard>
+    </div>
+  </div>
 </div>
 <div class="clearfix"></div>
 <ngx-spinner bdColor="rgba(251,244,244,0.8)" size="medium" color="#31d093" type="ball-clip-rotate-multiple"></ngx-spinner>

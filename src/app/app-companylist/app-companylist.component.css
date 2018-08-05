@@ -144,11 +144,6 @@
 .background {
   background: #e5eaed;
   padding: 0 0 80px 0;
-  margin-top: 100px;
-}
-
-.background.hBg {
-  height: 468px
 }
 
 .hBtn,
@@ -377,10 +372,64 @@
 
 @media (max-width:767px) {
   .profile_pic_info {
-      position: relative;
+    position: relative;
   }
   .profile_info .title {
-      font-size: 30px;
-      line-height: 42px;
+    font-size: 30px;
+    line-height: 42px;
+  }
+  .video_container {
+    height: 181px;
+  }
+  .background {
+    padding: 20px 0 30px 0;
+  }
+  .intro_info h1 {
+    font-size: 30px;
+    line-height: 40px;
+  }
+  .Slider_home {
+    margin-bottom: 140px;
+  }
+}
+
+@media (min-width:767px) and (max-width:1023px) {
+  .video_container {
+    height: 420px;
+  }
+  .background {
+    padding: 80px 0 30px 0;
+  }
+  .Slider_home {
+    margin-bottom: 140px;
+  }
+  .background.bg2 {
+    padding: 0 0 50px 0;
+  }
+}
+
+@media(min-width:1024px) {
+  .background.hBg {
+    margin: 0;
+    height: 468px;
+  }
+  .video_container {
+    margin-top: 84px;
+    height: 420px;
+  }
+  .video_container video {
+    box-shadow: 0 10px 30px 0 rgba(207, 213, 218, 0.55);
+  }
+  .intro_info h1 {
+    margin: 0;
+  }
+  .intro_info {
+    margin-top: 84px;
+  }
+  .Slider_home {
+    margin: 30px 0 70px 0;
+  }
+  .background {
+    margin-top: 100px;
   }
 }

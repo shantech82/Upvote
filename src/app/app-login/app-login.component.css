@@ -19,6 +19,7 @@
   top: 10%;
 }
 
+.login_component .input-group {display:flex}
 .login_inner {
   padding: 50px 100px;
 }
@@ -134,11 +135,14 @@
   letter-spacing: normal;
   color: #ffffff;
   display: block;
+  position: relative;
 }
 
-.social .btn img {
-  position: relative;
+.social .btn img {  
   margin-right: 10px;
+  position: absolute;
+  left:10px;
+  top:15px;
 }
 
 .createNew {

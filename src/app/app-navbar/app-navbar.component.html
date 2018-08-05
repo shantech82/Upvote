@@ -9,26 +9,20 @@
                     <div class="col mydrop">
                         <div ngbDropdown class="d-inline-block">
                             <a class="btn" id="dropdownBasic1" ngbDropdownToggle>
-                                <div *ngIf="loggedIn && user!==null && user.image!==null">
+                               <div *ngIf="loggedIn && user && user.image!==''">
                                     <img src="{{ user.image }}">
                                 </div>
-                                <div *ngIf="loggedIn && user.image===null">
+                                <div *ngIf="loggedIn && user.image===''">
                                     <img src="..\assets\img\ico-user.png">
                                 </div>
                             </a>
-                            <ul ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                            <ul ngbDropdownMenu aria-labelledby="dropdownBasic1" ngbDropdownToggle>
                                 <li class="dropdown-item">
-                                    <a href="#">One</a>
-                                </li>
-                                <li class="dropdown-item">
-                                    <a href="#">Two</a>
-                                </li>
-                                <li class="dropdown-item">
-                                    <a href="#">Three</a>
+                                    <a href="#">Update Your Profile</a>
                                 </li>
                                 <li class="dropdown-item divider"></li>
                                 <li class="dropdown-item">
-                                    <a href="#">Four</a>
+                                    <a href="#">Sign Out</a>
                                 </li>
                             </ul>
                         </div>

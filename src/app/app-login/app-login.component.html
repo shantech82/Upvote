@@ -1,58 +1,57 @@
 <div class="login">
-    <div class="login_component">
-      <div class="login_inner">
-        <h1>Login/Register</h1>
-        <form class="form-horizontal" [formGroup]='loginForm' (ngSubmit)="SignIn(loginForm)">
-          <div class="form-group">
-            <label class="control-label">Username/Email</label>
-            <div class="input-group">
-              <span class="input-group-addon">
-                <img src="../../assets/img/ico-log.png">
-              </span>
-              <input type="text" formControlName="username" [formGroup]='loginForm' placeholder="Username..." class="lginp form-control"
-               id="form-username">
-               <div *ngIf="loginForm.controls['username'].touched && !loginForm.controls['username'].valid">
-                  <span *ngIf="loginForm.controls['username'].hasError('required') " class="alert-danger">
-                    Username is required
-                  </span>
-                </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="sr-only" for="form-password">Password</label>
-            <div class="input-group">
-              <span class="input-group-addon">
-                <img src="../../assets/img/ico-pw.png">
-              </span>
-              <input type="password" formControlName="loginpassword" [formGroup]='loginForm' placeholder="Password..." class="lginp form-control"
-               id="form-login-password">
-              <div *ngIf="loginForm.controls['loginpassword'].touched && !loginForm.controls['loginpassword'].valid">
-                <span *ngIf="loginForm.controls['loginpassword'].hasError('required') " class="alert-danger">
-                  password is required
+  <div class="login_component">
+    <div class="login_inner">
+      <h1>Login/Register</h1>
+      <form [formGroup]='loginForm' (ngSubmit)="SignIn(loginForm)">
+        <div class="form-group">
+          <label class="control-label">Username/Email</label>
+          <div class="input-group">
+            <span class="input-group-addon">
+              <img src="../../assets/img/ico-log.png">
+            </span>
+            <input type="text" formControlName="username" [formGroup]='loginForm' placeholder="Username..." class="lginp form-control"
+             id="form-username">
+             <div *ngIf="loginForm.controls['username'].touched && !loginForm.controls['username'].valid">
+                <span *ngIf="loginForm.controls['username'].hasError('required') " class="alert-danger">
+                  Username is required
                 </span>
               </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="form-password">Password</label>
+          <div class="input-group">
+            <span class="input-group-addon">
+              <img src="../../assets/img/ico-pw.png">
+            </span>
+            <input type="password" formControlName="loginpassword" [formGroup]='loginForm' placeholder="Password..." class="lginp form-control"
+             id="form-login-password">
+            <div *ngIf="loginForm.controls['loginpassword'].touched && !loginForm.controls['loginpassword'].valid">
+              <span *ngIf="loginForm.controls['loginpassword'].hasError('required') " class="alert-danger">
+                password is required
+              </span>
             </div>
           </div>
-          <button type="submit" class="btn login_submit">Submit</button>
-          <a href="#" class="forget">forget password</a>
-        </form>
-        <div class="divider"></div>
+        </div>
+        <button type="submit" class="btn login_submit">Submit</button>
+        <a href="#" class="forget">forget password</a>
+      </form>
+      <div class="divider"></div>
+      <div class="social">
+          <button type="button" class="btn fb" (click)="socialSignIn('facebook')">
+            <img src="../../assets/img/fb.ico"> Register with Facebook</button>
+        </div>
         <div class="social">
-            <button type="button" class="btn fb" (click)="socialSignIn('facebook')">
-              <img src="../../assets/img/fb.ico"> Register with Facebook</button>
-          </div>
-          <div class="social">
-            <button type="button" class="btn twitter" (click)="socialSignIn('linkedin')">
-              <img src="../../assets/img/linkedin.png"> Register with LinkedIn</button>
-          </div>
-          <div class="social">
-            <button type="button" class="btn gmail" (click)="socialSignIn('google')">
-              <img src="../../assets/img/google.png"> Register with Google</button>
-          </div>
-      </div>
-      <div class="login_footer">
-        <a routerLink="/Register" routerLinkActive="active-link" class="createNew">Dont’ have an account? Create one now </a>
-      </div>
-    </div> 
-  </div>
-  
+          <button type="button" class="btn twitter" (click)="socialSignIn('linkedin')">
+            <img src="../../assets/img/linkedin.png"> Register with LinkedIn</button>
+        </div>
+        <div class="social">
+          <button type="button" class="btn gmail" (click)="socialSignIn('google')">
+            <img src="../../assets/img/google.png"> Register with Google</button>
+        </div>
+    </div>
+    <div class="login_footer">
+      <a routerLink="/Register" routerLinkActive="active-link" class="createNew">Dont’ have an account? Create one now </a>
+    </div>
+  </div> 
+</div>
