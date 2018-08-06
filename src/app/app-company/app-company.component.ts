@@ -78,6 +78,7 @@ export class AppCompanyComponent implements OnInit {
 
   ngOnInit() {
     this.spinner.show();
+    this.updatedVideoFileName = '';
     this.forminitialization = false;
     this.GetICOCategory();
     this.GetICOInfo();

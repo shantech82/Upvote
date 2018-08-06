@@ -23,7 +23,7 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit  {
   ico: IICO;
   icoid: number;
   isLiveStreaming: boolean;
-  companyUser: boolean;
+  userType: number;
 
 
 
@@ -48,7 +48,7 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit  {
   }
 
   ngOnInit() {
-    console.log('calling..');
+   this.userType = 4;
     this.spinner.show();
     this.GetICO();
   }
@@ -57,9 +57,12 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit  {
     const UserData = JSON.parse(localStorage.getItem('UserData'));
     if (UserData !== undefined && UserData !== null) {
       if (UserData.id !== userid) {
-        this.companyUser = false;
+        this.userType = 0;
       } else {
-        this.companyUser = true;
+        this.userType = 1;
+      }
+      if (UserData.ismoderator) {
+        this.userType = 2;
       }
     }
   }

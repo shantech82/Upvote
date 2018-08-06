@@ -15,18 +15,22 @@
                                 <div *ngIf="loggedIn && user.image===''">
                                     <img src="..\assets\img\ico-user.png">
                                 </div>
+                                <i class="fa fa-caret-down"></i>
                             </a>
                             <ul ngbDropdownMenu aria-labelledby="dropdownBasic1" ngbDropdownToggle>
                                 <li class="dropdown-item">
-                                    <a href="#">Update Your Profile</a>
+                                    <a routerLink="/User" routerLinkActive="active-link" class="createNew">Update Your Profile </a>
                                 </li>
                                 <li class="dropdown-item divider"></li>
                                 <li class="dropdown-item">
-                                    <a href="#">Sign Out</a>
+                                    <a routerLink="/Home" routerLinkActive="active-link" class="createNew">All ICOs </a>
+                                </li>
+                                <li class="dropdown-item divider"></li>
+                                <li class="dropdown-item">
+                                    <a [routerLink]="" (click)="SignOut()">Sign Out</a>
                                 </li>
                             </ul>
                         </div>
-                        <i class="fa fa-caret-down"></i>
                     </div>
                 </div>
             </div>

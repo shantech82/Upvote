@@ -278,20 +278,20 @@
     padding: 15px;
   }
   
-  .chat_box ul {
+  :host::ng-deep.chat_box ul {
     padding: 0;
-    height: 360px;
+    height: 454px;
     overflow-y: auto;
   }
   
-  .chat_box ul li {
+  :host::ng-deep.chat_box ul li {
     list-style: none;
     position: relative;
     padding: 20px;
     color: #43494e;
   }
   
-  .chat_box ul li .user_name {
+  :host::ng-deep.chat_box ul li .user_name {
     font-size: 14px;
     font-weight: 500;
     font-style: normal;
@@ -303,14 +303,14 @@
     position: relative;
   }
   
-  .user_name span {
+  :host::ng-deep.user_name span {
     position: absolute;
     right: 0;
     font-size: 12px;
     color: #88898a;
   }
   
-  .chat_box ul li:before {
+  :host::ng-deep.chat_box ul li:before {
     content: "";
     position: absolute;
     width: 6px;
@@ -320,15 +320,15 @@
     left: 7px;
   }
   
-  .chat_box ul li.orange:before {
+  :host::ng-deep.chat_box ul li.orange:before {
     background: #f5a623;
   }
   
-  .chat_box ul li.red:before {
+  :host::ng-deep.chat_box ul li.red:before {
     background: red;
   }
   
-  .chat_box ul li:nth-child(odd) {
+  :host::ng-deep.chat_box ul li:nth-child(odd) {
     background-color: #f6f8fa;
   }
   
@@ -337,6 +337,10 @@
     bottom: 0;
     padding: 10px;
     width: 100%;
+  }
+
+  .chat_input .input-group {
+   display: flex;
   }
   
   .chat_inp {

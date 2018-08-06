@@ -197,6 +197,7 @@ export class AppProfileCreateComponent implements OnInit {
           activatekey: '',
           createdon: '',
           title: icoprofileform.controls['title'].value,
+          ismoderator: false
         };
         this.icouserprofileservice.UpdateICOUserProfile(this.icoUser).subscribe(returnValue => {
           if (returnValue !== undefined) {

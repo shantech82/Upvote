@@ -14,5 +14,6 @@ export interface IUser {
     activatekey: string;
     createdon: string;
     title: string;
+    ismoderator: boolean;
 
 }

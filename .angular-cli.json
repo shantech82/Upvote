@@ -8,7 +8,8 @@
       "root": "src",
       "outDir": "dist",
       "assets": [
-        "assets"
+        "assets",
+        "/img/upicon.png"
       ],
       "index": "index.html",
       "main": "main.ts",

@@ -25,7 +25,7 @@
         <p>
           <span class="left" *ngIf="ico.icocreatedon">
             <i class="fa fa-clock-o"></i>Added on {{ ico.icocreatedon | date }}</span>
-          <a [routerLink]="['ICO', ico.id]" routerLinkActive="active-link" target="_blank" class="right">
+          <a [routerLink]="['/ICO', ico.id]" routerLinkActive="active-link" target="_blank" class="right">
             <img src="..\assets\img\ico-read-more.png" srcset="..\assets\img\ico-read-more@2x.png 2x, ..\assets\img\ico-read-more@3x.png 3x">
           </a>
         </p>

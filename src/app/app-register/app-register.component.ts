@@ -103,7 +103,8 @@ export class AppRegisterComponent implements OnInit {
       email: dbUserData[0].email,
       image: dbUserData[0].profileimageurl,
       id: dbUserData[0].id,
-      type: type
+      type: type,
+      ismoderator: dbUserData[0].ismoderator
     };
     // this.loggedIn = (userData != null);
     const key = 'UserData';
@@ -137,7 +138,8 @@ export class AppRegisterComponent implements OnInit {
           isactive: UserData.isactive,
           activatekey: this.guid(),
           createdon: new Date().toLocaleDateString(),
-          title: ''
+          title: '',
+          ismoderator: false
         };
 
         this.regservice.RegisterUser(this.userData).subscribe(registeredData => {

@@ -16,6 +16,7 @@ import { IUser } from '../core/Model/IUser';
 import { environment } from '../../environments/environment';
 import { AlertCenterService, Alert, AlertType } from 'ng2-alert-center';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { isMonday } from 'date-fns';
 
 @Component({
   selector: 'app-app-signin',
@@ -150,7 +151,8 @@ export class AppSigninComponent implements OnInit {
           isactive: UserData.isactive,
           activatekey: this.guid(),
           createdon: new Date().toLocaleDateString(),
-          title: ''
+          title: '',
+          ismoderator: false
         };
 
         this.regservice.RegisterUser(this.userData).subscribe(registeredData => {

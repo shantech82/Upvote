@@ -10,7 +10,8 @@ connection.socketMessageEvent = 'video-broadcast-demo';
 connection.session = {
     audio: true,
     video: true,
-    oneway: true
+    oneway: true,
+    data: true
 };
 
 connection.stream
@@ -22,7 +23,7 @@ connection.sdpConstraints.mandatory = {
 
 
 connection.videosContainer = document.getElementById('videos-container');
-
+connection.onmessage = appendDIV;
 
 connection.onstream = function (event) {
     event.mediaElement.removeAttribute('src');
@@ -55,7 +56,7 @@ connection.onstreamended = function (event) {
 
 document.getElementById('startlive').onclick = function () {
     //disableInputButtons();
-    connection.openOrJoin(document.getElementById('room-id').value, function (isRoomExist, roomid) {
+    connection.open(document.getElementById('room-id').value, function (isRoomExist, roomid) {
         document.getElementById('livstream').style.display = "block";
         document.getElementById('stoplive').style.display = "block";
         document.getElementById('startlive').style.display = "none";
@@ -83,26 +84,41 @@ document.getElementById('moderatorjoin').onclick = function () {
 
 
 document.getElementById('joinlive').onclick = function () {
-    //disableInputButtons();
-    connection.openOrJoin(document.getElementById('room-id').value, function (isRoomExist, roomid) {
-        document.getElementById('livstream').style.display = "block";
-        if (!isRoomExist) {
-            showRoomURL(roomid);
-        }
-        else {
+    document.getElementById('livstream').style.display = "block";
+    connection.checkPresence(document.getElementById('room-id').value, function (isRoomExist) {
+        if (isRoomExist) {
             connection.sdpConstraints.mandatory = {
                 OfferToReceiveAudio: true,
                 OfferToReceiveVideo: true
             };
+            connection.join(document.getElementById('room-id').value);
+            document.getElementById('joinlive').style.display = "none";
+            document.getElementById('leavelive').style.display = "block";
+            return;
         }
     });
 };
 
+document.getElementById('leavelive').onclick = function () {
+    connection.leave()
+    connection.checkPresence(document.getElementById('room-id').value, function (isRoomExist) {
+        if (isRoomExist) {
+            document.getElementById('joinlive').style.display = "block";
+        } else {
+            document.getElementById('joinlive').style.display = "none";
+        }
+    });
+    document.getElementById('leavelive').style.display = "none";
+    document.getElementById('livstream').style.display = "none";
+    return;
+}
+
+
 document.getElementById('stoplive').onclick = function () {
-    //disableInputButtons();
     connection.attachStreams.forEach(function (stream) {
         stream.stop();
     });
+    connection.close();
     document.getElementById('stoplive').style.display = "none";
     document.getElementById('livstream').style.display = "none";
     document.getElementById('startlive').style.display = "block";
@@ -119,18 +135,18 @@ document.getElementById('input-text-chat').onkeyup = function (e) {
 };
 
 var chatContainer = document.querySelector('.chatul');
-connection.onmessage = appendDIV;
+
 
 function appendDIV(event) {
     var li = document.createElement('li');
     //appending user name
-    var divusername = document.createElement('div _ngcontent-c2=""');
+    var divusername = document.createElement('div');
     divusername.className = 'user_name';
     const UserData = JSON.parse(localStorage.getItem('UserData'));
     divusername.innerHTML = UserData.name;
     var d = new Date();
     //appending span
-    var span = document.createElement('span _ngcontent-c2=""')
+    var span = document.createElement('span')
     span.innerHTML = d.toLocaleTimeString();
     divusername.appendChild(span);
     li.appendChild(divusername);
