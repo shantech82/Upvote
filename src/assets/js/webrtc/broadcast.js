@@ -24,11 +24,6 @@ connection.videosContainer = document.getElementById('videos-container');
 
 
 connection.onstream = function (event) {
-    
-    var mediaElement = document.getElementById(event.streamid);
-    if (mediaElement) {
-        mediaElement.parentNode.removeChild(mediaElement);
-    }
     event.mediaElement.removeAttribute('src');
     event.mediaElement.removeAttribute('srcObject');
     var video = document.createElement('video');
@@ -129,12 +124,8 @@ document.getElementById('input-text-chat').onkeyup = function (e) {
     // removing trailing/leading whitespace
     this.value = this.value.replace(/^\s+|\s+$/g, '');
     if (!this.value.length) return;
-    // var chatElement = createChatText(this.value);
     const UserData = JSON.parse(localStorage.getItem('UserData'));
     var chatText = this.value + '|' + UserData.name;
-    //var createdElement = createChatText(this.value);
-    // connection.send(userName);
-    // connection.send(this.value);
     connection.send(chatText);
     appendDIV(chatText);
     this.value = '';
@@ -150,7 +141,6 @@ function appendDIV(chatText) {
     //appending user name
     var divusername = document.createElement('div');
     divusername.className = 'user_name';
-    // const UserData = JSON.parse(localStorage.getItem('UserData'));
     divusername.innerHTML = chatElement[1];
     var d = new Date();
     //appending span
@@ -165,25 +155,6 @@ function appendDIV(chatText) {
     li.focus();
     document.getElementById('input-text-chat').focus();
 }
-
-function createChatText(chatText) {
-    var li = document.createElement('li');
-    //appending user name
-    var divusername = document.createElement('div');
-    divusername.className = 'user_name';
-    const UserData = JSON.parse(localStorage.getItem('UserData'));
-    divusername.innerHTML = UserData.name;
-    var d = new Date();
-    //appending span
-    var span = document.createElement('span')
-    span.innerHTML = d.toLocaleTimeString();
-    divusername.appendChild(span);
-    li.appendChild(divusername);
-    var chattext = chatText.data || chatText;
-    li.appendChild(document.createTextNode(chattext));
-    return li;
-}
-
 
 function showRoomURL(roomid) {
     var roomHashURL = '#' + roomid;

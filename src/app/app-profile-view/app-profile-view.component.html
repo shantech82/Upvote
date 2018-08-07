@@ -7,14 +7,15 @@
         <img [src]="user.profileimageurl || '..\assets\img\profile.jpg'" class="img-responsive">
         <div class="profile_pic_info">
           <span class="left" *ngIf="user.isinvestor">Investor</span>
-          <span class="right">{{ averageinvestmentsizeperyear }} / year</span>
+          <span class="right" *ngIf="user.averageinvestmentsizeperyear">{{ averageinvestmentsizeperyear }} / year</span>
         </div>
       </div>
     </div>
     <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
       <div class="profile_info">
-        <h1 class="title">{{ user.name }}</h1>
-        <h5>{{ user.title }}, {{ user.location }}</h5>
+        <h1 class="title">{{ user.name }} <a routerLink="/User" routerLinkActive="active-link">
+          <i class="fa fa-pencil fa-2x"></i></a></h1>
+        <h5 *ngIf="user.location">{{ user.title }}, {{ user.location }}</h5>
         <p>{{ user.bio }}</p>
       </div>
     </div>
