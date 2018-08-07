@@ -24,6 +24,10 @@ connection.videosContainer = document.getElementById('videos-container');
 
 
 connection.onstream = function (event) {
+    var mediaElement = document.getElementById(event.streamid);
+    if (mediaElement) {
+        mediaElement.parentNode.removeChild(mediaElement);
+    }
     event.mediaElement.removeAttribute('src');
     event.mediaElement.removeAttribute('srcObject');
     var video = document.createElement('video');
