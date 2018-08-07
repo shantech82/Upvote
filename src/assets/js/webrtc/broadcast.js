@@ -7,6 +7,7 @@ var connection = new RTCMultiConnection();
 connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/'
 connection.socketMessageEvent = 'video-broadcast-demo';
 
+
 connection.session = {
     audio: true,
     video: true,
@@ -23,12 +24,16 @@ connection.sdpConstraints.mandatory = {
 
 
 connection.videosContainer = document.getElementById('videos-container');
-connection.onmessage = appendDIV;
+
 
 connection.onstream = function (event) {
     event.mediaElement.removeAttribute('src');
     event.mediaElement.removeAttribute('srcObject');
     var video = document.createElement('video');
+    video.setAttributeNode(document.createAttribute('autoplay'));
+    video.setAttributeNode(document.createAttribute('playsinline'));
+    video.setAttributeNode(document.createAttribute('controls'));
+
     video.controls = true;
     if (event.type === 'local') {
         video.muted = true;
@@ -52,6 +57,7 @@ connection.onstreamended = function (event) {
     if (mediaElement) {
         mediaElement.parentNode.removeChild(mediaElement);
     }
+    document.getElementById('leavelive').click();
 };
 
 document.getElementById('startlive').onclick = function () {
@@ -122,6 +128,7 @@ document.getElementById('stoplive').onclick = function () {
     document.getElementById('stoplive').style.display = "none";
     document.getElementById('livstream').style.display = "none";
     document.getElementById('startlive').style.display = "block";
+    
 };
 
 document.getElementById('input-text-chat').onkeyup = function (e) {
@@ -129,15 +136,44 @@ document.getElementById('input-text-chat').onkeyup = function (e) {
     // removing trailing/leading whitespace
     this.value = this.value.replace(/^\s+|\s+$/g, '');
     if (!this.value.length) return;
-    connection.send(this.value);
-    appendDIV(this.value);
+    // var chatElement = createChatText(this.value);
+    const UserData = JSON.parse(localStorage.getItem('UserData'));
+    var chatText = this.value + '|' + UserData.name;
+    //var createdElement = createChatText(this.value);
+    // connection.send(userName);
+    // connection.send(this.value);
+    connection.send(chatText);
+    appendDIV(chatText);
     this.value = '';
 };
 
 var chatContainer = document.querySelector('.chatul');
+connection.onmessage = appendDIV;
 
+function appendDIV(chatText) {
+    var chatDataElement = chatText.data || chatText;
+    var chatElement = chatDataElement.split('|');
+    var li = document.createElement('li');
+    //appending user name
+    var divusername = document.createElement('div');
+    divusername.className = 'user_name';
+    // const UserData = JSON.parse(localStorage.getItem('UserData'));
+    divusername.innerHTML = chatElement[1];
+    var d = new Date();
+    //appending span
+    var span = document.createElement('span')
+    span.innerHTML = d.toLocaleTimeString();
+    divusername.appendChild(span);
+    li.appendChild(divusername);
+    var message = chatElement[0];
+    li.appendChild(document.createTextNode(message));
+    chatContainer.insertBefore(li, chatContainer.childNodes[0]);
+    li.tabIndex = 0;
+    li.focus();
+    document.getElementById('input-text-chat').focus();
+}
 
-function appendDIV(event) {
+function createChatText(chatText) {
     var li = document.createElement('li');
     //appending user name
     var divusername = document.createElement('div');
@@ -150,14 +186,11 @@ function appendDIV(event) {
     span.innerHTML = d.toLocaleTimeString();
     divusername.appendChild(span);
     li.appendChild(divusername);
-    var chattext = event.data || event;
+    var chattext = chatText.data || chatText;
     li.appendChild(document.createTextNode(chattext));
-    // chatContainer.insertBefore(div, chatContainer.firstChild);
-    chatContainer.insertBefore(li, chatContainer.childNodes[0]);
-    li.tabIndex = 0;
-    li.focus();
-    document.getElementById('input-text-chat').focus();
+    return li;
 }
+
 
 function showRoomURL(roomid) {
     var roomHashURL = '#' + roomid;

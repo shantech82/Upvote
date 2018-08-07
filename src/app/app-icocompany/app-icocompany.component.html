@@ -125,7 +125,7 @@
                 <div class="datepicker-container">
                   <ngb-datepicker class="myDatePicker" #dtp [(ngModel)]="model" (navigate)="date = $event.next" firstDayOfWeek=7 [dayTemplate]="t"></ngb-datepicker>
                   <ng-template #t let-date="date" let-focused="focused">
-                    <span class="custom-day" [class.weekend]="isSunday(date)" [class.focused]="focused" [class.bg-primary]="selected" [class.text-muted]="disabled">
+                    <span class="custom-day" [class.] [class.weekend]="isSunday(date)" [class.focused]="focused" [class.bg-primary]="selected" [class.text-muted]="disabled">
                       {{ date.day }}
                     </span>
                   </ng-template>
