@@ -34,14 +34,14 @@ if (roomid && roomid.length) {
     (function reCheckRoomPresence() {
         connection.checkPresence(roomid, function(isRoomExist) {
             if (isRoomExist) {
-                connection.sdpConstraints.mandatory = {
-                    OfferToReceiveAudio: true,
-                    OfferToReceiveVideo: true
-                };
-                connection.join(roomid);
+                // connection.sdpConstraints.mandatory = {
+                //    OfferToReceiveAudio: true,
+                //    OfferToReceiveVideo: true
+                //};
+                //connection.join(roomid);
                 return;
             }
-            setTimeout(reCheckRoomPresence, 5000);
+           // setTimeout(reCheckRoomPresence, 5000);
         });
     })();
     //disableInputButtons();
