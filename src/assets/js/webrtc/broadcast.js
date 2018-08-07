@@ -15,13 +15,10 @@ connection.session = {
     data: true
 };
 
-connection.stream
-
 connection.sdpConstraints.mandatory = {
     OfferToReceiveAudio: false,
     OfferToReceiveVideo: false
 };
-
 
 connection.videosContainer = document.getElementById('videos-container');
 
@@ -66,15 +63,6 @@ document.getElementById('startlive').onclick = function () {
         document.getElementById('livstream').style.display = "block";
         document.getElementById('stoplive').style.display = "block";
         document.getElementById('startlive').style.display = "none";
-        if (!isRoomExist) {
-            showRoomURL(roomid);
-        }
-        else {
-            connection.sdpConstraints.mandatory = {
-                OfferToReceiveAudio: true,
-                OfferToReceiveVideo: true
-            };
-        }
     });
 };
 
