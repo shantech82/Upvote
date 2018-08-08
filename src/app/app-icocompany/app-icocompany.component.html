@@ -116,16 +116,19 @@
                   <img src="..\assets\img\ico-cal.png">
                 </div>
                 <div class="cal_details">
-                  <small>Started April 15th</small>
-                  <p>3 Days, 15 Hours left</p>
+                  <small>Started {{ ico.icostartdate | date:'MMMM  dd' }}{{ dateendstring }}</small>
+                  <p *ngIf="expired">{{ expired }} </p>
+                  <p *ngIf="!expired">{{ enddatecal }} </p>
                 </div>
               </div>
               <div class="cal_holder">
                 <p>NEXT Live streaming (July)</p>
                 <div class="datepicker-container">
-                  <ngb-datepicker class="myDatePicker" #dtp [(ngModel)]="model" (navigate)="date = $event.next" firstDayOfWeek=7 [dayTemplate]="t"></ngb-datepicker>
-                  <ng-template #t let-date="date" let-focused="focused">
-                    <span class="custom-day" [class.] [class.weekend]="isSunday(date)" [class.focused]="focused" [class.bg-primary]="selected" [class.text-muted]="disabled">
+                  <ngb-datepicker class="myDatePicker" [class.bg-primary]="selected" #dtp [(ngModel)]="livestreamdates" let (navigate)="date = $event.next"
+                   firstDayOfWeek=7 [dayTemplate]="t"></ngb-datepicker>
+                  <ng-template #t let-date="date" let-focused="focused" let-selected="selected" >
+                    <span class="custom-day" [class.] [class.weekend]="isSunday(date)" [class.focused]="focused" 
+                    [class.bg-primary]="selected" [class.text-muted]="disabled">
                       {{ date.day }}
                     </span>
                   </ng-template>

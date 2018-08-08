@@ -114,7 +114,6 @@ export class AppCompanyComponent implements OnInit {
     this.phone_number = new FormControl(this.icoGet.phone_number, [Validators.required, Validators.maxLength(13),
                               Validators.minLength(8), this.isPhoneNumberValid('phone_number')]);
     this.address = new FormControl(this.icoGet.address, Validators.required);
-    console.log(this.icostartdate);
   }
 
   createForm() {
@@ -295,6 +294,7 @@ export class AppCompanyComponent implements OnInit {
         id: this.icoid,
         userid: UserData.id
       };
+
       if (this.icoid === 0) {
         this.icoservice.CreateICO(this.ico).subscribe(returnValue => {
           if (returnValue !== undefined) {

@@ -24,8 +24,9 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit  {
   icoid: number;
   isLiveStreaming: boolean;
   userType: number;
-
-
+  dateendstring: string;
+  enddatecal: string;
+  expired: string;
 
   constructor(private activateRoute: ActivatedRoute, private icoservice: CompanyService,
     private spinner: NgxSpinnerService, private alertService: AlertCenterService,
@@ -39,7 +40,7 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit  {
     locale: enLocale
   };
 
-  model: NgbDateStruct;
+  livestreamdates: NgbDateStruct;
   date: {year: number, month: number};
 
   isSunday(date: NgbDateStruct) {
@@ -52,6 +53,34 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit  {
     this.spinner.show();
     this.GetICO();
   }
+
+  icoStartEndDateCalc(icostartdate: Date, icoenddate: Date) {
+    const startDate = new Date(icostartdate);
+    const endDate = new Date(icoenddate);
+    const day = startDate.getDate();
+    if (day === 1 || day === 21 || day === 31) {
+      this.dateendstring = 'st';
+    } else if (day === 2 || day === 22) {
+      this.dateendstring = 'nd';
+    } else if (day === 3  || day === 23) {
+      this.dateendstring = 'rd';
+    } else {
+      this.dateendstring = 'th';
+    }
+    const currentDate = Date.now();
+    if (currentDate > endDate.getTime()) {
+      this.expired = 'Expired';
+    } else {
+      const hours = Math.abs((currentDate - endDate.getTime()) / 3600000);
+      this.enddatecal = Math.floor(hours / 24) + ' Days ' + (Math.floor(hours) % 24) + ' Hours Left';
+    }
+  }
+
+  selectToday() {
+    const date = new Date();
+    this.livestreamdates = { day: date.getUTCDay(), month: date.getUTCMonth(), year: date.getUTCFullYear()};
+  }
+
 
   checkCompanyUser(userid: number) {
     const UserData = JSON.parse(localStorage.getItem('UserData'));
@@ -68,14 +97,14 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit  {
   }
 
   GetICO() {
-    console.log(this.icoid);
       this.icoservice.GetICOById(this.icoid).subscribe(ICOData => {
         this.ico = ICOData[0][0];
         this.forminitialization = true;
-        console.log(this.ico.iconame);
         if (this.ico.iconame !== null) {
           this.ico.icologoimage = this.AssignLogomage(this.ico.icologoimage);
           this.checkCompanyUser(this.ico.userid);
+          this.icoStartEndDateCalc(this.ico.icostartdate, this.ico.icoenddate);
+          this.selectToday();
           this.forminitialization = true;
         } else {
           this.forminitialization = false;

@@ -135,6 +135,13 @@ document.getElementById('input-text-chat').onkeyup = function (e) {
     this.value = '';
 };
 
+connection.onopen = function(event) {
+    var remoteUserId = event.userid;
+    var remoteUserFullName = event.extra.fullName;
+
+    alert('data connection opened with ' + remoteUserFullName);
+};
+
 var chatContainer = document.querySelector('.chatul');
 connection.onmessage = appendDIV;
 

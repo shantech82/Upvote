@@ -91,6 +91,7 @@ export class AppProfileCreateComponent implements OnInit {
     this.forminitialization = false;
     this.GetUserInfo();
     this.GetNoOfInvestment();
+    this.updatedprofileimageurl = '';
   }
 
   IfNotEmptyNullUndefined(value: string) {

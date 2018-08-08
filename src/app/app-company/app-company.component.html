@@ -268,8 +268,8 @@
         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
           <div class="form-group">
             <label class="control-label">ICO Start date</label>
-            <input class="form-control" placeholder="dd/mm/yyyy" (click)="icostartdate.toggle()"
-            name="dpstartdate" formControlName="icostartdate" class="form-control listInp" ngbDatepicker #icostartdate="ngbDatepicker">
+            <input class="form-control" placeholder="dd/mm/yyyy" 
+             formControlName="icostartdate" class="form-control listInp" type="date">
             <div *ngIf="icoform.controls['icostartdate'].touched && !icoform.controls['icostartdate'].valid">
               <span *ngIf="icoform.controls['icostartdate'].hasError('required') " class="alert-danger">
                 ICO Start date is required
@@ -280,8 +280,8 @@
         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
           <div class="form-group">
             <label class="control-label">ICO End date</label>
-            <input class="form-control" placeholder="dd/mm/yyyy" (click)="icoenddate.toggle()"
-            name="dpendate" formControlName="icoenddate" class="form-control listInp" ngbDatepicker #icoenddate="ngbDatepicker">
+            <input class="form-control" placeholder="dd/mm/yyyy"
+            formControlName="icoenddate" class="form-control listInp"type="date">
             <div *ngIf="icoform.controls['icoenddate'].touched && !icoform.controls['icoenddate'].valid">
               <span *ngIf="icoform.controls['icoenddate'].hasError('required') " class="alert-danger">
                 ICO End date is required
