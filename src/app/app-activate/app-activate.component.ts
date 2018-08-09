@@ -22,6 +22,7 @@ export class AppActivateComponent implements OnInit {
   }
 
   public userActivatestatus: boolean;
+
   ngOnInit() {
     this.spinner.show();
     this.regservice.PutActivateUser(this.email, this.activatekey).subscribe(activateData => {

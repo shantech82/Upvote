@@ -24,7 +24,7 @@
 
 .base_background {
   background-color: #f6f8fa;
-  padding: 48px 58px;
+  padding: 48px 0;
   margin-top: 55px;
 }
 
@@ -47,13 +47,25 @@
 .Mask-Copy {
   width: 100%;
   height: 100%;
-  border-radius: 3px;
-  border: dashed 1px #b0ddcb;
+  border-radius: 3px; 
+  position: relative;
+  overflow: hidden;
+}
+
+.Mask-Copy::before{
+  content: "";
+  position: absolute;
+  border: 10px dashed #c1e8d9;
+  top: -8px;
+  bottom: -8px;
+  left: -8px;
+  right: -8px;
 }
 
 .Mask-Copy img {
   margin: 0 auto;
   width: 90%;
+  height:100%;
 }
 
 .Upload-Photo {
@@ -138,6 +150,121 @@ textarea.inner_input-copy {
 .upvote_form .form-group {
   margin-bottom: 16px;
 }
+
+/***** general ******/
+
+.gap20 {
+  height: 20px;
+}
+
+.gap105 {
+  height: 105px;
+  clear: both
+}
+
+/** custom check box ***/
+
+.custom_check {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+
+/* The container */
+
+.custom_check {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin: 10px 0 12px 0;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.custom_check span {
+  margin-top: -4px;
+  display: inline-block;
+}
+
+/* Hide the browser's default checkbox */
+
+.custom_check input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom checkbox */
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%
+}
+
+/* On mouse-over, add a grey background color */
+
+.custom_check:hover input~.checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+
+.custom_check input:checked~.checkmark {
+  background-color: #fff;
+  border: 1px solid #e2e2e2;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+
+.custom_check input:checked~.checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+
+.custom_check .checkmark:after {
+  left: 9px;
+  top: 6px;
+  width: 5px;
+  height: 10px;
+  border: solid #3ccf94;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+/**** tablet media queries ***/
+
+
 
 @media( min-width:768px) and (max-width:1023px) {
   .Mask {

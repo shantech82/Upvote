@@ -179,6 +179,16 @@
   margin-bottom: 0;
 }
 
+.intro_info p {
+  font-size: 15px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.6;
+  letter-spacing: normal;
+  color: #43494e;
+}
+
 .b1_background {
   background-color: #f6f8fa;
   padding: 100px 0;
@@ -368,6 +378,32 @@
 
 .gap50 {
   height: 50px
+}
+
+.feature_info {
+  position: absolute;
+  margin-bottom: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  right:0;
+  top:10px;
+}
+
+.feature_info span:before {
+  content: "";
+  position: absolute;
+  border-top: 1px solid #151515;
+  top: 8px;
+  width: 50px;
+  left: -56px;
+}
+
+.feature_info span i {
+  font-size: 13px;
+  text-transform: lowercase;
+  font-style:normal;
 }
 
 @media (max-width:767px) {

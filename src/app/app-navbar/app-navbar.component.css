@@ -11,6 +11,7 @@ header {
   position: relative;
   background-color: #fff;
 }
+
 .header_inner {
   position: relative;
   height: 90px;
@@ -20,17 +21,20 @@ header {
   padding: 25px 0;
   vertical-align: middle;
 }
+
 .logo {
   position: absolute;
   left: 0;
   top: 50%;
   transform: translate(0%, -50%);
 }
+
 ._imglogo {
   width: 135px;
   height: 25px;
   object-fit: contain;
 }
+
 .profile_icon {
   position: absolute;
   right: 0;
@@ -41,35 +45,43 @@ header {
 .profile_icon .dropdown_profile i {
   display: inline-block;
 }
+
 .dropdown_profile {
   display: flex;
-    justify-content: center;
-    align-items: center;
+  justify-content: center;
+  align-items: center;
 }
+
 .mydrop {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .mydrop a.btn:active {
   box-shadow: none;
   outline: none;
 }
+
 .mydrop>ul {
   padding: 0;
   margin: 0;
 }
+
 .mydrop>ul>li {
   padding: 5px 10px;
 }
+
 .mydrop>ul>li.divider {
   border-top: 1px solid #ddd;
   margin: 10px 0
 }
+
 .mydrop>ul>li>a {
   text-decoration: none;
   color: #151515
 }
+
 .mydrop a.btn {
   display: inline-block;
   margin-right: 10px;
@@ -79,6 +91,7 @@ header {
   transform: rotate(45deg);
   border-radius: 15px;
 }
+
 .mydrop a.btn img {
   display: block;
   transform: rotate(-45deg);
@@ -88,6 +101,36 @@ header {
   border-radius: 0;
 }
 
+.list_ico_btn {
+  position: absolute;
+  right: 90px;
+  top: 50%;
+  transform: translate(0%, -50%);
+  width: 152px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #3ccf94;
+  font-size: 15px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 25px;
+  letter-spacing: 1px;
+  color:#fff;
+}
+
 :host /deep/ .mydrop .dropdown-menu {
- left:-45px !important;
+  left: -87px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+:host /deep/ .mydrop .dropdown-menu li:hover {
+  background: #ddd;
+}
+
+@media(min-width:1024px) and (max-width:1200px) {
+  :host /deep/ .mydrop .dropdown-menu {
+    left: -95px !important;
+  }
 }

@@ -14,6 +14,7 @@ import { IUser } from '../core/Model/IUser';
 import { environment } from '../../environments/environment';
 import { AlertCenterService, Alert, AlertType } from 'ng2-alert-center';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Utility } from '../Shared/Utility';
 
 @Component({
   selector: 'app-app-login',
@@ -47,19 +48,8 @@ export class AppLoginComponent implements OnInit {
     }
   }
 
-  AssignLocalStorageData(dbUserData, type) {
-    const userData = {
-      name: dbUserData[0].name,
-      email: dbUserData[0].email,
-      image: dbUserData[0].profileimageurl,
-      id: dbUserData[0].id,
-      type: type,
-      ismoderator: dbUserData[0].ismoderator
-    };
-    this.loggedIn = (userData != null);
-    const key = 'UserData';
-    localStorage.setItem(key, JSON.stringify(userData));
-  }
+
+
   RegisterUser(UserData, type) {
     this.regservice.GetUserEmail(UserData.email).subscribe(userData => {
       if (userData[0] !== undefined) {
@@ -69,7 +59,7 @@ export class AppLoginComponent implements OnInit {
           return;
         } else {
           this.spinner.hide();
-          this.AssignLocalStorageData(userData, '2');
+          Utility.assignLocalStorageData(userData, '2');
           this.router.navigate(['/Home']);
         }
       } else {
@@ -86,7 +76,7 @@ export class AppLoginComponent implements OnInit {
           averagenoofinvestment: 0,
           averageinvestmentsizeperyear: 0,
           isactive: UserData.isactive,
-          activatekey: this.guid(),
+          activatekey: Utility.generatingActivateKey(),
           createdon: new Date().toLocaleDateString(),
           title: '',
           ismoderator: false
@@ -95,14 +85,10 @@ export class AppLoginComponent implements OnInit {
         this.regservice.RegisterUser(this.userData).subscribe(registeredData => {
           if (type === '2' && registeredData[0] !== undefined) {
             this.spinner.hide();
-            this.AssignLocalStorageData(registeredData, '2');
+            Utility.assignLocalStorageData(registeredData, '2');
             this.router.navigate(['/Home']);
           } else {
-            const mailData = {
-              linktoActivate: environment.AppHostURL + '/Activate?key=' + registeredData[0].activatekey + '&&email=' + registeredData[0].email,
-              userName: registeredData[0].name,
-              toMailAddress: registeredData[0].email
-            };
+            const mailData = Utility.getMailData(registeredData[0].activatekey, registeredData[0].email, registeredData[0].name);
             this.emailservice.SendActivateMail(mailData).subscribe(alertMessage => {
               this.spinner.hide();
               this.alertService.alert(new Alert(AlertType.SUCCESS, 'Please check your mail to activate your account!!!'));
@@ -120,7 +106,7 @@ export class AppLoginComponent implements OnInit {
     this.regservice.GetUserSignIn(loginForm.controls['username'].value, loginForm.controls['loginpassword'].value).subscribe(singInData => {
       if (singInData[1] === true) {
         this.spinner.hide();
-        this.AssignLocalStorageData(singInData, '1');
+        Utility.assignLocalStorageData(singInData, '1');
         this.router.navigate(['/Home']);
       } else {
         this.spinner.hide();
@@ -128,18 +114,6 @@ export class AppLoginComponent implements OnInit {
       }
     });
   }
-
-  guid() {
-    return this.s4() + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' +
-      this.s4() + '-' + this.s4() + this.s4() + this.s4();
-  }
-
-  s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
-  }
-
 
   public socialSignIn(socialPlatform: string) {
     let socialPlatformProvider;

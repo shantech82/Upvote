@@ -1,14 +1,14 @@
-import { Component, OnInit, ViewChild, ElementRef, } from '@angular/core';
-import { FormGroup, FormControl, Validators, Form } from '@angular/forms';
+import { Component, OnInit} from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CompanyService } from '../services/company.service';
 import { IICO } from '../core/Model/IICO';
 import { FileuploadService } from '../services/fileupload.service';
-import { environment } from '../../environments/environment';
 import { MasterDataService } from '../services/masterdata.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertCenterService, Alert, AlertType } from 'ng2-alert-center';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Utility } from '../Shared/Utility';
 
 @Component({
   selector: 'app-app-company',
@@ -68,12 +68,12 @@ export class AppCompanyComponent implements OnInit {
   constructor(private icoservice: CompanyService, private fuservice: FileuploadService, private activateRoute: ActivatedRoute,
     private mdservice: MasterDataService, private router: Router, private alertService: AlertCenterService,
     private modalService: NgbModal, private spinner: NgxSpinnerService) {
-      this.activateRoute.params.subscribe(params => {
-        this.icoid = params['id'];
-        if (this.icoid === undefined) {
-          this.icoid = 0;
-        }
-      });
+    this.activateRoute.params.subscribe(params => {
+      this.icoid = params['id'];
+      if (this.icoid === undefined) {
+        this.icoid = 0;
+      }
+    });
   }
 
   ngOnInit() {
@@ -86,33 +86,33 @@ export class AppCompanyComponent implements OnInit {
 
   createFormControls() {
     this.iconame = new FormControl(this.icoGet.iconame, Validators.required);
-    this.smn_twitter = new FormControl(this.icoGet.smn_twitter, this.isWebsiteValid('smn_twitter'));
-    this.smn_facebook = new FormControl(this.icoGet.smn_facebook, this.isWebsiteValid('smn_facebook'));
-    this.smn_google = new FormControl(this.icoGet.smn_google, this.isWebsiteValid('smn_google'));
-    this.smn_reddit = new FormControl(this.icoGet.smn_reddit, this.isWebsiteValid('smn_reddit'));
-    this.smn_bitcointalk = new FormControl(this.icoGet.smn_bitcointalk, this.isWebsiteValid('smn_bitcointalk'));
-    this.smn_github = new FormControl(this.icoGet.smn_github, this.isWebsiteValid('smn_github'));
-    this.smn_others = new FormControl(this.icoGet.smn_others, this.isWebsiteValid('smn_others'));
-    this.smn_linkedin = new FormControl(this.icoGet.smn_linkedin, this.isWebsiteValid('smn_linkedin'));
-    this.smn_youtube = new FormControl(this.icoGet.smn_youtube, this.isWebsiteValid('smn_youtube'));
-    this.email = new FormControl(this.icoGet.email, [Validators.required, this.isEmailValid('email')]);
+    this.smn_twitter = new FormControl(this.icoGet.smn_twitter, Utility.isWebsiteValid('smn_twitter'));
+    this.smn_facebook = new FormControl(this.icoGet.smn_facebook, Utility.isWebsiteValid('smn_facebook'));
+    this.smn_google = new FormControl(this.icoGet.smn_google, Utility.isWebsiteValid('smn_google'));
+    this.smn_reddit = new FormControl(this.icoGet.smn_reddit, Utility.isWebsiteValid('smn_reddit'));
+    this.smn_bitcointalk = new FormControl(this.icoGet.smn_bitcointalk, Utility.isWebsiteValid('smn_bitcointalk'));
+    this.smn_github = new FormControl(this.icoGet.smn_github, Utility.isWebsiteValid('smn_github'));
+    this.smn_others = new FormControl(this.icoGet.smn_others, Utility.isWebsiteValid('smn_others'));
+    this.smn_linkedin = new FormControl(this.icoGet.smn_linkedin, Utility.isWebsiteValid('smn_linkedin'));
+    this.smn_youtube = new FormControl(this.icoGet.smn_youtube, Utility.isWebsiteValid('smn_youtube'));
+    this.email = new FormControl(this.icoGet.email, [Validators.required, Utility.isEmailValid('email')]);
     this.city = new FormControl(this.icoGet.city, Validators.required);
     this.country = new FormControl(this.icoGet.country, Validators.required);
     this.amountraising = new FormControl(this.icoGet.amountraising, Validators.required);
-    this.website = new FormControl(this.icoGet.website, [Validators.required, this.isWebsiteValid('website')]);
-    this.whitepaper = new FormControl(this.icoGet.whitepaper, this.isWebsiteValid('whitepaper'));
+    this.website = new FormControl(this.icoGet.website, [Validators.required, Utility.isWebsiteValid('website')]);
+    this.whitepaper = new FormControl(this.icoGet.whitepaper, Utility.isWebsiteValid('whitepaper'));
     this.shortdescription = new FormControl(this.icoGet.shortdescription, Validators.required);
-    this.productlink = new FormControl(this.icoGet.productlink, [Validators.required, this.isWebsiteValid('productlink')]);
+    this.productlink = new FormControl(this.icoGet.productlink, [Validators.required, Utility.isWebsiteValid('productlink')]);
     this.icostartdate = new FormControl(this.icoGet.icostartdate, Validators.required);
     this.icoenddate = new FormControl(this.icoGet.icoenddate, Validators.required);
     this.icocategoryid = new FormControl(this.icoGet.icocategoryid);
-    this.linktoboundry = new FormControl(this.icoGet.linktoboundry, this.isWebsiteValid('linktoboundry'));
+    this.linktoboundry = new FormControl(this.icoGet.linktoboundry, Utility.isWebsiteValid('linktoboundry'));
     this.tokcenname = new FormControl(this.icoGet.tokcenname, Validators.required);
     this.tokeytype = new FormControl(this.icoGet.tokeytype, Validators.required);
     this.pricepertoken = new FormControl(this.icoGet.pricepertoken, Validators.required);
     this.iswhitelistjoined = new FormControl(this.icoGet.iswhitelistjoined);
     this.phone_number = new FormControl(this.icoGet.phone_number, [Validators.required, Validators.maxLength(13),
-                              Validators.minLength(8), this.isPhoneNumberValid('phone_number')]);
+    Validators.minLength(8), Utility.isPhoneNumberValid('phone_number')]);
     this.address = new FormControl(this.icoGet.address, Validators.required);
   }
 
@@ -130,27 +130,6 @@ export class AppCompanyComponent implements OnInit {
     });
   }
 
-  isEmailValid(control) {
-    return control => {
-      const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return regex.test(control.value) ? null : { invalidEmail: true };
-    };
-  }
-
-  isWebsiteValid(control) {
-    return control => {
-      const regex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
-      return regex.test(control.value) || control.value === '' ? null : { invalidWebSite: true };
-    };
-  }
-
-  isPhoneNumberValid(control) {
-    return control => {
-      const regex = /^[0-9]*$/;
-      return regex.test(control.value) || control.value === '' ? null : { invalidPhone: true };
-    };
-  }
-
   imgfileChangeEvent(fileInput: any) {
     if (fileInput.target.files[0].type.startsWith('image')) {
       this.filesToUpload = fileInput.target.files[0];
@@ -161,11 +140,17 @@ export class AppCompanyComponent implements OnInit {
       const formData: any = new FormData();
       const modifiedfilename = Date.now() + this.filesToUpload.name;
       formData.append('file', this.filesToUpload, modifiedfilename);
-      this.fuservice.DeleteFile(this.updatedprofileimageurl).subscribe(() => {
+      if (Utility.isNotEmptyNullUndefined(this.updatedprofileimageurl)) {
+        this.fuservice.DeleteFile(this.updatedprofileimageurl).subscribe(() => {
+          this.fuservice.UploadCompanyImage(formData).subscribe(filename => {
+            this.updatedprofileimageurl = filename;
+          });
+        });
+      } else {
         this.fuservice.UploadCompanyImage(formData).subscribe(filename => {
           this.updatedprofileimageurl = filename;
         });
-      });
+      }
     } else {
       this.imageSrc = '../../assets/img/empty_image.png';
       this.alertService.alert(new Alert(AlertType.WARNING, 'please check your profile image format'));
@@ -195,12 +180,8 @@ export class AppCompanyComponent implements OnInit {
   }
 
   compareTwoDates(): boolean {
-    if (new Date(this.icoform.controls['icoenddate'].value) < new Date(this.icoform.controls['icostartdate'].value)) {
-       return true;
-    } else {
-      return false;
-    }
- }
+    return Utility.compareTwoDates(this.icoform.controls['icoenddate'].value, this.icoform.controls['icostartdate'].value);
+  }
 
   GetICOInfo() {
     if (this.icoid === 0) {
@@ -225,27 +206,10 @@ export class AppCompanyComponent implements OnInit {
     }
   }
 
-  IfNotEmptyNullUndefined(value: string) {
-    if (value !== null && value !== '' && value !== ' ' && value !== undefined) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   AssignProfileImage() {
     if (this.icoGet !== undefined) {
-      if (this.IfNotEmptyNullUndefined(this.icoGet.icologoimage)) {
-        if (this.icoGet.icologoimage.indexOf('http') === -1) {
-          this.imageSrc = environment.ApiHostURL + 'static/companyimages/' + this.icoGet.icologoimage;
-          this.updatedprofileimageurl = this.icoGet.icologoimage;
-        } else {
-          this.imageSrc = this.icoGet.icologoimage;
-          this.updatedprofileimageurl = this.icoGet.icologoimage;
-        }
-      } else {
-        this.imageSrc = '../../assets/img/empty_image.png';
-      }
+      this.imageSrc = Utility.getImageURL(this.icoGet.icologoimage);
+      this.updatedprofileimageurl = Utility.getImageURLforSave(this.icoGet.icologoimage);
     }
   }
 
@@ -258,69 +222,78 @@ export class AppCompanyComponent implements OnInit {
       // this.spinner.show();
       const UserData = JSON.parse(localStorage.getItem('UserData'));
       if (UserData !== undefined && UserData !== null) {
-      this.ico = {
-        iconame: icoform.controls['iconame'].value,
-        icologoimage: this.updatedprofileimageurl === undefined ? '' : this.updatedprofileimageurl,
-        smn_twitter: icoform.controls['smn_twitter'].value,
-        smn_facebook: icoform.controls['smn_facebook'].value,
-        smn_google: icoform.controls['smn_google'].value,
-        smn_reddit: icoform.controls['smn_reddit'].value,
-        smn_bitcointalk: icoform.controls['smn_bitcointalk'].value,
-        smn_github: icoform.controls['smn_github'].value,
-        smn_others: icoform.controls['smn_others'].value,
-        smn_linkedin: icoform.controls['smn_linkedin'].value,
-        email: icoform.controls['email'].value,
-        city: icoform.controls['city'].value,
-        country: icoform.controls['country'].value,
-        amountraising: icoform.controls['amountraising'].value,
-        website: icoform.controls['website'].value,
-        whitepaper: icoform.controls['whitepaper'].value,
-        shortdescription: icoform.controls['shortdescription'].value,
-        productlink: icoform.controls['productlink'].value,
-        videouploadurl: this.updatedVideoFileName  === undefined  ? '' : this.updatedVideoFileName,
-        icostartdate: icoform.controls['icostartdate'].value,
-        icoenddate: icoform.controls['icoenddate'].value,
-        icocategoryid: icoform.controls['icocategoryid'].value,
-        linktoboundry: icoform.controls['linktoboundry'].value,
-        tokcenname: icoform.controls['tokcenname'].value,
-        tokeytype: icoform.controls['tokeytype'].value,
-        pricepertoken: icoform.controls['pricepertoken'].value,
-        iswhitelistjoined: icoform.controls['iswhitelistjoined'].value,
-        smn_youtube: icoform.controls['smn_youtube'].value,
-        phone_number: icoform.controls['phone_number'].value,
-        long_description: icoform.controls['shortdescription'].value,
-        address: icoform.controls['address'].value,
-        createdon: new Date(),
-        id: this.icoid,
-        userid: UserData.id
-      };
+        this.ico = {
+          iconame: icoform.controls['iconame'].value,
+          icologoimage: this.updatedprofileimageurl === undefined ? '' : this.updatedprofileimageurl,
+          smn_twitter: icoform.controls['smn_twitter'].value,
+          smn_facebook: icoform.controls['smn_facebook'].value,
+          smn_google: icoform.controls['smn_google'].value,
+          smn_reddit: icoform.controls['smn_reddit'].value,
+          smn_bitcointalk: icoform.controls['smn_bitcointalk'].value,
+          smn_github: icoform.controls['smn_github'].value,
+          smn_others: icoform.controls['smn_others'].value,
+          smn_linkedin: icoform.controls['smn_linkedin'].value,
+          email: icoform.controls['email'].value,
+          city: icoform.controls['city'].value,
+          country: icoform.controls['country'].value,
+          amountraising: icoform.controls['amountraising'].value,
+          website: icoform.controls['website'].value,
+          whitepaper: icoform.controls['whitepaper'].value,
+          shortdescription: icoform.controls['shortdescription'].value,
+          productlink: icoform.controls['productlink'].value,
+          videouploadurl: this.updatedVideoFileName === undefined ? '' : this.updatedVideoFileName,
+          icostartdate: icoform.controls['icostartdate'].value,
+          icoenddate: icoform.controls['icoenddate'].value,
+          icocategoryid: icoform.controls['icocategoryid'].value,
+          linktoboundry: icoform.controls['linktoboundry'].value,
+          tokcenname: icoform.controls['tokcenname'].value,
+          tokeytype: icoform.controls['tokeytype'].value,
+          pricepertoken: icoform.controls['pricepertoken'].value,
+          iswhitelistjoined: icoform.controls['iswhitelistjoined'].value,
+          smn_youtube: icoform.controls['smn_youtube'].value,
+          phone_number: icoform.controls['phone_number'].value,
+          long_description: icoform.controls['shortdescription'].value,
+          address: icoform.controls['address'].value,
+          createdon: new Date(),
+          id: this.icoid,
+          userid: UserData.id
+        };
 
-      if (this.icoid === 0) {
-        this.icoservice.CreateICO(this.ico).subscribe(returnValue => {
-          if (returnValue !== undefined) {
-            this.spinner.hide();
-            this.alertService.alert(new Alert(AlertType.SUCCESS, 'ICO has been created!!!'));
-            this.router.navigate(['/Home']);
-          } else {
-            this.spinner.hide();
-            this.alertService.alert(new Alert(AlertType.DANGER, 'Something went wrong, please try again after some time'));
-          }
-        });
+        if (this.icoid === 0) {
+          this.icoservice.CreateICO(this.ico).subscribe(returnValue => {
+            if (returnValue !== undefined) {
+              this.spinner.hide();
+              this.alertService.alert(new Alert(AlertType.SUCCESS, 'ICO has been created!!!'));
+              this.icoservice.GetInsertedICO(this.ico.iconame, this.ico.icostartdate, this.ico.icoenddate, this.ico.tokcenname).
+                subscribe(ids => {
+                  console.log(ids);
+                  console.log(ids[0]);
+                  this.router.navigate(['/ICO', ids[0]]);
+                 });
+            } else {
+              this.spinner.hide();
+              this.alertService.alert(new Alert(AlertType.DANGER, 'Something went wrong, please try again after some time'));
+            }
+          });
+        } else {
+          this.icoservice.UpdateICO(this.ico).subscribe(returnValue => {
+            if (returnValue !== undefined) {
+              this.spinner.hide();
+              this.alertService.alert(new Alert(AlertType.SUCCESS, 'ICO has been Updated!!!'));
+              this.icoservice.GetInsertedICO(this.ico.iconame, this.ico.icostartdate, this.ico.icoenddate, this.ico.tokcenname).
+                subscribe(ids => {
+                  console.log(ids[0].id);
+                  this.router.navigate(['/ICO', ids[0].id]);
+                 });
+            } else {
+              this.spinner.hide();
+              this.alertService.alert(new Alert(AlertType.DANGER, 'Something went wrong, please try again after some time'));
+            }
+          });
+        }
       } else {
-        this.icoservice.UpdateICO(this.ico).subscribe(returnValue => {
-          if (returnValue !== undefined) {
-            this.spinner.hide();
-            this.alertService.alert(new Alert(AlertType.SUCCESS, 'ICO has been Updated!!!'));
-            this.router.navigate(['/Home']);
-          } else {
-            this.spinner.hide();
-            this.alertService.alert(new Alert(AlertType.DANGER, 'Something went wrong, please try again after some time'));
-          }
-        });
+        this.alertService.alert(new Alert(AlertType.WARNING, 'User details not valid, please login in again'));
       }
-    } else {
-      this.alertService.alert(new Alert(AlertType.WARNING, 'User details not valid, please login in again'));
-    }
     } else {
       this.alertService.alert(new Alert(AlertType.WARNING, 'Your input is not valid'));
     }

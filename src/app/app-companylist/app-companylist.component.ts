@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CompanyService } from '../services/company.service';
 import { IICOList } from '../core/Model/IICOList';
-import { environment } from '../../environments/environment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
+import { Utility } from '../Shared/Utility';
 
 @Component({
   selector: 'app-app-companylist',
@@ -82,33 +82,13 @@ export class AppCompanylistComponent implements OnInit {
     this.icolist = apiICOData.map(o => {
       return {
         iconame: o.iconame,
-        icologoimage: this.AssignLogomage(o.icologoimage),
+        icologoimage: Utility.getImageURL(o.icologoimage),
         icoshortdescription: o.icoshortdescription,
         icocreatedon: o.createdon,
-        icolivestreamData: this.getDiferenceInDays(o.icolivestreamdata),
+        icolivestreamData: Utility.getDiferenceInDays(o.icolivestreamdata),
         iswhitelistjoined: o.iswhitelistjoined,
         id: o.id
       };
     });
-  }
-  AssignLogomage(icoImage: string): string {
-    if (this.IfNotEmptyNullUndefined(icoImage)) {
-      return environment.ApiHostURL + 'static/companyimages/' + icoImage;
-    } else {
-      return '../../assets/img/icoimagecard.jpg';
-    }
-  }
-  IfNotEmptyNullUndefined(value: string) {
-    if (value !== null && value !== '' && value !== undefined) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  getDiferenceInDays(theDate: string): number {
-    if (this.IfNotEmptyNullUndefined(theDate)) {
-      const newDate = new Date(theDate);
-      return Math.round(Math.abs((newDate.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)));
-    }
   }
 }

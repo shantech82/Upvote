@@ -19,14 +19,13 @@ export class AppIcocardComponent implements OnInit {
 
   ngOnInit() {
     if (this.page === 'investor') {
-      this.itemCount = 100;
+      this.itemCount = this.icolist.length;
       this.isDisplayed = false;
     } else {
       this.itemCount = 6;
       this.isDisplayed = true;
     }
   }
-
   loadMore() {
     this.itemCount = this.itemCount + 6;
   }

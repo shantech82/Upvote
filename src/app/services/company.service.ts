@@ -43,4 +43,10 @@ export class CompanyService {
     return this.http.get<IICO>(environment.ApiURL + 'getICO/' + Id)
     .map(data => _.values(data));
   }
+
+  GetInsertedICO(iconame, icostartdate, icoenddate, tokcenname) {
+    const queryString = 'iconame=' + iconame + '&icostartdate=' + icostartdate + '&icoenddate=' + icoenddate + '&tokcenname=' + tokcenname;
+    return this.http.get(environment.ApiURL + 'getInsertedICO?' + queryString)
+      .map(data => _.values(data));
+  }
 }

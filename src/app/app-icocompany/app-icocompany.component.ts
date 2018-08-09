@@ -10,6 +10,7 @@ import { AlertCenterService, Alert, AlertType } from 'ng2-alert-center';
 import { DOCUMENT } from '@angular/common';
 import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import {NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Utility } from '../Shared/Utility';
 
 @Component({
   selector: 'app-app-icocompany',
@@ -101,7 +102,7 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit  {
         this.ico = ICOData[0][0];
         this.forminitialization = true;
         if (this.ico.iconame !== null) {
-          this.ico.icologoimage = this.AssignLogomage(this.ico.icologoimage);
+          this.ico.icologoimage = Utility.getImageURL(this.ico.icologoimage);
           this.checkCompanyUser(this.ico.userid);
           this.icoStartEndDateCalc(this.ico.icostartdate, this.ico.icoenddate);
           this.selectToday();
@@ -114,21 +115,6 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit  {
         });
     }
 
-    AssignLogomage(icoImage: string): string {
-      if (this.IfNotEmptyNullUndefined(icoImage)) {
-        return environment.ApiHostURL + 'static/companyimages/' + icoImage;
-      } else {
-        return '../../assets/img/icoimagecard.jpg';
-      }
-    }
-
-    IfNotEmptyNullUndefined(value: string) {
-      if (value !== null && value !== '' && value !== undefined) {
-        return true;
-      } else {
-        return false;
-      }
-    }
     startLiveStream() {
       this.isLiveStreaming = true;
     }

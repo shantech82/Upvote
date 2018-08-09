@@ -20,7 +20,6 @@ import { AppNavbarComponent } from './app-navbar/app-navbar.component';
 import { AppFooterComponent } from './app-footer/app-footer.component';
 import { AppIcocompanyComponent } from './app-icocompany/app-icocompany.component';
 import { AppHomeComponent } from './app-home/app-home.component';
-import { AppSigninComponent } from './app-signin/app-signin.component';
 import { RegistrationService } from './services/registration.service';
 import { PasswordService } from './services/password.service';
 import { AppActivateComponent } from './app-activate/app-activate.component';
@@ -84,7 +83,6 @@ export function getAuthServiceConfigs() {
     AppFooterComponent,
     AppIcocompanyComponent,
     AppHomeComponent,
-    AppSigninComponent,
     AppActivateComponent,
     AppCompanyComponent,
     AppCompanylistComponent,

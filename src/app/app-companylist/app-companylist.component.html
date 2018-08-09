@@ -34,6 +34,11 @@
   <div class="clearfix gap50"></div>
   <div class="container">
     <div class="Slider_home" *ngIf="isICOAvailable">
+      <div class="feature_info">
+        <span>feature ICO
+          <i>s</i>
+        </span>
+      </div>
       <swiper [config]="config">
         <div class="swiper-wrapper">
           <div class="swiper-slide homeSlider" *ngFor="let ico of (icolist ? icolist.slice(1,100): [])">

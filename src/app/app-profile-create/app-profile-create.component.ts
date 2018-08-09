@@ -3,13 +3,12 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { RegistrationService } from '../services/registration.service';
 import { IUser } from '../core/Model/IUser';
 import { FileuploadService } from '../services/fileupload.service';
-import { environment } from '../../environments/environment';
 import { MasterDataService } from '../services/masterdata.service';
 import { Router } from '@angular/router';
 import { AlertCenterService, Alert, AlertType } from 'ng2-alert-center';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
-
+import { Utility } from '../Shared/Utility';
 
 @Component({
   selector: 'app-app-profile-create',
@@ -78,28 +77,12 @@ export class AppProfileCreateComponent implements OnInit {
     });
   }
 
-  isEmailValid(control) {
-    return value => {
-      const regex = new RegExp(['/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}',
-        '\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;'].join(''));
-      return regex.test(control.value) ? null : { invalidEmail: true };
-    };
-  }
-
   ngOnInit() {
     this.spinner.show();
     this.forminitialization = false;
     this.GetUserInfo();
     this.GetNoOfInvestment();
     this.updatedprofileimageurl = '';
-  }
-
-  IfNotEmptyNullUndefined(value: string) {
-    if (value !== null && value !== '' && value !== undefined) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   GetNoOfInvestment() {
@@ -122,17 +105,8 @@ export class AppProfileCreateComponent implements OnInit {
 
   AssignProfileImage() {
     if (this.icoUserGet !== undefined) {
-      if (this.IfNotEmptyNullUndefined(this.icoUserGet.profileimageurl)) {
-        if (this.icoUserGet.profileimageurl.indexOf('http') === -1) {
-          this.imageSrc = environment.ApiHostURL + 'static/companyimages/' + this.icoUserGet.profileimageurl;
-          this.updatedprofileimageurl = this.icoUserGet.profileimageurl;
-        } else {
-          this.imageSrc = this.icoUserGet.profileimageurl;
-          this.updatedprofileimageurl = this.icoUserGet.profileimageurl;
-        }
-      } else {
-        this.imageSrc = '../../assets/img/ico-user@2x.png';
-      }
+      this.imageSrc = Utility.getUserImageURL(this.icoUserGet.profileimageurl);
+      this.updatedprofileimageurl = Utility.getImageURLforSave(this.icoUserGet.profileimageurl);
     }
   }
 
@@ -147,11 +121,17 @@ export class AppProfileCreateComponent implements OnInit {
       const formData: any = new FormData();
       const modifiedfilename = nameofUser + Date.now() + this.filesToUpload.name;
       formData.append('file', this.filesToUpload, modifiedfilename);
-      this.fuservice.DeleteFile(this.updatedprofileimageurl).subscribe(() => {
+      if (Utility.isNotEmptyNullUndefined(this.updatedprofileimageurl)) {
+        this.fuservice.DeleteFile(this.updatedprofileimageurl).subscribe(() => {
+          this.fuservice.UploadCompanyImage(formData).subscribe(filename => {
+            this.updatedprofileimageurl = filename;
+          });
+        });
+      } else {
         this.fuservice.UploadCompanyImage(formData).subscribe(filename => {
           this.updatedprofileimageurl = filename;
         });
-      });
+      }
     } else {
       this.imageSrc = '../../assets/img/ico-user@2x.png';
       this.alertService.alert(new Alert(AlertType.WARNING, 'please check your profile image format'));
