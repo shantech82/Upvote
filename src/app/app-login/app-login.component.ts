@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 import { RegistrationService } from '../services/registration.service';
 import { EmailService } from '../services/email.service';
 import { IUser } from '../core/Model/IUser';
-import { environment } from '../../environments/environment';
 import { AlertCenterService, Alert, AlertType } from 'ng2-alert-center';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Utility } from '../Shared/Utility';
@@ -27,9 +26,8 @@ export class AppLoginComponent implements OnInit {
   username = '';
   loginpassword = '';
 
-  private user: SocialUser;
-  private loggedIn: boolean;
   userData: IUser;
+  submitted: boolean;
 
   constructor(private socialAuthService: AuthService, private regservice: RegistrationService,
     private router: Router, private fb: FormBuilder, private emailservice: EmailService,
@@ -102,17 +100,26 @@ export class AppLoginComponent implements OnInit {
   }
 
   SignIn(loginForm: FormGroup) {
-    this.spinner.show();
-    this.regservice.GetUserSignIn(loginForm.controls['username'].value, loginForm.controls['loginpassword'].value).subscribe(singInData => {
-      if (singInData[1] === true) {
-        this.spinner.hide();
-        Utility.assignLocalStorageData(singInData, '1');
-        this.router.navigate(['/Home']);
-      } else {
-        this.spinner.hide();
-        this.alertService.alert(new Alert(AlertType.WARNING, singInData[2]));
-      }
-    });
+    if (loginForm.valid) {
+      this.submitted = false;
+      this.spinner.show();
+      const userName = loginForm.controls['username'].value;
+      const password = loginForm.controls['loginpassword'].value;
+      this.regservice.GetUserSignIn(userName, password).subscribe(singInData => {
+        if (singInData[1] === true) {
+          this.spinner.hide();
+          Utility.assignLocalStorageData(singInData, '1');
+          this.router.navigate(['/Home']);
+        } else {
+          this.spinner.hide();
+          this.alertService.alert(new Alert(AlertType.WARNING, singInData[2]));
+        }
+      });
+    } else {
+      this.submitted = true;
+      this.alertService.alert(new Alert(AlertType.WARNING, 'Your input is not valid'));
+    }
+
   }
 
   public socialSignIn(socialPlatform: string) {

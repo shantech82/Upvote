@@ -24,6 +24,16 @@ textarea.lginp {
   height: 80px;
 }
 
+input.touched.ng-touched.ng-invalid 
+{
+  border:1px solid #f00;
+}
+
+textarea.touched.ng-touched.ng-invalid 
+{
+  border:1px solid #f00;
+}
+
 .register_inner {
   padding: 50px 100px;
 }
@@ -51,6 +61,15 @@ textarea.lginp {
 .lginp:focus {
   border-color: #e2e2e2;
   box-shadow: none;
+}
+
+input.submitted.ng-invalid
+{
+  border:1px solid #f00;
+}
+textarea.submitted.ng-invalid
+{
+  border:1px solid #f00;
 }
 
 .center_block {

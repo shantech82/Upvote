@@ -56,46 +56,23 @@
               </div>
               <div class="form-group">
                 <label class="control-label upVote_label">Title</label>
-                <input type="text" formControlName="title" class="form-control inner_input-copy" placeholder="Title">
-                <div *ngIf="icoprofileform.controls['title'].touched && !icoprofileform.controls['title'].valid">
-                  <span *ngIf="icoprofileform.controls['title'].hasError('required') " class="alert-danger">
-                    Title is required
-                  </span>
-                </div>
+                <input type="text" [ngClass]="{submitted:submitted}" formControlName="title" class="form-control inner_input-copy touched" placeholder="Title">
               </div>
               <div class="form-group">
                 <label class="control-label upVote_label">Email address</label>
-                <input type="email" formControlName="email" class="form-control inner_input-copy" placeholder="Email address" disabled>
+                <input type="email" [ngClass]="{submitted:submitted}" formControlName="email" class="form-control inner_input-copy touched" placeholder="Email address" disabled>
               </div>
               <div class="form-group">
                 <label class="control-label upVote_label">Location</label>
-                <input type="text" formControlName="location" class="form-control inner_input-copy" placeholder="Location">
-                <div *ngIf="icoprofileform.controls['location'].touched && !icoprofileform.controls['location'].valid">
-                  <span *ngIf="icoprofileform.controls['location'].hasError('required') " class="alert-danger">
-                    Location is required
-                  </span>
-                </div>
+                <input type="text" [ngClass]="{submitted:submitted}" formControlName="location" class="form-control inner_input-copy touched" placeholder="Location">
               </div>
               <div class="form-group">
                 <label class="control-label upVote_label">Bio</label>
-                <textarea formControlName="bio" class="form-control inner_input-copy" placeholder="Bio"></textarea>
-                <div *ngIf="icoprofileform.controls['bio'].touched && !icoprofileform.controls['bio'].valid">
-                  <span *ngIf="icoprofileform.controls['bio'].hasError('required') " class="alert-danger">
-                    Bio is required
-                  </span>
-                  <span *ngIf="icoprofileform.controls['bio'].hasError('minlength') " class="alert-danger">
-                    Please descripe about your company in minimum 100 characters
-                  </span>
-                </div>
+                <textarea formControlName="bio" [ngClass]="{submitted:submitted}" class="form-control inner_input-copy touched" placeholder="Bio minium 100 characters"></textarea>
               </div>
               <div class="form-group">
                 <label class="control-label upVote_label">Investment focus</label>
-                <input type="text" formControlName="investmentfocus" class="form-control inner_input-copy" placeholder="Investment focus">
-                <div *ngIf="icoprofileform.controls['investmentfocus'].touched && !icoprofileform.controls['investmentfocus'].valid">
-                  <span *ngIf="icoprofileform.controls['investmentfocus'].hasError('required') " class="alert-danger">
-                    Investment Focus is required
-                  </span>
-                </div>
+                <input type="text" [ngClass]="{submitted:submitted}" formControlName="investmentfocus" class="form-control inner_input-copy touched" placeholder="Investment focus">
               </div>
               <div class="form-group">
                 <label class="control-label upVote_label">Average no. Of investement per year</label>

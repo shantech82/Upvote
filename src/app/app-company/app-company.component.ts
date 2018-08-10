@@ -64,6 +64,7 @@ export class AppCompanyComponent implements OnInit {
   isDateCompare: boolean;
   ICOStartDate: any;
   ICOEndDate: any;
+  submitted: boolean;
 
   constructor(private icoservice: CompanyService, private fuservice: FileuploadService, private activateRoute: ActivatedRoute,
     private mdservice: MasterDataService, private router: Router, private alertService: AlertCenterService,
@@ -220,6 +221,7 @@ export class AppCompanyComponent implements OnInit {
     }
     if (icoform.valid) {
       // this.spinner.show();
+      this.submitted = false;
       const UserData = JSON.parse(localStorage.getItem('UserData'));
       if (UserData !== undefined && UserData !== null) {
         this.ico = {
@@ -266,9 +268,7 @@ export class AppCompanyComponent implements OnInit {
               this.alertService.alert(new Alert(AlertType.SUCCESS, 'ICO has been created!!!'));
               this.icoservice.GetInsertedICO(this.ico.iconame, this.ico.icostartdate, this.ico.icoenddate, this.ico.tokcenname).
                 subscribe(ids => {
-                  console.log(ids);
-                  console.log(ids[0]);
-                  this.router.navigate(['/ICO', ids[0]]);
+                  this.router.navigate(['/ICO', ids[0].id]);
                  });
             } else {
               this.spinner.hide();
@@ -282,7 +282,6 @@ export class AppCompanyComponent implements OnInit {
               this.alertService.alert(new Alert(AlertType.SUCCESS, 'ICO has been Updated!!!'));
               this.icoservice.GetInsertedICO(this.ico.iconame, this.ico.icostartdate, this.ico.icoenddate, this.ico.tokcenname).
                 subscribe(ids => {
-                  console.log(ids[0].id);
                   this.router.navigate(['/ICO', ids[0].id]);
                  });
             } else {
@@ -295,6 +294,7 @@ export class AppCompanyComponent implements OnInit {
         this.alertService.alert(new Alert(AlertType.WARNING, 'User details not valid, please login in again'));
       }
     } else {
+      this.submitted = true;
       this.alertService.alert(new Alert(AlertType.WARNING, 'Your input is not valid'));
     }
   }

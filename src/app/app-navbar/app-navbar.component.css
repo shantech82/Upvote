@@ -66,15 +66,35 @@ header {
 .mydrop>ul {
   padding: 0;
   margin: 0;
+  width: 183px;
+  height: 150px;
+  border-radius: 3px;
+  background-color: #ffffff;
+  box-shadow: 0 10px 30px 0 rgba(207, 213, 218, 0.55);
 }
 
 .mydrop>ul>li {
   padding: 5px 10px;
 }
 
+.username {
+  padding: 3px 20px;
+  width: 109px;
+  height: 20px;
+  font-family: Heebo;
+  font-size: 14px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.43;
+  letter-spacing: 1px;
+  color: #555c62;
+}
+
 .mydrop>ul>li.divider {
-  border-top: 1px solid #ddd;
-  margin: 10px 0
+  border-top: 1px solid #e2e4e5;
+  width: 183px;
+  height: 1px;
 }
 
 .mydrop>ul>li>a {
@@ -99,6 +119,31 @@ header {
   width: 60px;
   height: 60px;
   border-radius: 0;
+}
+
+.profile {
+  width: 128px;
+  height: 20px;
+  font-family: Heebo;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.43;
+  letter-spacing: normal;
+  color: #555c62;
+}
+.logout {
+  width: 128px;
+  height: 20px;
+  font-family: Heebo;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.43;
+  letter-spacing: normal;
+  color: #d0021b;
 }
 
 .list_ico_btn {

@@ -1,99 +1,70 @@
 <div class="alertCenter">
   <nac-alert-center [animation]="'fancy'" [htmlTextEnabled]="true"></nac-alert-center>
-  </div>
+</div>
 <div class="register">
-<div class="register_component">
-  <div class="register_inner">
-    <h1>Join UpvoteICO</h1>
-    <form [formGroup]='registerForm' (ngSubmit)="PostData(registerForm)">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="control-label">Full name</label>
-            <input type="text" formControlName="name" [formGroup]='registerForm' placeholder="Name..." class="form-control lginp"
-                   id="form-name">
-                  <div *ngIf="registerForm.controls['name'].touched && !registerForm.controls['name'].valid">
-                    <span *ngIf="registerForm.controls['name'].hasError('required') " class="alert-danger">
-                      Full Name is required
-                    </span>
-                  </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label">Email</label>
-            <input type="email" formControlName="email" [formGroup]='registerForm' placeholder="Email..." class="lginp form-control"
-             id="form-email">
-            <div *ngIf="registerForm.controls['email'].touched && !registerForm.controls['email'].valid">
-              <span *ngIf="registerForm.controls['email'].hasError('required') || registerForm.controls['email'].hasError('invalidEmail')" class="alert-danger">
-                Eamil is required or Invalid email, check your email address
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="control-label" for="form-password">Password</label>
-            <input type="password" formControlName="password" [formGroup]='registerForm' placeholder="Password..." class="lginp form-control"
-             id="form-password">
-            <div *ngIf="registerForm.controls['password'].touched && !registerForm.controls['password'].valid">
-              <span *ngIf="registerForm.controls['password'].hasError('required') " class="alert-danger">
-                Password is required
-              </span>
-              <span *ngIf="registerForm.controls['password'].hasError('minlength') " class="alert-danger">
-                password minimum length should be 6
-              </span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label">Confirm password</label>
-            <input type="password" formControlName="confirmpassword" [formGroup]='registerForm' placeholder="Confirm Password..." class="lginp form-control"
-             id="form-confirm-password">
-            <div *ngIf="registerForm.controls['confirmpassword'].touched && !registerForm.controls['confirmpassword'].valid">
-              <span *ngIf="registerForm.controls['confirmpassword'].hasError('required') " class="alert-danger">
-                Confirm Password is required
-              </span>
-              <span class="alert-danger" *ngIf="registerForm.controls.confirmpassword.errors?.MatchPassword">Password not match</span>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-12">
+  <div class="register_component">
+    <div class="register_inner">
+      <h1>Join UpvoteICO</h1>
+      <form [formGroup]='registerForm' (ngSubmit)="PostData(registerForm)">
+        <div class="row">
+          <div class="col-md-6">
             <div class="form-group">
+              <label class="control-label">Full name</label>
+              <input type="text" [ngClass]="{submitted:submitted}" formControlName="name"  placeholder="Name..."
+                class="form-control lginp touched" id="form-name">
+            </div>
+            <div class="form-group">
+              <label class="control-label">Email</label>
+              <input type="email" [ngClass]="{submitted:submitted}" formControlName="email" placeholder="Email..."
+                class="form-control lginp touched" id="form-email">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label" for="form-password">Password</label>
+              <input type="password" [ngClass]="{submitted:submitted}" formControlName="password" placeholder="Password..."
+                class="form-control lginp touched" id="form-password">
+            </div>
+            <div class="form-group">
+              <label class="control-label">Confirm password</label>
+              <input type="password" [ngClass]="{submitted:submitted}" formControlName="confirmpassword"  placeholder="Confirm Password..."
+                class="form-control lginp touched" id="form-confirm-password">
+            </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
                 <label class="control-label">About yourself</label>
-                <textarea formControlName="aboutyourself" [formGroup]='registerForm' placeholder="About yourself..." class="form-about-yourself lginp form-control"
-                 id="form-about-yourself"></textarea>
-                <div *ngIf="registerForm.controls['aboutyourself'].touched && !registerForm.controls['aboutyourself'].valid">
-                  <span *ngIf="registerForm.controls['aboutyourself'].hasError('required') " class="alert-danger">
-                    About your self is required
-                  </span>
-                </div>
+                <textarea formControlName="aboutyourself" [ngClass]="{submitted:submitted}" placeholder="About yourself..."
+                  class="form-about-yourself form-control lginp touched" id="form-about-yourself"></textarea>
               </div>
+            </div>
+          </div>
+          <div class="center_block">
+            <label class="custom_radio">Are you an Investor?
+              <input type="radio">
+              <span class="checkmark"></span>
+            </label>
+          </div>
+          <button type="submit" class="btn register_submit">Register</button>
+      </form>
+      <div class="divider"></div>
+      <div class="social_wrapper">
+        <div class="social">
+          <button type="button" class="btn fb" (click)="socialSignIn('facebook')">
+            <img src="../../assets/img/fb.ico"> Register with Facebook</button>
+        </div>
+        <div class="social">
+          <button type="button" class="btn twitter" (click)="socialSignIn('linkedin')">
+            <img src="../../assets/img/linkedin.png"> Register with LinkedIn</button>
+        </div>
+        <div class="social">
+          <button type="button" class="btn gmail" (click)="socialSignIn('google')">
+            <img src="../../assets/img/google.png"> Register with Google</button>
         </div>
       </div>
-      <div class="center_block">
-        <label class="custom_radio">Are you an Investor?
-          <input type="radio">
-          <span class="checkmark"></span>
-        </label>
       </div>
-      <button type="submit" class="btn register_submit">Register</button>
-    </form>
-    <div class="divider"></div>
-    <div class="social_wrapper">
-      <div class="social">
-        <button type="button" class="btn fb" (click)="socialSignIn('facebook')">
-          <img src="../../assets/img/fb.ico"> Register with Facebook</button>
-      </div>
-      <div class="social">
-        <button type="button" class="btn twitter" (click)="socialSignIn('linkedin')">
-          <img src="../../assets/img/linkedin.png"> Register with LinkedIn</button>
-      </div>
-      <div class="social">
-        <button type="button" class="btn gmail" (click)="socialSignIn('google')">
-          <img src="../../assets/img/google.png"> Register with Google</button>
+      <div class="register_footer">
+        <a routerLink="/Login" routerLinkActive="active-link" class="createNew">Already have an account? Login.</a>
       </div>
     </div>
   </div>
-  <div class="register_footer">
-    <a routerLink="/Login" routerLinkActive="active-link" class="createNew">Already have an account? Login.</a>
-  </div>
-</div>
-</div>

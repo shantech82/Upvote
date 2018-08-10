@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 import { RegistrationService } from '../services/registration.service';
 import { EmailService } from '../services/email.service';
 import { IUser } from '../core/Model/IUser';
-import { environment } from '../../environments/environment';
 import { AlertCenterService, Alert, AlertType } from 'ng2-alert-center';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Utility } from '../Shared/Utility';
@@ -30,6 +29,7 @@ export class AppRegisterComponent implements OnInit {
   aboutyourself = '';
 
   userData: IUser;
+  submitted: boolean;
 
   constructor(private socialAuthService: AuthService, private regservice: RegistrationService,
     private router: Router, private fb: FormBuilder, private emailservice: EmailService,
@@ -64,6 +64,7 @@ export class AppRegisterComponent implements OnInit {
 
   PostData(registerForm: FormGroup) {
     if (registerForm.valid) {
+      this.submitted = false;
       this.spinner.show();
       const tempUserData = {
         name: registerForm.controls['name'].value,
@@ -75,7 +76,8 @@ export class AppRegisterComponent implements OnInit {
       };
       this.RegisterUser(tempUserData, '1');
     } else {
-      this.alertService.alert(new Alert(AlertType.DANGER, 'Given details are not valid'));
+      this.submitted = true;
+      this.alertService.alert(new Alert(AlertType.WARNING, 'Given details are not valid'));
     }
   }
 
@@ -137,7 +139,7 @@ export class AppRegisterComponent implements OnInit {
             });
           }
         },
-          error => alert('something error'));
+          error => alert(error));
         this.spinner.hide();
       }
     });

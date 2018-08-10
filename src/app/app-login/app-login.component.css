@@ -63,6 +63,16 @@
   box-shadow: none;
 }
 
+input.touched.ng-touched.ng-invalid 
+{
+  border:1px solid #f00;
+}
+
+input.submitted.ng-invalid
+{
+  border:1px solid #f00;
+}
+
 .login_submit {
   width: 152px;
   height: 40px;

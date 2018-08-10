@@ -1,3 +1,6 @@
+<div class="alertCenter">
+  <nac-alert-center [animation]="'fancy'" [htmlTextEnabled]="true"></nac-alert-center>
+</div>
 <div class="login">
   <div class="login_component">
     <div class="login_inner">
@@ -9,13 +12,8 @@
             <span class="input-group-addon">
               <img src="../../assets/img/ico-log.png">
             </span>
-            <input type="text" formControlName="username" [formGroup]='loginForm' placeholder="Username..." class="lginp form-control"
+            <input type="text" [ngClass]="{submitted:submitted}" formControlName="username"  placeholder="Username..." class="lginp form-control touched"
              id="form-username">
-             <div *ngIf="loginForm.controls['username'].touched && !loginForm.controls['username'].valid">
-                <span *ngIf="loginForm.controls['username'].hasError('required') " class="alert-danger">
-                  Username is required
-                </span>
-              </div>
           </div>
         </div>
         <div class="form-group">
@@ -24,13 +22,8 @@
             <span class="input-group-addon">
               <img src="../../assets/img/ico-pw.png">
             </span>
-            <input type="password" formControlName="loginpassword" [formGroup]='loginForm' placeholder="Password..." class="lginp form-control"
+            <input type="password" [ngClass]="{submitted:submitted}" formControlName="loginpassword"  placeholder="Password..." class="lginp form-control touched"
              id="form-login-password">
-            <div *ngIf="loginForm.controls['loginpassword'].touched && !loginForm.controls['loginpassword'].valid">
-              <span *ngIf="loginForm.controls['loginpassword'].hasError('required') " class="alert-danger">
-                password is required
-              </span>
-            </div>
           </div>
         </div>
         <button type="submit" class="btn login_submit">Submit</button>

@@ -16,9 +16,11 @@
         </div>
         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
           <div class="intro_info">
-            <h1>
-              <span>{{ topicolist.iconame }}</span>
-            </h1>
+            <a [routerLink]="['/ICO', topicolist.id]" routerLinkActive="active-link" class="right">
+              <h1>
+                <span>{{ topicolist.iconame }}</span>
+              </h1>
+            </a>
             <p>{{ topicolist.icoshortdescription }}</p>
             <a [routerLink]="['/ICO', topicolist.id]" routerLinkActive="active-link">
               <button type="button" class="btn hBtn">
@@ -43,10 +45,14 @@
         <div class="swiper-wrapper">
           <div class="swiper-slide homeSlider" *ngFor="let ico of (icolist ? icolist.slice(1,100): [])">
             <div class="img_holder">
-              <img [src]="ico.icologoimage || '..\assets\img\icoimagecard.jpg'" class="img-responsive">
+              <a [routerLink]="['/ICO', topicolist.id]" routerLinkActive="active-link" class="right">
+                <img [src]="ico.icologoimage || '..\assets\img\icoimagecard.jpg'" class="img-responsive">
+              </a>
             </div>
             <div class="slider_content">
-              <h5>{{ ico.iconame }}</h5>
+              <a [routerLink]="['/ICO', topicolist.id]" routerLinkActive="active-link" class="right">
+                <h5>{{ ico.iconame }}</h5>
+              </a>
               <div class="sContent">
                 {{ ico.icoshortdescription }}
               </div>

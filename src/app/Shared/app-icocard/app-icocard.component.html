@@ -9,18 +9,24 @@
     </span>
   </div>
   <div class="card_info">
-    <span>All ICO<i>s</i></span>
-    </div>
+    <span>All ICO
+      <i>s</i>
+    </span>
+  </div>
 </div>
 <div class="row">
   <div class="col-md-4 col-sm-6 col-lg-4 col-xs-12" *ngFor="let ico of (icolist ?  icolist.slice(0,itemCount): []) | icofilter: icosearch">
     <div class="card_layout">
       <div class="card_image">
-        <img [src]="ico.icologoimage || '..\assets\img\icoimagecard.jpg'" class="img-responsive">
+        <a [routerLink]="['/ICO', ico.id]" routerLinkActive="active-link" class="right">
+          <img [src]="ico.icologoimage || '..\assets\img\icoimagecard.jpg'" class="img-responsive">
+        </a>
         <div class="img_tag" *ngIf="ico.icolivestreamData">Live streaming in: {{ ico.icolivestreamData }} days</div>
       </div>
       <div class="card_content">
-        <h4>{{ ico.iconame }}</h4>
+        <a [routerLink]="['/ICO', ico.id]" routerLinkActive="active-link" class="right">
+          <h4>{{ ico.iconame }}</h4>
+        </a>
         <p>{{ ico.icoshortdescription }}</p>
       </div>
       <div class="card_footer">
@@ -37,4 +43,3 @@
   </div>
 </div>
 <button *ngIf="isDisplayed" type="button" class="btn loadMore" (click)="loadMore();">LOAD MORE</button>
- 

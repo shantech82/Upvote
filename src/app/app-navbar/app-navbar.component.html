@@ -21,12 +21,15 @@
                                 <i class="fa fa-caret-down"></i>
                             </a>
                             <ul ngbDropdownMenu aria-labelledby="dropdownBasic1" ngbDropdownToggle>
-                                <li class="dropdown-item">
-                                    <a routerLink="/UProfile" routerLinkActive="active-link" class="createNew">Your Profile </a>
+                                <li class="username">
+                                        {{ user.name }}
                                 </li>
                                 <li class="dropdown-item divider"></li>
-                                <li class="dropdown-item">
-                                    <a [routerLink]="" (click)="SignOut()">Sign Out</a>
+                                <li class="profile">
+                                    <a routerLink="/UProfile" routerLinkActive="active-link" class="createNew">Profile </a>
+                                </li>
+                                <li class="logout">
+                                    <a [routerLink]="" (click)="SignOut()">Log Out</a>
                                 </li>
                             </ul>
                         </div>

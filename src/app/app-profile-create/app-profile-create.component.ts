@@ -44,7 +44,7 @@ export class AppProfileCreateComponent implements OnInit {
 
   forminitialization: boolean;
   investmentData: any;
-
+  submitted: boolean;
 
   constructor(private icouserprofileservice: RegistrationService, private fuservice: FileuploadService,
     private mdservice: MasterDataService, private router: Router, private alertService: AlertCenterService,
@@ -156,6 +156,7 @@ export class AppProfileCreateComponent implements OnInit {
 
   UpdateICOProfile(icoprofileform: FormGroup) {
     if (icoprofileform.valid) {
+      this.submitted = false;
       // gettting userid
       this.spinner.show();
       const UserData = JSON.parse(localStorage.getItem('UserData'));
@@ -195,6 +196,7 @@ export class AppProfileCreateComponent implements OnInit {
         this.alertService.alert(new Alert(AlertType.WARNING, 'Your profile not found'));
       }
     } else {
+      this.submitted = true;
       this.alertService.alert(new Alert(AlertType.WARNING, 'Your input is not valid'));
     }
   }

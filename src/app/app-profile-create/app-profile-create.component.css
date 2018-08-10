@@ -128,6 +128,25 @@ textarea.inner_input-copy {
   min-height: 130px;
 }
 
+input.touched.ng-touched.ng-invalid 
+{
+  border:1px solid #f00;
+}
+
+textarea.touched.ng-touched.ng-invalid 
+{
+  border:1px solid #f00;
+}
+
+input.submitted.ng-invalid
+{
+  border:1px solid #f00;
+}
+textarea.submitted.ng-invalid
+{
+  border:1px solid #f00;
+}
+
 .btn:focus,
 .btn:active {
   outline: 0;

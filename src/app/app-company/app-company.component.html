@@ -26,7 +26,7 @@
         <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
           <div class="form-group">
             <label class="control-label">ICO Name</label>
-            <input type="text" formControlName="iconame" class="form-control listInp touched" placeholder="">
+            <input type="text" [ngClass]="{submitted:submitted}" formControlName="iconame" class="form-control listInp touched" placeholder="">
           </div>
         </div>
       </div>
@@ -73,7 +73,7 @@
         <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
           <div class="form-group">
             <label class="control-label">Email address</label>
-            <input type="email" formControlName="email" class="form-control listInp touched" placeholder="">
+            <input type="email" [ngClass]="{submitted:submitted}" formControlName="email" class="form-control listInp touched" placeholder="">
           </div>
         </div>
       </div>
@@ -81,25 +81,25 @@
         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
           <div class="form-group">
             <label class="control-label">Phone (Please enter with country code)</label>
-            <input type="text" formControlName="phone_number" class="form-control listInp touched" placeholder="">
+            <input type="text" [ngClass]="{submitted:submitted}" formControlName="phone_number" class="form-control listInp touched" placeholder="">
           </div>
         </div>
         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
           <div class="form-group">
             <label class="control-label">Address</label>
-            <input type="text" formControlName="address" class="form-control listInp touched" placeholder="">
+            <input type="text" [ngClass]="{submitted:submitted}" formControlName="address" class="form-control listInp touched" placeholder="">
           </div>
         </div>
         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
           <div class="form-group">
             <label class="control-label">City</label>
-            <input type="text" formControlName="city" class="form-control listInp touched" placeholder="">
+            <input type="text" [ngClass]="{submitted:submitted}" formControlName="city" class="form-control listInp touched" placeholder="">
           </div>
         </div>
         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
           <div class="form-group">
             <label class="control-label">County</label>
-            <input type="text" formControlName="country" class="form-control listInp touched" placeholder="">
+            <input type="text" [ngClass]="{submitted:submitted}" formControlName="country" class="form-control listInp touched" placeholder="">
           </div>
         </div>
       </div>
@@ -107,7 +107,7 @@
         <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
           <div class="form-group">
             <label class="control-label">Amount raising</label>
-            <input type="text" formControlName="amountraising" class="form-control listInp touched" placeholder="$">
+            <input type="text" [ngClass]="{submitted:submitted}" formControlName="amountraising" class="form-control listInp touched" placeholder="$">
           </div>
         </div>
       </div>
@@ -115,7 +115,7 @@
         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
           <div class="form-group">
             <label class="control-label">Website</label>
-            <input type="text" formControlName="website" class="form-control listInp touched" placeholder="http://...">
+            <input type="text" [ngClass]="{submitted:submitted}" formControlName="website" class="form-control listInp touched" placeholder="http://...">
           </div>
         </div>
         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
@@ -129,7 +129,7 @@
         <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
           <div class="form-group">
             <label class="control-label">Short description</label>
-            <textarea type="textarea" formControlName="shortdescription" class="form-control listInp touched" placeholder=""></textarea>
+            <textarea type="textarea" [ngClass]="{submitted:submitted}" formControlName="shortdescription" class="form-control listInp touched" placeholder=""></textarea>
           </div>
         </div>
       </div>
@@ -137,7 +137,7 @@
         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
           <div class="form-group">
             <label class="control-label">Product link (MVP / Prototype / etc)</label>
-            <input type="text" formControlName="productlink" class="form-control listInp dirty" placeholder="http://...">
+            <input type="text" [ngClass]="{submitted:submitted}" formControlName="productlink" class="form-control listInp touched" placeholder="http://...">
           </div>
         </div>
         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
@@ -159,14 +159,14 @@
           <div class="form-group">
             <label class="control-label">ICO Start date</label>
             <input class="form-control" placeholder="dd/mm/yyyy" 
-             formControlName="icostartdate" class="form-control listInp touched" type="date">
+             formControlName="icostartdate" [ngClass]="{submitted:submitted}" class="form-control listInp touched" type="date">
           </div>
         </div>
         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
           <div class="form-group">
             <label class="control-label">ICO End date</label>
             <input class="form-control" placeholder="dd/mm/yyyy"
-            formControlName="icoenddate" class="form-control listInp touched"type="date">
+            formControlName="icoenddate" [ngClass]="{submitted:submitted}" class="form-control listInp touched"type="date">
           </div>
         </div>
       </div>
@@ -192,7 +192,7 @@
         <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
           <div class="form-group">
             <label class="control-label">Token / Ticket</label>
-            <input type="text" formControlName="tokcenname" class="form-control listInp touched" placeholder="">
+            <input type="text" [ngClass]="{submitted:submitted}" formControlName="tokcenname" class="form-control listInp touched" placeholder="">
           </div>
         </div>
       </div>
@@ -200,13 +200,13 @@
         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
           <div class="form-group">
             <label class="control-label">Platform / Token Type</label>
-            <input type="text" formControlName="tokeytype" class="form-control listInp touched" placeholder="">
+            <input type="text" [ngClass]="{submitted:submitted}" formControlName="tokeytype" class="form-control listInp touched" placeholder="">
           </div>
         </div>
         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
           <div class="form-group">
             <label class="control-label">Price per token</label>
-            <input type="text" formControlName="pricepertoken" class="form-control listInp touched" placeholder="">
+            <input type="text" [ngClass]="{submitted:submitted}" formControlName="pricepertoken" class="form-control listInp touched" placeholder="">
           </div>
         </div>
       </div>
