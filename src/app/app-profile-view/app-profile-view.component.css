@@ -33,7 +33,6 @@
     line-height: 1;
     letter-spacing: normal;
     color: #151515;
-    color: var(--black);
 }
 
 .card_info {
@@ -81,6 +80,7 @@
 @media (max-width:767px) {
     .profile_pic_info {
         position: relative;
+        top: 0;
     }
     .profile_info .title {
         font-size: 30px;

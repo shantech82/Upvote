@@ -89,6 +89,7 @@
   color: var(--charcoal-grey);
 }
 
+.Upload-Photo:hover {text-decoration:underline;}
 .btn_full_shape {
   width: 161px;
   height: 40px;
@@ -103,8 +104,9 @@
   height: 30px;
   border-radius: 5px;
   background-color: #e5eaed;
+  border:1px solid #e5eaed;
 }
-
+.BG:hover {background: #fff;}
 .btn_full_shape:hover,
 .BG:hover,
 .btn_full_shape:active,

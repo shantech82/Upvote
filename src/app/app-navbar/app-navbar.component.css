@@ -66,35 +66,15 @@ header {
 .mydrop>ul {
   padding: 0;
   margin: 0;
-  width: 183px;
-  height: 150px;
-  border-radius: 3px;
-  background-color: #ffffff;
-  box-shadow: 0 10px 30px 0 rgba(207, 213, 218, 0.55);
 }
 
 .mydrop>ul>li {
   padding: 5px 10px;
 }
 
-.username {
-  padding: 3px 20px;
-  width: 109px;
-  height: 20px;
-  font-family: Heebo;
-  font-size: 14px;
-  font-weight: bold;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 1.43;
-  letter-spacing: 1px;
-  color: #555c62;
-}
-
 .mydrop>ul>li.divider {
-  border-top: 1px solid #e2e4e5;
-  width: 183px;
-  height: 1px;
+  border-top: 1px solid #ddd;
+  margin: 10px 0
 }
 
 .mydrop>ul>li>a {
@@ -121,34 +101,9 @@ header {
   border-radius: 0;
 }
 
-.profile {
-  width: 128px;
-  height: 20px;
-  font-family: Heebo;
-  font-size: 14px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 1.43;
-  letter-spacing: normal;
-  color: #555c62;
-}
-.logout {
-  width: 128px;
-  height: 20px;
-  font-family: Heebo;
-  font-size: 14px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 1.43;
-  letter-spacing: normal;
-  color: #d0021b;
-}
-
 .list_ico_btn {
   position: absolute;
-  right: 90px;
+  right: 110px;
   top: 50%;
   transform: translate(0%, -50%);
   width: 152px;
@@ -161,21 +116,121 @@ header {
   font-stretch: normal;
   line-height: 25px;
   letter-spacing: 1px;
-  color:#fff;
+  color: #fff;
+  border: 2px solid #3ccf94;
+}
+
+.list_ico_btn:hover {
+  background: none;
+  color: #3ccf94;
 }
 
 :host /deep/ .mydrop .dropdown-menu {
-  left: -87px !important;
+  left: -100px !important;
   margin: 0 !important;
   padding: 0 !important;
+  width: 183px;
+  top: 45px !important;
 }
 
-:host /deep/ .mydrop .dropdown-menu li:hover {
-  background: #ddd;
+:host /deep/ .mydrop .dropdown-menu>ul {
+  list-style: none;
+  padding: 15px 0;
+  margin: 0;
+}
+
+:host /deep/ .mydrop .dropdown-menu li {
+  padding: 8px 25px;
+  text-align: left;
+  list-style: none;
+}
+
+:host /deep/ .mydrop .dropdown-menu li a {
+  padding: 0;
+  color: #666 !important;
+  text-decoration: none;
+}
+
+:host /deep/ .mydrop .dropdown-menu li.active a {
+  color: red !important;
+}
+
+:host /deep/ .mydrop .dropdown-menu .drop_title {
+  padding: 17px 25px;
+  border-bottom: 1px solid #ddd;
+  font-weight: bold
+}
+
+:host /deep/ .mydrop .dropdown-menu .drop_title:hover {
+  background: none;
+}
+
+.m_menu_click {
+  display: none
 }
 
 @media(min-width:1024px) and (max-width:1200px) {
   :host /deep/ .mydrop .dropdown-menu {
     left: -95px !important;
+  }
+}
+
+@media(max-width:767px) {
+  .list_ico_btn {
+    display: block;
+    left:25px;
+    top:40%;
+  }
+  .m_menu_click {
+    display: block;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 0;
+  }
+  .m_menu_click img {
+    width: 100%
+  }
+  .mobile_menu {
+    position: fixed;
+    width: 300px;
+    height: 100%;
+    right: -300px;
+    z-index: 999;
+    top: 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    background: #fff;
+    transition: 0.5s all;
+  }
+  .mobile_menu.mobiShow {
+    transition: 0.5s all;
+    right:0;
+  }
+  .mydrop .dropdown-menu {
+    background: none;
+    position: relative;
+    left: 0 !important;
+    box-shadow: none;
+    border: none;
+    top: 0 !important;
+    margin: 0 !important;
+    width: 100%;
+    width: 100%;
+    display: block !important;
+    min-width: 100%;
+  }
+  .profile_icon {
+    position: relative;
+    transform: none;
+    top: 0;
+    right: auto
+  }
+  .mydrop,
+  .mydrop .dropdown {
+    width: 100%
+  }
+  .mydrop a.btn,
+  .profile_icon .dropdown_profile i {
+    display: none !important;
   }
 }

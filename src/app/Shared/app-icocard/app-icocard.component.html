@@ -4,8 +4,29 @@
       <img src="..\..\..\assets\img\ico-search.png">
     </span>
     <input type="search" class="hSearch form-control" [(ngModel)]="icosearch" placeholder="Search">
-    <span class="input-group-addon filterIcon">
-      <img src="..\..\..\assets\img\filter.png">
+    <span class="input-group-addon filterIcon" ngbDropdown>
+      <div id="dropdownBasic2" ngbDropdownToggle>
+        <img src="..\..\..\assets\img\filter.png">
+      </div>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic2" ngbDropdownToggle>
+        <div class="drop_title">
+          <span> FILTERS </span>
+        </div>
+        <ul>
+          <li class="dropdown-item">
+            <label class="drop_check"> Whitelisted
+              <input type="checkbox" checked="checked">
+              <span class="checkmark"></span>
+            </label>
+          </li>
+          <li class="dropdown-item active">
+            <label class="drop_check"> KYC Restrictions
+              <input type="checkbox">
+              <span class="checkmark"></span>
+            </label>
+          </li>
+        </ul>
+      </div>
     </span>
   </div>
   <div class="card_info">
