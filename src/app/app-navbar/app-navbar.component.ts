@@ -15,6 +15,7 @@ export class AppNavbarComponent implements OnInit {
 
   public user: SocialUser;
   public loggedIn: boolean;
+  mobileMenu: boolean;
 
 
   constructor(private socialAuthService: AuthService,
@@ -30,9 +31,18 @@ export class AppNavbarComponent implements OnInit {
       this.loggedIn = false;
       this.router.navigate(['/Login']);
     }
+    this.mobileMenu = false;
   }
 
-  public SignOut() {
+  mobileMenuShow() {
+    if (this.mobileMenu === false) {
+      this.mobileMenu = true;
+    } else {
+      this.mobileMenu = false;
+    }
+  }
+
+  SignOut() {
     const UserData = JSON.parse(localStorage.getItem('UserData'));
     if (UserData.type === '2') {
       localStorage.removeItem('UserData');

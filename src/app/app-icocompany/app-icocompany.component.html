@@ -46,20 +46,17 @@
   </div>
 
   <div class="pro_bg">
-    <input type="text" value="Q12345" name="room-id" id="room-id" style="display: none;">
-    <div class="container" [style.display]="userType===1 ? 'block' : 'none'">
-      <button type="button" id="startlive" name="startlive" class="btn stream_btn"> ► Start live streaming </button>
-      <button type="button" id="stoplive" name="stoplive" style="display: none;" class="btn stream_btn stop"> ► Stop live streaming </button>
+    <div *ngIf="todaylivestream">
+      <input type="text" [(ngModel)]="todaylivestream.livestreamcode" name="room-id" id="room-id" style="display: none;">
+      <div class="container" *ngIf="userType===1 && todaylivestream">
+        <button type="button" id="startlive" name="startlive" *ngIf="!isLiveStreaming" (click)="startLiveStream()" class="btn stream_btn"> ► Start live streaming </button>
+        <button type="button" id="stoplive" name="stoplive" *ngIf="isLiveStreaming" (click)="stopLiveStream()" class="btn stream_btn stop"> ► Stop live streaming </button>
+      </div>
+      <div class="container" *ngIf="userType===0">
+        <button type="button" id="joinlive" *ngIf="isLiveStreaming && !livestreamjoined" (click)="joinLiveStream()" name="joinlive" class="btn stream_btn"> ► Join live streaming </button>
+        <button type="button" id="leavelive" *ngIf="isLiveStreaming && livestreamjoined" name="leavelive" (click)="leaveLiveStream()"  class="btn stream_btn stop"> ► leave live streaming </button>
+      </div>
     </div>
-    <div class="container" [style.display]="userType===0 || userType===2 ? 'block' : 'none'">
-      <button type="button" id="joinlive" name="joinlive" class="btn stream_btn"> ► Join live streaming </button>
-      <button type="button" id="leavelive" name="leavelive" style="display: none;" class="btn stream_btn stop"> ► leave live streaming </button>
-    </div>
-    <div class="container" [style.display]="userType===2 ? 'block' : 'none'">
-      <button type="button" id="moderatorjoin" name="moderatorjoin" class="btn stream_btn"> ► Join as Moderator </button>
-      <button type="button" id="moderatorleave" name="moderatorleave" class="btn stream_btn stop"> ► leave Meeting </button>
-    </div>
-
     <!--- stream chat  *ngIf="isLiveStreaming" -->
     <div class="chat_profile" id="livstream" style="display: none">
       <div class="container">
@@ -116,7 +113,7 @@
                   <img src="..\assets\img\ico-cal.png">
                 </div>
                 <div class="cal_details">
-                  <small>Started {{ ico.icostartdate | date:'MMMM  dd' }}{{ dateendstring }}</small>
+                  <small>Started {{ ico.icostartdate | date:'MMMM dd' }}{{ dateendstring }}</small>
                   <p *ngIf="expired">{{ expired }} </p>
                   <p *ngIf="!expired">{{ enddatecal }} </p>
                 </div>
@@ -125,10 +122,10 @@
                 <p>NEXT Live streaming (July)</p>
                 <div class="datepicker-container">
                   <ngb-datepicker class="myDatePicker" [class.bg-primary]="selected" #dtp [(ngModel)]="livestreamdates" let (navigate)="date = $event.next"
-                   firstDayOfWeek=7 [dayTemplate]="t"></ngb-datepicker>
-                  <ng-template #t let-date="date" let-focused="focused" let-selected="selected" >
-                    <span class="custom-day" [class.] [class.weekend]="isSunday(date)" [class.focused]="focused" 
-                    [class.bg-primary]="selected" [class.text-muted]="disabled">
+                    firstDayOfWeek=7 [dayTemplate]="t"></ngb-datepicker>
+                  <ng-template #t let-date="date" let-focused="focused" let-selected="selected">
+                    <span class="custom-day" [class.] [class.weekend]="isSunday(date)" [class.focused]="focused" [class.bg-primary]="selected"
+                      [class.text-muted]="disabled">
                       {{ date.day }}
                     </span>
                   </ng-template>

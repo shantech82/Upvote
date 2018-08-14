@@ -58,31 +58,22 @@ connection.onstreamended = function (event) {
     if (mediaElement) {
         mediaElement.parentNode.removeChild(mediaElement);
     }
-    document.getElementById('leavelive').click();
+    leaveLiveStreamJs();
 };
 
-document.getElementById('startlive').onclick = function () {
-    //disableInputButtons();
-    connection.open(document.getElementById('room-id').value, function (isRoomExist, roomid) {
-        document.getElementById('livstream').style.display = "block";
-        document.getElementById('stoplive').style.display = "block";
-        document.getElementById('startlive').style.display = "none";
+function startLiveStreamJs() {
+    connection.open(document.getElementById('room-id').value);
+    document.getElementById('livstream').style.display = 'block';
+}
+
+function stopLiveStreamJs() {
+    document.getElementById('livstream').style.display = 'none';
+    connection.attachStreams.forEach(function (stream) {
+        stream.stop();
     });
-};
+}
 
-document.getElementById('moderatorjoin').onclick = function () {
-    navigator.getDisplayMedia({
-        video: true
-    }).then(externalStream => {
-        connection.addStream(externalStream);
-    }, error => {
-        alert(error);
-    });
-};
-
-
-document.getElementById('joinlive').onclick = function () {
-    document.getElementById('livstream').style.display = "block";
+function joinLiveStreamJs() {
     connection.checkPresence(document.getElementById('room-id').value, function (isRoomExist) {
         if (isRoomExist) {
             connection.sdpConstraints.mandatory = {
@@ -90,38 +81,20 @@ document.getElementById('joinlive').onclick = function () {
                 OfferToReceiveVideo: true
             };
             connection.join(document.getElementById('room-id').value);
-            document.getElementById('joinlive').style.display = "none";
-            document.getElementById('leavelive').style.display = "block";
+            document.getElementById('livstream').style.display = 'block';
             return;
-        }
-    });
-};
-
-document.getElementById('leavelive').onclick = function () {
-    connection.leave()
-    connection.checkPresence(document.getElementById('room-id').value, function (isRoomExist) {
-        if (isRoomExist) {
-            document.getElementById('joinlive').style.display = "block";
         } else {
-            document.getElementById('joinlive').style.display = "none";
+            alert('live stream not started yet');
         }
+
     });
-    document.getElementById('leavelive').style.display = "none";
-    document.getElementById('livstream').style.display = "none";
-    return;
 }
 
-
-document.getElementById('stoplive').onclick = function () {
-    connection.attachStreams.forEach(function (stream) {
-        stream.stop();
-    });
-    connection.close();
-    document.getElementById('stoplive').style.display = "none";
-    document.getElementById('livstream').style.display = "none";
-    document.getElementById('startlive').style.display = "block";
-    
-};
+function leaveLiveStreamJs() {
+    document.getElementById('livstream').style.display = 'none';
+    connection.leave();
+    return;
+}
 
 document.getElementById('input-text-chat').onkeyup = function (e) {
     if (e.keyCode != 13) return;
@@ -133,13 +106,6 @@ document.getElementById('input-text-chat').onkeyup = function (e) {
     connection.send(chatText);
     appendDIV(chatText);
     this.value = '';
-};
-
-connection.onopen = function(event) {
-    var remoteUserId = event.userid;
-    var remoteUserFullName = event.extra.fullName;
-
-    alert('data connection opened with ' + remoteUserFullName);
 };
 
 var chatContainer = document.querySelector('.chatul');

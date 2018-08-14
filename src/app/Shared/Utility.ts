@@ -30,8 +30,8 @@ export class Utility {
             linktoActivate: environment.AppHostURL + '/Activate?key=' + activatekey + '&&email=' + email,
             userName: name,
             toMailAddress: email
-          };
-          return mailData;
+        };
+        return mailData;
     }
 
     public static compareTwoDates(startDate: Date, endDate: Date): boolean {
@@ -118,14 +118,31 @@ export class Utility {
 
     public static assignLocalStorageData(dbUserData, type) {
         const userData = {
-          name: dbUserData[0].name,
-          email: dbUserData[0].email,
-          image: dbUserData[0].profileimageurl,
-          id: dbUserData[0].id,
-          type: type,
-          ismoderator: dbUserData[0].ismoderator
+            name: dbUserData[0].name,
+            email: dbUserData[0].email,
+            image: dbUserData[0].profileimageurl,
+            id: dbUserData[0].id,
+            type: type,
+            ismoderator: dbUserData[0].ismoderator
         };
         const key = 'UserData';
         localStorage.setItem(key, JSON.stringify(userData));
-      }
+    }
+
+    public static GenerateLiveStreamCode() {
+        return Math.floor(Math.random() * 1000000);
+    }
+
+    public static getDayString(day) {
+        if (day === 1 || day === 21 || day === 31) {
+            return 'st';
+          } else if (day === 2 || day === 22) {
+            return 'nd';
+          } else if (day === 3 || day === 23) {
+            return 'rd';
+          } else {
+            return 'th';
+          }
+    }
+
 }

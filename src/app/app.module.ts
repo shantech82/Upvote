@@ -42,6 +42,7 @@ import { NgDatepickerModule } from 'ng2-datepicker';
 import { SwiperModule } from 'ngx-useful-swiper';
 import { AppRegisterComponent } from './app-register/app-register.component';
 import { AppLoginComponent } from './app-login/app-login.component';
+import { LivestreamService } from './services/livestream.service';
 
 const appRoutes: Routes = [
   { path: 'ICO/:id', component: AppIcocompanyComponent },
@@ -110,7 +111,15 @@ export function getAuthServiceConfigs() {
     NgDatepickerModule,
     SwiperModule
   ],
-  providers: [RegistrationService, PasswordService, EmailService, CompanyService, MasterDataService, FileuploadService, CompanyvideoService,
+  providers: [
+    RegistrationService,
+    PasswordService,
+    EmailService,
+    CompanyService,
+    MasterDataService,
+    FileuploadService,
+    CompanyvideoService,
+    LivestreamService,
     {
       provide: AuthServiceConfig,
       useFactory: getAuthServiceConfigs,

@@ -7,11 +7,11 @@
                 </a>
             </div>
             <div class="m_menu_click">
-                <a href="javasript:void(0)">
+                <a href="javasript:void(0)" (click)="mobileMenuShow()">
                     <img src="..\assets\img\m_menu.png">
                 </a>
             </div>
-            <div class="mobile_menu">
+            <div class="mobile_menu" [ngClass]="{'mobiShow' : mobileMenu}">
                 <a routerLink="/ListICO" routerLinkActive="active-link" class="btn list_ico_btn">List your ICO </a>
                 <div class="profile_icon">
                     <div class="dropdown_profile">
