@@ -42,7 +42,7 @@
       </div>
       <swiper [config]="config">
         <div class="swiper-wrapper">
-          <div class="swiper-slide homeSlider" *ngFor="let ico of (icolist ? icolist.slice(1,100): [])">
+          <div class="swiper-slide homeSlider" *ngFor="let ico of (icolist ? icolist.slice(0,100): [])">
             <div class="img_holder">
               <a [routerLink]="['/ICO', ico.id]" routerLinkActive="active-link" class="right">
                 <img [src]="ico.icologoimage || '..\assets\img\icoimagecard.jpg'" class="img-responsive">

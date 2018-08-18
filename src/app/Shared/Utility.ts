@@ -159,6 +159,9 @@ export class Utility {
     public static formatAMPM(time) {
         let hours = time.split(':')[0];
         let minutes = time.split(':')[1];
+        if (minutes === undefined) {
+            minutes = 0;
+        }
         const ampm = hours >= 12 ? 'Pm' : 'Am';
         hours = hours % 12;
         hours = hours ? hours : 12; // the hour '0' should be '12'
