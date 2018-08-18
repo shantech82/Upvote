@@ -75,7 +75,7 @@ export class AppLoginComponent implements OnInit {
           averageinvestmentsizeperyear: 0,
           isactive: UserData.isactive,
           activatekey: Utility.generatingActivateKey(),
-          createdon: new Date().toLocaleDateString(),
+          createdon: new Date().toLocaleDateString('en-Us'),
           title: '',
           ismoderator: false
         };
