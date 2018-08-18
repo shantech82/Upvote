@@ -53,6 +53,7 @@ export class AppCompanylistComponent implements OnInit {
   page: string;
   topicolist: IICOList;
   isICOAvailable: boolean;
+  isLivestreaming: boolean;
 
   constructor(private icoservice: CompanyService, private spinner: NgxSpinnerService,
   private router: Router) { }
@@ -67,7 +68,7 @@ export class AppCompanylistComponent implements OnInit {
     this.icoservice.GetAllICOs().then(userICOsData => {
       const investorICO = userICOsData[0];
       this.AssignICOData(investorICO);
-      this.topicolist = this.icolist[0];
+      this.topicolist = this.livestreamstartedICOs(this.icolist);
       this.forminitialization = true;
       if (this.icolist[0].iconame !== null) {
         this.isICOAvailable = true;
@@ -76,6 +77,16 @@ export class AppCompanylistComponent implements OnInit {
       }
       this.spinner.hide();
     });
+  }
+
+  livestreamstartedICOs(icoslist: IICOList[]) {
+    let livestreamico = icoslist.find(ico => ico.livestreamstatus === 'started');
+    if (livestreamico === undefined) {
+      livestreamico = icoslist[0];
+    } else {
+      this.isLivestreaming = true;
+    }
+    return livestreamico;
   }
 
   AssignICOData(apiICOData: any) {
@@ -87,7 +98,8 @@ export class AppCompanylistComponent implements OnInit {
         icocreatedon: o.createdon,
         icolivestreamData: Utility.getDiferenceInDays(o.icolivestreamdata),
         iswhitelistjoined: o.iswhitelistjoined,
-        id: o.id
+        id: o.id,
+        livestreamstatus: o.livestreamstatus
       };
     });
   }

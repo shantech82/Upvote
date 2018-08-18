@@ -97,24 +97,24 @@ export class AppCompanyComponent implements OnInit {
     this.smn_linkedin = new FormControl(this.icoGet.smn_linkedin, Utility.isWebsiteValid('smn_linkedin'));
     this.smn_youtube = new FormControl(this.icoGet.smn_youtube, Utility.isWebsiteValid('smn_youtube'));
     this.email = new FormControl(this.icoGet.email, [Validators.required, Utility.isEmailValid('email')]);
-    this.city = new FormControl(this.icoGet.city, Validators.required);
-    this.country = new FormControl(this.icoGet.country, Validators.required);
-    this.amountraising = new FormControl(this.icoGet.amountraising, Validators.required);
-    this.website = new FormControl(this.icoGet.website, [Validators.required, Utility.isWebsiteValid('website')]);
+    this.city = new FormControl(this.icoGet.city, Validators.nullValidator);
+    this.country = new FormControl(this.icoGet.country, Validators.nullValidator);
+    this.amountraising = new FormControl(this.icoGet.amountraising, Validators.nullValidator);
+    this.website = new FormControl(this.icoGet.website, [Validators.nullValidator, Utility.isWebsiteValid('website')]);
     this.whitepaper = new FormControl(this.icoGet.whitepaper, Utility.isWebsiteValid('whitepaper'));
-    this.shortdescription = new FormControl(this.icoGet.shortdescription, Validators.required);
-    this.productlink = new FormControl(this.icoGet.productlink, [Validators.required, Utility.isWebsiteValid('productlink')]);
-    this.icostartdate = new FormControl(this.icoGet.icostartdate, Validators.required);
-    this.icoenddate = new FormControl(this.icoGet.icoenddate, Validators.required);
+    this.shortdescription = new FormControl(this.icoGet.shortdescription, Validators.nullValidator);
+    this.productlink = new FormControl(this.icoGet.productlink, [Validators.nullValidator, Utility.isWebsiteValid('productlink')]);
+    this.icostartdate = new FormControl(this.icoGet.icostartdate, Validators.nullValidator);
+    this.icoenddate = new FormControl(this.icoGet.icoenddate, Validators.nullValidator);
     this.icocategoryid = new FormControl(this.icoGet.icocategoryid);
     this.linktoboundry = new FormControl(this.icoGet.linktoboundry, Utility.isWebsiteValid('linktoboundry'));
-    this.tokcenname = new FormControl(this.icoGet.tokcenname, Validators.required);
-    this.tokeytype = new FormControl(this.icoGet.tokeytype, Validators.required);
-    this.pricepertoken = new FormControl(this.icoGet.pricepertoken, Validators.required);
+    this.tokcenname = new FormControl(this.icoGet.tokcenname, Validators.nullValidator);
+    this.tokeytype = new FormControl(this.icoGet.tokeytype, Validators.nullValidator);
+    this.pricepertoken = new FormControl(this.icoGet.pricepertoken, Validators.nullValidator);
     this.iswhitelistjoined = new FormControl(this.icoGet.iswhitelistjoined);
     this.phone_number = new FormControl(this.icoGet.phone_number, [Validators.required, Validators.maxLength(13),
     Validators.minLength(8), Utility.isPhoneNumberValid('phone_number')]);
-    this.address = new FormControl(this.icoGet.address, Validators.required);
+    this.address = new FormControl(this.icoGet.address, Validators.nullValidator);
   }
 
   createForm() {
@@ -197,7 +197,6 @@ export class AppCompanyComponent implements OnInit {
         this.icoGet = icoData[0][0];
         this.ICOStartDate = this.icoGet.icostartdate;
         this.ICOEndDate = this.icoGet.icoenddate;
-        console.log(this.ICOStartDate);
         this.AssignProfileImage();
         this.createFormControls();
         this.createForm();
@@ -244,8 +243,8 @@ export class AppCompanyComponent implements OnInit {
           shortdescription: icoform.controls['shortdescription'].value,
           productlink: icoform.controls['productlink'].value,
           videouploadurl: this.updatedVideoFileName === undefined ? '' : this.updatedVideoFileName,
-          icostartdate: icoform.controls['icostartdate'].value,
-          icoenddate: icoform.controls['icoenddate'].value,
+          icostartdate: icoform.controls['icostartdate'].value === '' ? null : icoform.controls['icostartdate'].value,
+          icoenddate: icoform.controls['icoenddate'].value === '' ? null : icoform.controls['icoenddate'].value,
           icocategoryid: icoform.controls['icocategoryid'].value,
           linktoboundry: icoform.controls['linktoboundry'].value,
           tokcenname: icoform.controls['tokcenname'].value,
@@ -266,7 +265,7 @@ export class AppCompanyComponent implements OnInit {
             if (returnValue !== undefined) {
               this.spinner.hide();
               this.alertService.alert(new Alert(AlertType.SUCCESS, 'ICO has been created!!!'));
-              this.icoservice.GetInsertedICO(this.ico.iconame, this.ico.icostartdate, this.ico.icoenddate, this.ico.tokcenname).
+              this.icoservice.GetInsertedICOByName(this.ico.iconame).
                 subscribe(ids => {
                   this.router.navigate(['/ICO', ids[0].id]);
                  });

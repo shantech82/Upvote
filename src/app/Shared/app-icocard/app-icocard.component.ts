@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { IICOList } from '../../core/Model/IICOList';
+import {  SharedService} from '../../services/shared.service';
 
 @Component({
   selector: 'app-app-icocard',
@@ -14,8 +15,10 @@ export class AppIcocardComponent implements OnInit {
   itemCount: number;
   icosearch: string;
   isDisplayed: boolean;
+  icolistshared: IICOList[];
 
-  constructor() { }
+  constructor(private sharedservice: SharedService) {
+  }
 
   ngOnInit() {
     if (this.page === 'investor') {
@@ -25,6 +28,7 @@ export class AppIcocardComponent implements OnInit {
       this.itemCount = 6;
       this.isDisplayed = true;
     }
+    this.sharedservice.getICOLIst(this.icolist);
   }
   loadMore() {
     this.itemCount = this.itemCount + 6;

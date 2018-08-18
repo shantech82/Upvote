@@ -6,4 +6,5 @@ export interface IICOList {
     icolivestreamData: number;
     iswhitelistjoined: boolean;
     id: number;
+    livestreamstatus: string;
   }

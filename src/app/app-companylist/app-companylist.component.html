@@ -11,7 +11,7 @@
             <div class="play_pause">
               <img src="..\assets\img\btn-play.png">
             </div>
-            <div class="video_tag">Live Streaming</div>
+            <div class="video_tag" *ngIf="isLivestreaming">Live Streaming</div>
           </div>
         </div>
         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
@@ -24,8 +24,7 @@
             <p>{{ topicolist.icoshortdescription }}</p>
             <a [routerLink]="['/ICO', topicolist.id]" routerLinkActive="active-link">
               <button type="button" class="btn hBtn">
-                Visit ICO
-                <img src="..\assets\img\ico-read-more.png">
+                Visit ICO               
               </button>
             </a>
           </div>
@@ -45,12 +44,12 @@
         <div class="swiper-wrapper">
           <div class="swiper-slide homeSlider" *ngFor="let ico of (icolist ? icolist.slice(1,100): [])">
             <div class="img_holder">
-              <a [routerLink]="['/ICO', topicolist.id]" routerLinkActive="active-link" class="right">
+              <a [routerLink]="['/ICO', ico.id]" routerLinkActive="active-link" class="right">
                 <img [src]="ico.icologoimage || '..\assets\img\icoimagecard.jpg'" class="img-responsive">
               </a>
             </div>
             <div class="slider_content">
-              <a [routerLink]="['/ICO', topicolist.id]" routerLinkActive="active-link" class="right">
+              <a [routerLink]="['/ICO', ico.id]" routerLinkActive="active-link" class="right">
                 <h5>{{ ico.iconame }}</h5>
               </a>
               <div class="sContent">
@@ -77,8 +76,9 @@
   <div class="background bg2" *ngIf="isICOAvailable">
     <div class="container">
       <app-app-icocard [icolist]="icolist" [page]="page"></app-app-icocard>
-    </div>
+   </div>
   </div>
 </div>
 <div class="clearfix"></div>
 <ngx-spinner bdColor="rgba(251,244,244,0.8)" size="medium" color="#31d093" type="ball-clip-rotate-multiple"></ngx-spinner>
+ 

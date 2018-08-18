@@ -160,6 +160,17 @@
   line-height: 1;
   letter-spacing: 1.5px;
   color: #151515;
+  background-image: url('../../assets/img/ico-read-more.png');
+  background-position: 90% 18px;
+  background-repeat: no-repeat
+}
+
+.hBtn:hover {
+  background: #151515;
+  color: #fff;
+  background-image: url('../../assets/img/ico-read-more-white.png');
+  background-position: 90% 18px;
+  background-repeat: no-repeat;
 }
 
 .loadMore {
@@ -387,8 +398,8 @@
   font-weight: bold;
   letter-spacing: 0.8px;
   text-transform: uppercase;
-  right:0;
-  top:10px;
+  right: 0;
+  top: 10px;
 }
 
 .feature_info span:before {
@@ -403,7 +414,7 @@
 .feature_info span i {
   font-size: 13px;
   text-transform: lowercase;
-  font-style:normal;
+  font-style: normal;
 }
 
 @media (max-width:767px) {

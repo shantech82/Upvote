@@ -4,18 +4,18 @@
     background-color: #ffffff;
     box-shadow: 0 10px 30px 0 rgba(207, 213, 218, 0.55);
     margin-bottom: 20px;
-}
-
-.card_layout .card_image img {
+  }
+  
+  .card_layout .card_image img {
     width: 100%;
     height: 258px;
-}
-
-.card_image {
+  }
+  
+  .card_image {
     position: relative
-}
-
-.img_tag {
+  }
+  
+  .img_tag {
     width: 172px;
     height: 30px;
     opacity: 0.9;
@@ -29,13 +29,13 @@
     text-align: center;
     line-height: 30px;
     font-size: 13px;
-}
-
-.card_content {
+  }
+  
+  .card_content {
     padding: 30px 20px 20px 20px;
-}
-
-.card_content h4 {
+  }
+  
+  .card_content h4 {
     font-size: 21px;
     font-weight: 500;
     font-style: normal;
@@ -45,9 +45,9 @@
     color: #151515;
     color: var(--black);
     margin-bottom: 18px;
-}
-
-.card_content p {
+  }
+  
+  .card_content p {
     font-size: 15px;
     font-weight: normal;
     font-style: normal;
@@ -60,34 +60,34 @@
     max-height: 140px;
     height: 140px;
     overflow: hidden;
-}
-
-.card_footer {
+  }
+  
+  .card_footer {
     padding: 12px 20px;
     position: relative;
     float: left;
     width: 100%;
-}
-
-.card_footer .btn {
+  }
+  
+  .card_footer .btn {
     width: 101px;
     height: 30px;
     border-radius: 5px;
     border: solid 1px rgba(40, 47, 54, 0.15);
     margin-bottom: 10px;
     color: #43494e;
-}
-
-.card_footer p {
-    margin: 0
-}
-
-.loadMore:hover {
-    background: #151515;
-    color:#fff;
   }
-
-.card_footer .left {
+  
+  .card_footer p {
+    margin: 0
+  }
+  
+  .loadMore:hover {
+    background: #151515;
+    color: #fff;
+  }
+  
+  .card_footer .left {
     float: left;
     font-size: 12px;
     font-weight: normal;
@@ -99,22 +99,22 @@
     position: relative;
     top: 3px;
     /* color: var(--steel-grey);*/
-}
-
-.card_footer .left i {
+  }
+  
+  .card_footer .left i {
     padding-right: 5px;
-}
-
-.card_footer .right {
+  }
+  
+  .card_footer .right {
     float: right;
     color: #151515;
     font-size: 21px;
     width: 50px;
     text-align: right;
-}
-
-.hBtn,
-.loadMore {
+  }
+  
+  .hBtn,
+  .loadMore {
     width: 190px;
     height: 50px;
     border-radius: 8px;
@@ -127,24 +127,33 @@
     line-height: 1;
     letter-spacing: 1.5px;
     color: #151515;
-}
-
-.loadMore {
+  }
+  
+  .loadMore {
     margin: 40px auto 0 auto;
     display: block;
-}
-
-:host /deep/ .filterIcon .dropdown-menu {
+  }
+  
+  :host /deep/ .filterIcon .dropdown-menu {
     left: -223px !important;
     margin: 0 !important;
     padding: 0 !important;
     width: 264px;
-    top: 72px  !important;
+    top: 72px !important;
+    border: 0;
+    box-shadow: 0 10px 30px 0 rgba(207, 213, 218, 0.55);
   }
-  :host /deep/ .filterIcon.show .dropdown-toggle img {
-      position:relative;
-      top:8px;
-      left:-10px;
+  
+  :host /deep/ .filterIcon.show .filterSpan {
+    display: block;
+    width: 22px;
+    position: relative;
+    top: 6px;
+    left: -11px;
+  }
+  
+  :host /deep/ .filterIcon.show .filterSpan span {
+    background: #6949c5 !important;
   }
   
   :host /deep/ .filterIcon .dropdown-menu>ul {
@@ -177,8 +186,7 @@
   :host /deep/ .filterIcon .dropdown-menu .drop_title:hover {
     background: none;
   }
-
-
+  
   :host /deep/ .filterIcon .dropdown-menu li .drop_check {
     display: block;
     position: relative;
@@ -192,50 +200,57 @@
     user-select: none;
     font-weight: normal;
     padding-top: 5px;
-}
-
-/* Hide the browser's default checkbox */
-:host /deep/ .filterIcon .dropdown-menu li .drop_check input {
+  }
+  
+  /* Hide the browser's default checkbox */
+  
+  :host /deep/ .filterIcon .dropdown-menu li .drop_check input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
-}
-
-/* Create a custom checkbox */
-:host /deep/ .filterIcon .dropdown-menu li .checkmark {
+  }
+  
+  /* Create a custom checkbox */
+  
+  :host /deep/ .filterIcon .dropdown-menu li .checkmark {
     position: absolute;
     top: 0;
     left: 0;
     height: 20px;
     width: 20px;
-    border-radius:4px;
+    border-radius: 4px;
     background-color: #eee;
-}
-
-/* On mouse-over, add a grey background color */
-:host /deep/ .filterIcon .dropdown-menu li .drop_check:hover input ~ .checkmark {
+  }
+  
+  /* On mouse-over, add a grey background color */
+  
+  :host /deep/ .filterIcon .dropdown-menu li .drop_check:hover input~.checkmark {
     background-color: #ccc;
-}
-
-/* When the checkbox is checked, add a blue background */
-:host /deep/ .filterIcon .dropdown-menu li .drop_check input:checked ~ .checkmark {
+  }
+  
+  /* When the checkbox is checked, add a blue background */
+  
+  :host /deep/ .filterIcon .dropdown-menu li .drop_check input:checked~.checkmark {
     background-color: #6949c5;
-}
-
-/* Create the checkmark/indicator (hidden when not checked) */
-:host /deep/ .filterIcon .dropdown-menu li .checkmark:after {
+  }
+  
+  /* Create the checkmark/indicator (hidden when not checked) */
+  
+  :host /deep/ .filterIcon .dropdown-menu li .checkmark:after {
     content: "";
     position: absolute;
     display: none;
-}
-
-/* Show the checkmark when checked */
-:host /deep/ .filterIcon .dropdown-menu li .drop_check input:checked ~ .checkmark:after {
+  }
+  
+  /* Show the checkmark when checked */
+  
+  :host /deep/ .filterIcon .dropdown-menu li .drop_check input:checked~.checkmark:after {
     display: block;
-}
-
-/* Style the checkmark/indicator */
-:host /deep/ .filterIcon .dropdown-menu li .drop_check .checkmark:after {
+  }
+  
+  /* Style the checkmark/indicator */
+  
+  :host /deep/ .filterIcon .dropdown-menu li .drop_check .checkmark:after {
     left: 7px;
     top: 4px;
     width: 6px;
@@ -245,23 +260,23 @@
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
-}
-
-@media(min-width:1024px) {
+  }
+  
+  @media(min-width:1024px) {
     .searchBox {
-        width: 700px;
-        margin: 0 auto;
+      width: 700px;
+      margin: 0 auto;
     }
-}
-
-.searchBox {
+  }
+  
+  .searchBox {
     position: relative;
     top: -40px;
     box-shadow: 0 10px 30px 0 rgba(207, 213, 218, 0.55);
     display: flex;
-}
-
-.searchBox .searchIcon {
+  }
+  
+  .searchBox .searchIcon {
     background: #fff;
     border: 0;
     border-top-left-radius: 8px;
@@ -273,14 +288,14 @@
     justify-content: center;
     align-items: center;
     padding: 20px;
-}
-
-.searchBox .searchIcon img {
+  }
+  
+  .searchBox .searchIcon img {
     width: 22px;
     height: 22px;
-}
-
-.searchBox .filterIcon {
+  }
+  
+  .searchBox .filterIcon {
     background: #fff;
     border: 0;
     border-top-right-radius: 8px;
@@ -292,27 +307,39 @@
     justify-content: center;
     align-items: center;
     padding: 20px;
-}
-
-.searchBox .filterIcon img {
-    width: 20px;
-    height: 14px;
-}
-
-.searchBox .hSearch {
+  }
+  
+  .searchBox .filterIcon .filterSpan span {
+    width: 22px;
+    height: 2px;
+    background: #151515;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 4px;
+  }
+  
+  .searchBox .filterIcon .filterSpan span:nth-child(2) {
+    width: 16px;
+  }
+  
+  .searchBox .filterIcon .filterSpan span:last-child {
+    width: 8px;
+  }
+  
+  .searchBox .hSearch {
     height: 72px;
     border-radius: 0;
     background-color: #ffffff;
     box-shadow: none;
     border-left: 0;
     border-right: 0;
-}
-
-.searchBox .hSearch:focus {
+  }
+  
+  .searchBox .hSearch:focus {
     border-color: #ddd
-}
-
-.card_info {
+  }
+  
+  .card_info {
     position: relative;
     margin-bottom: 20px;
     font-size: 12px;
@@ -333,5 +360,6 @@
   .card_info span i {
     font-size: 13px;
     text-transform: lowercase;
-    font-style:normal;
+    font-style: normal;
   }
+  

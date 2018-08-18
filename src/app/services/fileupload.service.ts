@@ -24,6 +24,6 @@ export class FileuploadService {
 
   DeleteFile(filename) {
     return this.http.delete(environment.ApiURL + 'deleteFile?filename=' + filename)
-      .map(message => console.log(message));
+      .map(message => message);
   }
 }

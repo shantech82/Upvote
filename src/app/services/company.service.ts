@@ -49,4 +49,10 @@ export class CompanyService {
     return this.http.get(environment.ApiURL + 'getInsertedICO?' + queryString)
       .map(data => _.values(data));
   }
+
+  GetInsertedICOByName(iconame) {
+    const queryString = 'iconame=' + iconame;
+    return this.http.get(environment.ApiURL + 'getInsertedICOByName?' + queryString)
+      .map(data => _.values(data));
+  }
 }

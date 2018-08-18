@@ -120,11 +120,10 @@ export class AppRegisterComponent implements OnInit {
           averageinvestmentsizeperyear: 0,
           isactive: UserData.isactive,
           activatekey: Utility.generatingActivateKey(),
-          createdon: new Date().toLocaleDateString(),
+          createdon: new Date().toLocaleDateString('en-Us'),
           title: '',
           ismoderator: false
         };
-
         this.regservice.RegisterUser(this.userData).subscribe(registeredData => {
           if (type === '2' && registeredData[0] !== undefined) {
             this.spinner.hide();

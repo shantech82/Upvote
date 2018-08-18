@@ -2,6 +2,7 @@ import { environment } from '../../environments/environment';
 
 export class Utility {
 
+    public static timemessage: string =  'Your time is invalid, please check your event time your time should be 24 hours format and format should be 00:00';
     updatedImageUrl: string;
 
     public static isEmailValid(control) {
@@ -136,13 +137,74 @@ export class Utility {
     public static getDayString(day) {
         if (day === 1 || day === 21 || day === 31) {
             return 'st';
-          } else if (day === 2 || day === 22) {
+        } else if (day === 2 || day === 22) {
             return 'nd';
-          } else if (day === 3 || day === 23) {
+        } else if (day === 3 || day === 23) {
             return 'rd';
-          } else {
+        } else {
             return 'th';
-          }
+        }
     }
+
+    public static livestreamdatetimeconversion(livestreamdate, time) {
+        const date = new Date(livestreamdate);
+        const day = this.getDayString(date.getDate());
+        const locale = 'en-us';
+        const month = date.toLocaleString(locale, { month: 'long' });
+        const hourminutes = this.formatAMPM(time);
+        const datetime = date.getDate() + day + ', ' + month + ' - ' + hourminutes;
+        return datetime;
+    }
+
+    public static formatAMPM(time) {
+        let hours = time.split(':')[0];
+        let minutes = time.split(':')[1];
+        const ampm = hours >= 12 ? 'Pm' : 'Am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        const strTime = hours + 'h' + minutes + ampm;
+        return strTime;
+    }
+
+    public static validateTime(timeValue) {
+        let timeoutput: string;
+        if (parseInt(timeValue, 10) !== NaN) {
+            timeValue = timeValue + ':00';
+        }
+        if (timeValue === '' || timeValue.indexOf(':') < 0) {
+            timeoutput = 'false';
+        } else {
+            let sHours = timeValue.split(':')[0];
+            let sMinutes = timeValue.split(':')[1];
+
+            if (sHours === '' || isNaN(sHours) || parseInt(sHours, 10) > 23) {
+                timeoutput = 'false';
+            } else if (parseInt(sHours, 10) === 0) {
+                sHours = '00';
+            } else if (parseInt(sHours, 10) < 10) {
+                sHours = '0' + sHours;
+            }
+            if (sMinutes === '' || isNaN(sMinutes) || parseInt(sMinutes, 10) > 59) {
+                timeoutput = 'false';
+            } else if (parseInt(sMinutes, 10) === 0) {
+                sMinutes = '00';
+            } else if (parseInt(sMinutes, 10) < 10) {
+                sMinutes = '0' + sMinutes;
+            }
+            if (timeoutput !== 'false') {
+                timeoutput = sHours + ':' + sMinutes;
+            }
+        }
+        return timeoutput;
+    }
+
+    public static getHours(timeValue) {
+       return parseInt(timeValue.split(':')[0], 10);
+    }
+
+    public static getMinutes(timeValue) {
+        return parseInt(timeValue.split(':')[1], 10);
+     }
 
 }

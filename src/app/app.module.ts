@@ -43,6 +43,8 @@ import { SwiperModule } from 'ngx-useful-swiper';
 import { AppRegisterComponent } from './app-register/app-register.component';
 import { AppLoginComponent } from './app-login/app-login.component';
 import { LivestreamService } from './services/livestream.service';
+import { ClickOutsideModule } from 'ng-click-outside';
+import { SharedService } from './services/shared.service';
 
 const appRoutes: Routes = [
   { path: 'ICO/:id', component: AppIcocompanyComponent },
@@ -109,7 +111,8 @@ export function getAuthServiceConfigs() {
     BrowserAnimationsModule,
     NgxSpinnerModule,
     NgDatepickerModule,
-    SwiperModule
+    SwiperModule,
+    ClickOutsideModule
   ],
   providers: [
     RegistrationService,
@@ -120,6 +123,7 @@ export function getAuthServiceConfigs() {
     FileuploadService,
     CompanyvideoService,
     LivestreamService,
+    SharedService,
     {
       provide: AuthServiceConfig,
       useFactory: getAuthServiceConfigs,

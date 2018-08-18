@@ -6,7 +6,11 @@
     <input type="search" class="hSearch form-control" [(ngModel)]="icosearch" placeholder="Search">
     <span class="input-group-addon filterIcon" ngbDropdown>
       <div id="dropdownBasic2" ngbDropdownToggle>
-        <img src="..\..\..\assets\img\filter.png">
+        <div class="filterSpan">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
       </div>
       <div ngbDropdownMenu aria-labelledby="dropdownBasic2" ngbDropdownToggle>
         <div class="drop_title">
@@ -64,3 +68,5 @@
   </div>
 </div>
 <button *ngIf="isDisplayed" type="button" class="btn loadMore" (click)="loadMore();">LOAD MORE</button>
+ 
+ 

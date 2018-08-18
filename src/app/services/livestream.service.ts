@@ -6,7 +6,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 
 import { environment } from '../../environments/environment';
-import { ILiveStream } from '../core/Model/LiveStream';
+import { ILiveStream } from '../core/Model/ILiveStream';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -34,9 +34,9 @@ export class LivestreamService {
     .map(data => _.values(data));
   }
 
-  GetLiveStream(Id): Promise<ILiveStream> {
-    return this.http.get<ILiveStream>(environment.ApiURL + 'getLiveStream?icosid=' + Id).toPromise()
-      .then(data => _.values(data));
+  GetLiveStream(Id): Observable<ILiveStream> {
+    return this.http.get<ILiveStream>(environment.ApiURL + 'getLiveStream?icosid=' + Id)
+    .map(data => _.values(data));
   }
 
   DeleteLiveStream(Id) {

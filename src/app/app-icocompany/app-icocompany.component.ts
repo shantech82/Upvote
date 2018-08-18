@@ -8,10 +8,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AlertCenterService, Alert, AlertType } from 'ng2-alert-center';
 import { DOCUMENT } from '@angular/common';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Utility } from '../Shared/Utility';
 import { LivestreamService } from '../services/livestream.service';
-import { ILiveStream } from '../core/Model/LiveStream';
+import { ILiveStream, IAddSchedules, ISchedules } from '../core/Model/ILiveStream';
+import { NgForm, FormGroup, FormBuilder, Validators } from '../../../node_modules/@angular/forms';
+import { utils } from '../../../node_modules/protractor';
 
 declare function startLiveStreamJs(): any;
 declare function stopLiveStreamJs(): any;
@@ -27,7 +29,6 @@ declare function leaveLiveStreamJs(): any;
 export class AppIcocompanyComponent implements OnInit, AfterViewInit {
 
   forminitialization: boolean;
-  imageSrc: string;
   ico: IICO;
   icoid: number;
   isLiveStreaming: boolean;
@@ -39,31 +40,61 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit {
   livestreamDatas: ILiveStream[];
   todaylivestream: ILiveStream;
   livestreamjoined: boolean;
+  schedules: Array<ISchedules> = [];
+  scheduleform: FormGroup;
+  day: number;
+  month: number;
+  time: any;
+  keepdropdownopen: boolean;
+  date: { year: number, month: number };
+  currentlivestreammonth: string;
+  isActive: boolean;
 
   constructor(private activateRoute: ActivatedRoute, private icoservice: CompanyService,
     private spinner: NgxSpinnerService, private alertService: AlertCenterService, private livestreamService: LivestreamService,
-    @Inject(DOCUMENT) private document, private elementRef: ElementRef) {
+    @Inject(DOCUMENT) private document, private elementRef: ElementRef, private fb: FormBuilder, config: NgbDropdownConfig) {
     this.activateRoute.params.subscribe(params => {
       this.icoid = params['id'];
     });
+
+    this.scheduleform = fb.group({
+      day: ['', Validators.required],
+      month: ['', Validators.required],
+      time: ['', Validators.required],
+    });
+
+    config.autoClose = false;
   }
 
   options: DatepickerOptions = {
     locale: enLocale
   };
 
-  livestreamdates: NgbDateStruct;
-  date: { year: number, month: number };
+  startdate: NgbDateStruct;
+  especialDates: NgbDateStruct[] = [];
+  myClass(date: NgbDateStruct) {
+    const isSelected = this.especialDates
+      .find(d => d.year === date.year && d.month === date.month && d.day === date.day);
+    return isSelected ? 'classSelected' : 'classNormal';
+  }
 
   isSunday(date: NgbDateStruct) {
     const d = new Date(date.year, date.month - 1, date.day);
-    return d.getDay() === 0 || d.getDay() === 6;
+    return d.getDay() === 0;
   }
 
   ngOnInit() {
     this.userType = 4;
     this.spinner.show();
     this.GetICO();
+  }
+
+  onClickOutside(event: Object) {
+    if (event && event['value'] === true) {
+      this.isActive = false;
+    } else {
+      this.isActive = true;
+    }
   }
 
   startLiveStream() {
@@ -95,16 +126,37 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit {
   }
 
   getLiveStream() {
-    this.livestreamService.GetLiveStream(this.icoid).then(livestreamdata => {
-      this.livestreamDatas = livestreamdata[0];
-      if (this.livestreamDatas.length > 0) {
+    this.livestreamService.GetLiveStream(this.icoid).map(data => {
+      this.livestreamDatas = data[0];
+      let index = 0;
+      if (data[0].length > 0) {
+        this.schedules = [];
+        this.especialDates = [];
+        data[0].map(arrayData => {
+          this.schedules.push({
+            'id': arrayData.id,
+            'livestreamdatetime': Utility.livestreamdatetimeconversion(arrayData.livestreamdate, arrayData.time)
+          });
+          const parseDate = new Date(arrayData.livestreamdate);
+          this.especialDates.push({
+            'year': parseDate.getFullYear(),
+            'month': parseDate.getMonth() + 1,
+            'day': parseDate.getDate(),
+          });
+          if (index === 0) {
+            this.currentlivestreammonth = parseDate.toLocaleString('en-us', { month: 'long' });
+            this.startdate = { month: parseDate.getMonth() + 1, year: parseDate.getFullYear(), day: parseDate.getDate() };
+          }
+          index++;
+          this.forminitialization = true;
+        });
         this.todaylivestream = this.livestreamDatas[0];
         if (this.todaylivestream.livestreamstatus === 'started') {
           this.isLiveStreaming = true;
         }
       }
+    }).subscribe(data => {
     });
-    console.log(this.todaylivestream);
   }
 
   ScheduleLiveStream(lviestreamDate, time) {
@@ -114,9 +166,9 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit {
     });
   }
 
-  DeleteLiveStream(id, lviestreamDate) {
-    this.livestreamService.DeleteLiveStream(id).then(data => {
-      this.alertService.alert(new Alert(AlertType.SUCCESS, 'Your event on ' + lviestreamDate + ' Deleted!'));
+  DeleteLiveStream(event: ISchedules) {
+    this.livestreamService.DeleteLiveStream(event.id).then(data => {
+      this.alertService.alert(new Alert(AlertType.SUCCESS, 'Your event on ' + event.livestreamdatetime + ' Deleted!'));
     });
   }
 
@@ -131,14 +183,31 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit {
     };
   }
 
-  AddScheduleEventClick() {
-    const day = 11;
-    const month = 10;
-    const time = '13:00';
-    const year = new Date().getFullYear();
-    const livestreamDate = new Date(day, month, year);
-    this.ScheduleLiveStream(livestreamDate, time);
+  AddScheduleEventClick(scheduleform: FormGroup) {
+    if (scheduleform.valid) {
+      const year = new Date().getFullYear();
+      this.day = scheduleform.controls['day'].value;
+      this.month = scheduleform.controls['month'].value;
+      this.time = scheduleform.controls['time'].value;
+      const newdate = Date.parse(this.month + '/' + this.day + '/' + year);
+      if (!isNaN(newdate)) {
+        const timeoutput = Utility.validateTime(this.time);
+        if (timeoutput !== 'false') {
+          const livestreamDate = new Date(year, this.month - 1, this.day, Utility.getHours(timeoutput), Utility.getMinutes(timeoutput));
+          // this.alertService.alert(new Alert(AlertType.SUCCESS, 'Your event on ' + livestreamDate + ' Created!'));
+          this.ScheduleLiveStream(livestreamDate, this.time);
+          this.getLiveStream();
+        } else {
+          this.alertService.alert(new Alert(AlertType.WARNING, Utility.timemessage));
+        }
+      } else {
+        this.alertService.alert(new Alert(AlertType.WARNING, 'Your date is invalid, please check your event date: ' + newdate));
+      }
+    } else {
+      this.alertService.alert(new Alert(AlertType.WARNING, 'Your input date and time is invalid'));
+    }
   }
+
 
   icoStartEndDateCalc(icostartdate: Date, icoenddate: Date) {
     const startDate = new Date(icostartdate);
@@ -153,12 +222,6 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit {
       this.enddatecal = Math.floor(hours / 24) + ' Days ' + (Math.floor(hours) % 24) + ' Hours Left';
     }
   }
-
-  selectToday() {
-    const date = new Date();
-    this.livestreamdates = { day: date.getUTCDay(), month: date.getUTCMonth(), year: date.getUTCFullYear() };
-  }
-
 
   checkCompanyUser(userid: number) {
     const UserData = JSON.parse(localStorage.getItem('UserData'));
@@ -182,9 +245,7 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit {
         this.ico.icologoimage = Utility.getImageURL(this.ico.icologoimage);
         this.checkCompanyUser(this.ico.userid);
         this.icoStartEndDateCalc(this.ico.icostartdate, this.ico.icoenddate);
-        this.selectToday();
         this.getLiveStream();
-        this.forminitialization = true;
       } else {
         this.forminitialization = false;
         this.alertService.alert(new Alert(AlertType.WARNING, 'There is no data for this ICO'));
