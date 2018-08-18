@@ -7,4 +7,5 @@ export interface IICOList {
     iswhitelistjoined: boolean;
     id: number;
     livestreamstatus: string;
+    livestreamdate: Date;
   }

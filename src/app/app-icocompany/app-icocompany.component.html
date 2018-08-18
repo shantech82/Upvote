@@ -122,7 +122,7 @@
               </div>
               <div class="cal_holder">
                 <div ngbDropdown class="dateModal">
-                  <a id="addschedules" ngbDropdownToggle href="javascript:void(0)" class="edit_icon" (click)="getLiveStream()">
+                  <a *ngIf="userType===1" id="addschedules" ngbDropdownToggle href="javascript:void(0)" class="edit_icon" (click)="getLiveStream()">
                     <img src="..\assets\img\ico-edit-cal-hover.png" srcset="..\assets\img\ico-edit-cal-hover@2x.png 2x,
                         ..\assets\img\ico-edit-cal-hover@3x.png 3x" class="ico_edit_cal_hover" (click)="getLiveStream()">
                   </a>
