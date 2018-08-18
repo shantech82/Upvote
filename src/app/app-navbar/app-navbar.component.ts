@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {
   AuthService,
-  SocialUser ,
+  SocialUser,
 } from 'angular5-social-auth';
 import { Router } from '@angular/router';
 import { Utility } from '../Shared/Utility';
+import { RegistrationService } from '../services/registration.service';
 
 @Component({
   selector: 'app-app-navbar',
@@ -18,15 +19,15 @@ export class AppNavbarComponent implements OnInit {
   mobileMenu: boolean;
 
 
-  constructor(private socialAuthService: AuthService,
-    private router: Router  ) { }
+  constructor(private socialAuthService: AuthService, private registrationser: RegistrationService,
+    private router: Router) { }
 
   ngOnInit() {
     const UserData = JSON.parse(localStorage.getItem('UserData'));
     if (UserData != null) {
-      this.user = UserData;
-      this.user.image = Utility.getUserImageURL(this.user.image);
-      this.loggedIn = true;
+        this.user = UserData;
+        this.user.image = Utility.getUserImageURL(this.user.image);
+        this.loggedIn = true;
     } else {
       this.loggedIn = false;
       this.router.navigate(['/Login']);
@@ -47,18 +48,18 @@ export class AppNavbarComponent implements OnInit {
     if (UserData.type === '2') {
       localStorage.removeItem('UserData');
       localStorage.removeItem('CompanyId');
-        this.user = null;
-        this.loggedIn = false;
-        this.router.navigate(['/Login']);
+      this.user = null;
+      this.loggedIn = false;
+      this.router.navigate(['/Login']);
       this.socialAuthService.signOut().then((signoutuser) => {
       });
 
     } else {
       localStorage.removeItem('UserData');
       localStorage.removeItem('CompanyId');
-        this.user = null;
-        this.loggedIn = false;
-        this.router.navigate(['/Login']);
+      this.user = null;
+      this.loggedIn = false;
+      this.router.navigate(['/Login']);
     }
   }
 }

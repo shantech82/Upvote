@@ -34,14 +34,14 @@ export class RegistrationService {
       .map(data => _.values(data));
   }
 
-  GetSingleUser(Id): Promise<IUser> {
-    return this.http.get<IUser>(environment.ApiURL + 'Registration/' + Id).toPromise()
-      .then(data => _.values(data));
+  GetSingleUser(Id): Observable<IUser> {
+    return this.http.get<IUser>(environment.ApiURL + 'Registration/' + Id)
+      .map(data => _.values(data));
   }
 
-  GetInvestorWithICOs(Id): Promise<IInvestorICOs> {
-    return this.http.get<IInvestorICOs>(environment.ApiURL + 'InvestorICOs/' + Id).toPromise()
-      .then(data => _.values(data));
+  GetInvestorWithICOs(Id): Observable<IInvestorICOs> {
+    return this.http.get<IInvestorICOs>(environment.ApiURL + 'InvestorICOs/' + Id)
+      .map(data => _.values(data));
   }
 
   GetUserEmail(email): Observable<IUser> {

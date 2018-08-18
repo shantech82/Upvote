@@ -66,6 +66,7 @@ export class AppCompanylistComponent implements OnInit {
 
   GetUAllICOs() {
     this.icoservice.GetAllICOs().then(userICOsData => {
+      if (userICOsData[0].length > 0) {
       const investorICO = userICOsData[0];
       this.AssignICOData(investorICO);
       this.topicolist = this.livestreamstartedICOs(this.icolist);
@@ -75,6 +76,9 @@ export class AppCompanylistComponent implements OnInit {
       } else {
         this.isICOAvailable = false;
       }
+    } else {
+      this.isICOAvailable = false;
+    }
       this.spinner.hide();
     });
   }

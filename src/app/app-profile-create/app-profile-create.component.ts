@@ -143,13 +143,18 @@ export class AppProfileCreateComponent implements OnInit {
     if (UserData !== undefined && UserData !== null) {
       this.userId = UserData.id;
       this.userType = UserData.type;
-      this.icouserprofileservice.GetSingleUser(this.userId).then(userData => {
+      this.icouserprofileservice.GetSingleUser(this.userId).subscribe(userData => {
         this.icoUserGet = userData[0];
+        if (this.icoUserGet !== undefined && this.icoUserGet.id !== undefined) {
         this.AssignProfileImage();
         this.createFormControls();
         this.createForm();
-        this.spinner.hide();
         this.forminitialization = true;
+        } else {
+          localStorage.removeItem('UserData');
+          this.router.navigate(['/Login']);
+        }
+        this.spinner.hide();
       });
     }
   }

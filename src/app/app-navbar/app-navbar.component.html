@@ -29,7 +29,7 @@
                   </div>
                 </a>
                 <i class="fa fa-caret-down mobi_i"></i>
-                <div ngbDropdownMenu aria-labelledby="dropdownBasic1" ngbDropdownToggle>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1" ngbDropdownToggle *ngIf="loggedIn">
                   <div class="drop_title">
                     <span> {{ user.name }} </span>
                   </div>
