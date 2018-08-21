@@ -110,11 +110,18 @@ document.getElementById('input-text-chat').onkeyup = function (e) {
 
 var chatContainer = document.querySelector('.chatul');
 connection.onmessage = appendDIV;
+var index=0;
 
 function appendDIV(chatText) {
     var chatDataElement = chatText.data || chatText;
     var chatElement = chatDataElement.split('|');
     var li = document.createElement('li');
+    if (index%2 === 0) {
+        li.className = 'orange';
+    } else {
+        li.className = 'red';
+    }
+    index++;
     //appending user name
     var divusername = document.createElement('div');
     divusername.className = 'user_name';
@@ -127,7 +134,8 @@ function appendDIV(chatText) {
     li.appendChild(divusername);
     var message = chatElement[0];
     li.appendChild(document.createTextNode(message));
-    chatContainer.insertBefore(li, chatContainer.childNodes[0]);
+    //chatContainer.insertBefore(li, chatContainer.childNodes[0]);
+    chatContainer.appendChild(li);
     li.tabIndex = 0;
     li.focus();
     document.getElementById('input-text-chat').focus();

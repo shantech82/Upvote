@@ -10,15 +10,6 @@
     window.params = params;
 })();
 var roomid = document.getElementById('room-id').value;
-/* if (localStorage.getItem(connection.socketMessageEvent)) {
-    roomid = localStorage.getItem(connection.socketMessageEvent);
-} else {
-    roomid = connection.token();
-}
-document.getElementById('room-id').value = roomid;
-document.getElementById('room-id').onkeyup = function() {
-    localStorage.setItem(connection.socketMessageEvent, this.value);
-};*/
 var hashString = location.hash.replace('#', '');
 if (hashString.length && hashString.indexOf('comment-') == 0) {
     hashString = '';
@@ -34,15 +25,8 @@ if (roomid && roomid.length) {
     (function reCheckRoomPresence() {
         connection.checkPresence(roomid, function(isRoomExist) {
             if (isRoomExist) {
-                // connection.sdpConstraints.mandatory = {
-                //    OfferToReceiveAudio: true,
-                //    OfferToReceiveVideo: true
-                //};
-                //connection.join(roomid);
                 return;
             }
-           // setTimeout(reCheckRoomPresence, 5000);
         });
     })();
-    //disableInputButtons();
 }

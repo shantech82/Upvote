@@ -48,7 +48,6 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit {
   keepdropdownopen: boolean;
   date: { year: number, month: number };
   currentlivestreammonth: string;
-  isActive: boolean;
 
   constructor(private activateRoute: ActivatedRoute, private icoservice: CompanyService,
     private spinner: NgxSpinnerService, private alertService: AlertCenterService, private livestreamService: LivestreamService,
@@ -57,13 +56,10 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit {
       this.icoid = params['id'];
     });
 
-    this.scheduleform = fb.group({
-      day: ['', Validators.required],
-      month: ['', Validators.required],
-      time: ['', Validators.required],
-    });
+    this.createControls();
 
-    config.autoClose = false;
+    // config.autoClose = false;
+    (<any>config).autoClose = 'outside';
   }
 
   options: DatepickerOptions = {
@@ -89,19 +85,19 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit {
     this.GetICO();
   }
 
-  onClickOutside(event: Object) {
-    if (event && event['value'] === true) {
-      this.isActive = false;
-    } else {
-      this.isActive = true;
-    }
-  }
-
   startLiveStream() {
     this.AssignLiveStreamData(this.todaylivestream.id, '', '', '', 'started');
     this.livestreamService.StartStopLiveStream(this.livestream).subscribe(data => {
       this.isLiveStreaming = true;
       startLiveStreamJs();
+    });
+  }
+
+  createControls() {
+    this.scheduleform = this.fb.group({
+      day: ['', Validators.required],
+      month: ['', Validators.required],
+      time: ['', Validators.required],
     });
   }
 
@@ -113,7 +109,7 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit {
   leaveLiveStream() {
     this.livestreamjoined = false;
     leaveLiveStreamJs();
-    this.todaylivestream = null;
+    this.getLiveStream();
   }
 
   stopLiveStream() {
@@ -154,8 +150,11 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit {
         if (this.todaylivestream.livestreamstatus === 'started') {
           this.isLiveStreaming = true;
         }
+      } else {
+        this.todaylivestream = null;
       }
     }).subscribe(data => {
+      this.createControls();
     });
   }
 
@@ -163,6 +162,7 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit {
     this.AssignLiveStreamData(0, lviestreamDate, time, Utility.GenerateLiveStreamCode(), 'created');
     this.livestreamService.CreateLiveStream(this.livestream).subscribe(data => {
       this.alertService.alert(new Alert(AlertType.SUCCESS, 'Your event on ' + lviestreamDate + ' Created!'));
+      this.getLiveStream();
     });
   }
 

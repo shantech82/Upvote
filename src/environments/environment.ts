@@ -5,9 +5,9 @@
 
 export const environment = {
   production: false,
-    ApiURL: 'http://localhost:3000/api/',
+    // ApiURL: 'http://localhost:3000/api/',
     // ApiHostURL: 'http://localhost:3000/',
-    // ApiURL: 'https://icoupvoteapi.herokuapp.com/api/',
+    ApiURL: 'https://icoupvoteapi.herokuapp.com/api/',
     ApiHostURL: 'https://icoupvoteapi.herokuapp.com/',
     AppHostURL: 'https://localhost:4200',
     GoogleProviderID: '853849272854-i2bpckdiorbb2ek72qjia5mbmg0t2s0t.apps.googleusercontent.com',

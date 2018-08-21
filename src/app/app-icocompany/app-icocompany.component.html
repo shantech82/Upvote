@@ -114,7 +114,7 @@
                 <div class="cal_icon">
                   <img src="..\assets\img\ico-cal.png">
                 </div>
-                <div class="cal_details">
+                <div class="cal_details" *ngIf="ico.icostartdate">
                   <small>Started {{ ico.icostartdate | date:'MMMM dd' }}{{ dateendstring }}</small>
                   <p *ngIf="expired">{{ expired }} </p>
                   <p *ngIf="!expired">{{ enddatecal }} </p>
