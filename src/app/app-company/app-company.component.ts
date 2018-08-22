@@ -279,7 +279,7 @@ export class AppCompanyComponent implements OnInit {
             if (returnValue !== undefined) {
               this.spinner.hide();
               this.alertService.alert(new Alert(AlertType.SUCCESS, 'ICO has been Updated!!!'));
-              this.icoservice.GetInsertedICO(this.ico.iconame, this.ico.icostartdate, this.ico.icoenddate, this.ico.tokcenname).
+              this.icoservice.GetInsertedICOByName(this.ico.iconame).
                 subscribe(ids => {
                   this.router.navigate(['/ICO', ids[0].id]);
                  });

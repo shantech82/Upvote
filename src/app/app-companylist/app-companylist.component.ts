@@ -54,6 +54,7 @@ export class AppCompanylistComponent implements OnInit {
   topicolist: IICOList;
   isICOAvailable: boolean;
   isLivestreaming: boolean;
+  displayText: string;
 
   constructor(private icoservice: CompanyService, private spinner: NgxSpinnerService,
     private router: Router) { }
@@ -62,6 +63,7 @@ export class AppCompanylistComponent implements OnInit {
     this.spinner.show();
     this.GetUAllICOs();
     this.page = 'ico';
+    this.displayText = 'All ICOs';
   }
 
   GetUAllICOs() {
@@ -70,7 +72,7 @@ export class AppCompanylistComponent implements OnInit {
         const investorICO = userICOsData[0];
         this.AssignICOData(investorICO);
         this.topicolist = this.livestreamstartedICOs(this.icolist);
-        this.ICOSoring();
+        this.ICOSorting();
         this.forminitialization = true;
         if (this.icolist[0].iconame !== null) {
           this.isICOAvailable = true;
@@ -84,37 +86,13 @@ export class AppCompanylistComponent implements OnInit {
     });
   }
 
-  ICOSoring() {
-    const icowithlivesteam: any = this.icolist.filter(ico => ico.livestreamdate !== undefined);
-
-    const icowithoutlivestream: any = this.icolist.filter(ico => ico.livestreamdate === undefined);
+  ICOSorting() {
+    const icowithlivesteam: IICOList[] = Utility.ICOSorting(this.icolist.filter(ico => ico.livestreamdate !== undefined), true);
+    const icowithoutlivestream: IICOList[] = Utility.ICOSorting(this.icolist.filter(ico => ico.livestreamdate === undefined), true);
 
     this.icolist = [];
-    icowithlivesteam.sort(function (a, b) {
-      const dateA: any = new Date(a.livestreamdate), dateB: any = new Date(b.livestreamdate);
-      return dateA - dateB;
-    });
-    icowithlivesteam.map(data => {
-      if (this.icolist.length > 0) {
-        const pushdata = this.icolist.find(x => x.id === data.id);
-        if (pushdata === undefined) {
-          this.icolist.push(data);
-        }
-      } else {
-        this.icolist.push(data);
-      }
-    });
-    icowithoutlivestream.map(data => {
-      if (this.icolist.length > 0) {
-        const pushdata = this.icolist.find(x => x.id === data.id);
-        if (pushdata === undefined) {
-          this.icolist.push(data);
-        }
-      } else {
-        this.icolist.push(data);
-      }
-    });
-
+    this.icolist.push.apply(this.icolist, icowithlivesteam);
+    this.icolist.push.apply(this.icolist, icowithoutlivestream);
   }
 
   livestreamstartedICOs(icoslist: IICOList[]) {

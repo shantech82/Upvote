@@ -27,6 +27,7 @@ export class AppRegisterComponent implements OnInit {
   password = '';
   confirmpassword = '';
   aboutyourself = '';
+  isinvestor = false;
 
   userData: IUser;
   submitted: boolean;
@@ -34,15 +35,7 @@ export class AppRegisterComponent implements OnInit {
   constructor(private socialAuthService: AuthService, private regservice: RegistrationService,
     private router: Router, private fb: FormBuilder, private emailservice: EmailService,
     private alertService: AlertCenterService, private spinner: NgxSpinnerService) {
-    this.registerForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Utility.isEmailValid('email')]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmpassword: ['', Validators.required],
-      aboutyourself: ['', Validators.required]
-    }, {
-        validator: this.MatchPassword // your validation method
-      });
+      this.CreateControls();
   }
 
   MatchPassword(AC: AbstractControl) {
@@ -73,6 +66,7 @@ export class AppRegisterComponent implements OnInit {
         bio: registerForm.controls['aboutyourself'].value,
         image: '',
         isactive: false,
+        isinvestor: registerForm.controls['isinvestor'].value,
       };
       this.RegisterUser(tempUserData, '1');
     } else {
@@ -81,13 +75,14 @@ export class AppRegisterComponent implements OnInit {
     }
   }
 
-  ClearData() {
+  CreateControls() {
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Utility.isEmailValid('email')]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmpassword: ['', Validators.required],
-      aboutyourself: ['', Validators.required]
+      aboutyourself: ['', Validators.required],
+      isinvestor: [false, Validators.nullValidator]
     }, {
         validator: this.MatchPassword // your validation method
       });
@@ -112,7 +107,7 @@ export class AppRegisterComponent implements OnInit {
           password: UserData.password,
           bio: UserData.bio,
           id: 0,
-          isinvestor: false,
+          isinvestor: UserData.isinvestor,
           profileimageurl: UserData.image,
           location: '',
           investmentfocus: '',
@@ -132,7 +127,7 @@ export class AppRegisterComponent implements OnInit {
           } else {
             const mailData = Utility.getMailData(registeredData[0].activatekey, registeredData[0].email, registeredData[0].name);
             this.emailservice.SendActivateMail(mailData).subscribe(alertMessage => {
-              this.ClearData();
+              this.CreateControls();
               this.spinner.hide();
               this.alertService.alert(new Alert(AlertType.SUCCESS, 'Please check your mail to activate your account!!!'));
             });

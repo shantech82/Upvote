@@ -18,7 +18,7 @@
             <div class="pro_tag WhitePaper" *ngIf="ico.whitepaper">
               <a [attr.href]="ico.whitepaper" target="_blank">White Paper</a>
             </div>
-            <div class="join_whitelist" *ngIf="!ico.iswhitelistjoined">Join Whitelist</div>
+            <a [routerLink]="['/ListICO', ico.id]" routerLinkActive="active-link" class="join_whitelist" *ngIf="userType===1 && !ico.iswhitelistjoined">Join Whitelist</a>
             <div class="join_whitelist" *ngIf="ico.iswhitelistjoined">Whitelisted</div>
             <div class="pro_social">
               <ul>

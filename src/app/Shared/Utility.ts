@@ -1,8 +1,9 @@
 import { environment } from '../../environments/environment';
+import { IICOList } from '../core/Model/IICOList';
 
 export class Utility {
 
-    public static timemessage: string =  'Your time is invalid, please check your event time your time should be 24 hours format and format should be 00:00';
+    public static timemessage: string = 'Your time is invalid, please check your event time your time should be 24 hours format and format should be 00:00';
     updatedImageUrl: string;
 
     public static isEmailValid(control) {
@@ -203,11 +204,33 @@ export class Utility {
     }
 
     public static getHours(timeValue) {
-       return parseInt(timeValue.split(':')[0], 10);
+        return parseInt(timeValue.split(':')[0], 10);
     }
 
     public static getMinutes(timeValue) {
         return parseInt(timeValue.split(':')[1], 10);
-     }
+    }
 
+    public static ICOSorting(icolist: IICOList[], isliveStramDateavailale: boolean) {
+        const returnList: IICOList[] = [];
+        if (icolist.length > 0) {
+            if (isliveStramDateavailale) {
+                icolist.sort(function (a, b) {
+                    const dateA: any = new Date(a.livestreamdate), dateB: any = new Date(b.livestreamdate);
+                    return dateA - dateB;
+                });
+            }
+            icolist.map(data => {
+                if (returnList !== undefined) {
+                    const pushdata = returnList.find(x => x.id === data.id);
+                    if (pushdata === undefined) {
+                        returnList.push(data);
+                    }
+                } else {
+                    returnList.push(data);
+                }
+            });
+        }
+        return returnList;
+    }
 }

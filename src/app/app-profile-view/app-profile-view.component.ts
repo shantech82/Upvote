@@ -19,9 +19,12 @@ export class AppProfileViewComponent implements OnInit {
   user: IUser;
   imageSrc: string;
   icolist: IICOList[];
+  yourICOList: IICOList[];
   averageinvestmentsizeperyear: string;
   page: string;
   isICOAvailable: boolean;
+  investordisplayText: string;
+  yourdisplayText: string;
 
   constructor(private icouserprofileservice: RegistrationService, private spinner: NgxSpinnerService,
     private router: Router) { }
@@ -37,17 +40,38 @@ export class AppProfileViewComponent implements OnInit {
     this.averageinvestmentsizeperyear = apiUserData[0].averageinvestmentsizeperyear;
   }
 
-  AssignICOData(apiICOData: any) {
-    this.icolist = apiICOData.map(o => {
+  AssignICOData(apiICOData: any): IICOList[] {
+    return apiICOData.map(o => {
       return {
         iconame: o.iconame,
-        icologoimage: Utility.AssignLogomage(o.icologoimage),
+        icologoimage: Utility.getImageURL(o.icologoimage),
         icoshortdescription: o.icoshortdescription,
         icocreatedon: o.icocreatedon,
         icolivestreamData: Utility.getDiferenceInDays(o.icolivestreamdata),
-        iswhitelistjoined: o.iswhitelistjoined
+        iswhitelistjoined: o.iswhitelistjoined,
+        id: o.id,
+        livestreamstatus: o.livestreamstatus,
+        livestreamdate: o.icolivestreamdata ? new Date(o.icolivestreamdata) : undefined
       };
     });
+  }
+
+  InvestedICOSorting() {
+    const icowithlivesteam: IICOList[] = Utility.ICOSorting(this.icolist.filter(ico => ico.livestreamdate !== undefined), true);
+    const icowithoutlivestream: IICOList[] = Utility.ICOSorting(this.icolist.filter(ico => ico.livestreamdate === undefined), true);
+
+    this.icolist = [];
+    this.icolist.push.apply(this.icolist, icowithlivesteam);
+    this.icolist.push.apply(this.icolist, icowithoutlivestream);
+  }
+
+  OwnICOSorting() {
+    const icowithlivesteam: IICOList[] = Utility.ICOSorting(this.yourICOList.filter(ico => ico.livestreamdate !== undefined), true);
+    const icowithoutlivestream: IICOList[] = Utility.ICOSorting(this.yourICOList.filter(ico => ico.livestreamdate === undefined), true);
+
+    this.yourICOList = [];
+    this.yourICOList.push.apply(this.yourICOList, icowithlivesteam);
+    this.yourICOList.push.apply(this.yourICOList, icowithoutlivestream);
   }
 
   GetUserWithICOsInfo() {
@@ -59,14 +83,24 @@ export class AppProfileViewComponent implements OnInit {
         if (userICOsData[0].length > 0) {
           const investorICO = userICOsData[0];
           this.AssignUserData(investorICO);
-          this.AssignICOData(investorICO);
+          this.icolist = this.AssignICOData(investorICO);
           this.user.profileimageurl = Utility.getUserImageURL(this.user.profileimageurl);
           this.forminitialization = true;
           if (this.icolist[0].iconame !== null) {
             this.isICOAvailable = true;
+            this.investordisplayText = 'INV ICOs';
+            this.InvestedICOSorting();
           } else {
             this.isICOAvailable = false;
           }
+          this.icouserprofileservice.GetOwnICOs(this.userId).subscribe(ownICOSData => {
+            if (ownICOSData[0].length > 0) {
+              const ownICO = ownICOSData[0];
+              this.yourICOList = this.AssignICOData(ownICO);
+              this.yourdisplayText = 'own ICOs';
+              this.OwnICOSorting();
+            }
+          });
         } else {
           this.isICOAvailable = false;
           localStorage.removeItem('UserData');

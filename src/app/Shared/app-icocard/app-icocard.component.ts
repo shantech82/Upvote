@@ -11,6 +11,7 @@ export class AppIcocardComponent implements OnInit {
 
   @Input() icolist: IICOList[];
   @Input() page: string;
+  @Input() displayText: string;
 
   itemCount: number;
   icosearch: string;

@@ -44,6 +44,11 @@ export class RegistrationService {
       .map(data => _.values(data));
   }
 
+  GetOwnICOs(Id) {
+    return this.http.get(environment.ApiURL + 'getOwnICOs/' + Id)
+      .map(data => _.values(data));
+  }
+
   GetUserEmail(email): Observable<IUser> {
     return this.http.get<IUser>(environment.ApiURL + 'getRegistrationemail?email=' + email)
       .map(data => _.values(data));
