@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, OnInit, Inject, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { DatepickerOptions } from 'ng2-datepicker';
 import * as enLocale from 'date-fns/locale/en';
 import { CompanyService } from '../services/company.service';
@@ -13,7 +13,7 @@ import { Utility } from '../Shared/Utility';
 import { LivestreamService } from '../services/livestream.service';
 import { ILiveStream, IAddSchedules, ISchedules } from '../core/Model/ILiveStream';
 import { NgForm, FormGroup, FormBuilder, Validators } from '../../../node_modules/@angular/forms';
-import { utils } from '../../../node_modules/protractor';
+import { DomSanitizer } from '@angular/platform-browser';
 
 declare function startLiveStreamJs(): any;
 declare function stopLiveStreamJs(): any;
@@ -27,6 +27,8 @@ declare function leaveLiveStreamJs(): any;
 })
 
 export class AppIcocompanyComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('videoPlayer') videoplayer: any;
 
   forminitialization: boolean;
   ico: IICO;
@@ -48,8 +50,10 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit {
   keepdropdownopen: boolean;
   date: { year: number, month: number };
   currentlivestreammonth: string;
+  youtubeembedurl: any;
+  icovideourl: any;
 
-  constructor(private activateRoute: ActivatedRoute, private icoservice: CompanyService,
+  constructor(private activateRoute: ActivatedRoute, private icoservice: CompanyService, private sanitizer: DomSanitizer,
     private spinner: NgxSpinnerService, private alertService: AlertCenterService, private livestreamService: LivestreamService,
     @Inject(DOCUMENT) private document, private elementRef: ElementRef, private fb: FormBuilder, config: NgbDropdownConfig) {
     this.activateRoute.params.subscribe(params => {
@@ -85,6 +89,9 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit {
     this.GetICO();
   }
 
+  toggleVideo(event: any) {
+    this.videoplayer.nativeElement.play();
+  }
   startLiveStream() {
     this.AssignLiveStreamData(this.todaylivestream.id, '', '', '', 'started');
     this.livestreamService.StartStopLiveStream(this.livestream).subscribe(data => {
@@ -245,6 +252,15 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit {
         this.ico.icologoimage = Utility.getImageURL(this.ico.icologoimage);
         this.checkCompanyUser(this.ico.userid);
         this.icoStartEndDateCalc(this.ico.icostartdate, this.ico.icoenddate);
+        this.ico.youtubevideolink = Utility.GetYoutubeVideo(this.ico.youtubevideolink);
+        if (this.ico.youtubevideolink !== undefined) {
+          this.UrlSanitizer(true);
+        } else {
+          this.ico.videouploadurl = Utility.getVideoURL(this.ico.videouploadurl);
+          if (this.ico.videouploadurl !== undefined) {
+            this.UrlSanitizer(false);
+          }
+        }
         this.getLiveStream();
       } else {
         this.forminitialization = false;
@@ -252,6 +268,14 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit {
       }
       this.spinner.hide();
     });
+  }
+
+  UrlSanitizer(type: boolean) {
+    if (type) {
+      this.youtubeembedurl = this.sanitizer.bypassSecurityTrustResourceUrl(this.ico.youtubevideolink.replace('watch?v=', 'embed/'));
+    } else {
+      this.icovideourl = this.sanitizer.bypassSecurityTrustResourceUrl(this.ico.videouploadurl);
+    }
   }
 
   ngAfterViewInit() {

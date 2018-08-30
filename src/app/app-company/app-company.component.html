@@ -30,7 +30,7 @@
           </div>
         </div>
       </div>
-      <p>Social Media links</p>
+      <label class="control-label">Social Media links</label>
       <div class="row">
         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
           <div class="form-group">
@@ -62,10 +62,16 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
           <div class="form-group">
             <label class="control-label">You Tube</label>
-            <input type="email" formControlName="smn_youtube" class="form-control listInp dirty" placeholder="">
+            <input type="text" formControlName="smn_youtube" class="form-control listInp dirty" placeholder="">
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+          <div class="form-group">
+            <label class="control-label">Product Video on Youtube</label>
+            <input type="text" formControlName="youtubevideolink" class="form-control listInp dirty" placeholder="">
           </div>
         </div>
       </div>
@@ -146,7 +152,7 @@
             <div class="input-group videoUpload">
               <input type="text" [value]="updatedVideoFileName" class="form-control listInp" placeholder="">
               <span class="input-group-addon">
-                <button class="btn" (click)="fileInput.click()">Select file</button>
+                <button type="button" class="btn" (click)="videoInput.click()">Select file</button>
               </span>
               <input #videoInput type="file" class="form-control" style="display: none" (change)="videofileChangeEvent($event)" multiple
                 accept='video/*'>

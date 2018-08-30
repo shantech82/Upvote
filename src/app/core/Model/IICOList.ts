@@ -8,4 +8,6 @@ export interface IICOList {
     id: number;
     livestreamstatus: string;
     livestreamdate: Date;
+    youtubevideolink: string;
+    videouploadurl: string;
   }

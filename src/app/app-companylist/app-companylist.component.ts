@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CompanyService } from '../services/company.service';
 import { IICOList } from '../core/Model/IICOList';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 import { Utility } from '../Shared/Utility';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-app-companylist',
@@ -11,6 +12,8 @@ import { Utility } from '../Shared/Utility';
   styleUrls: ['./app-companylist.component.css']
 })
 export class AppCompanylistComponent implements OnInit {
+
+  @ViewChild('videoPlayer') videoplayer: any;
 
   config: any = {
     paginationClickable: true,
@@ -55,8 +58,10 @@ export class AppCompanylistComponent implements OnInit {
   isICOAvailable: boolean;
   isLivestreaming: boolean;
   displayText: string;
+  youtubeembedurl: any;
+  icovideourl: any;
 
-  constructor(private icoservice: CompanyService, private spinner: NgxSpinnerService,
+  constructor(private icoservice: CompanyService, private spinner: NgxSpinnerService, private sanitizer: DomSanitizer,
     private router: Router) { }
 
   ngOnInit() {
@@ -66,12 +71,17 @@ export class AppCompanylistComponent implements OnInit {
     this.displayText = 'All ICOs';
   }
 
+  toggleVideo(event: any) {
+    this.videoplayer.nativeElement.play();
+  }
+
   GetUAllICOs() {
     this.icoservice.GetAllICOs().then(userICOsData => {
       if (userICOsData[0].length > 0) {
         const investorICO = userICOsData[0];
         this.AssignICOData(investorICO);
         this.topicolist = this.livestreamstartedICOs(this.icolist);
+        this.setVidoeURL();
         this.ICOSorting();
         this.forminitialization = true;
         if (this.icolist[0].iconame !== null) {
@@ -84,6 +94,26 @@ export class AppCompanylistComponent implements OnInit {
       }
       this.spinner.hide();
     });
+  }
+
+  setVidoeURL() {
+    this.topicolist.youtubevideolink = Utility.GetYoutubeVideo(this.topicolist.youtubevideolink);
+        if (this.topicolist.youtubevideolink !== undefined) {
+          this.UrlSanitizer(true);
+        } else {
+          this.topicolist.videouploadurl = Utility.getVideoURL(this.topicolist.videouploadurl);
+          if (this.topicolist.videouploadurl !== undefined) {
+            this.UrlSanitizer(false);
+          }
+        }
+  }
+
+  UrlSanitizer(type: boolean) {
+    if (type) {
+      this.youtubeembedurl = this.sanitizer.bypassSecurityTrustResourceUrl(this.topicolist.youtubevideolink.replace('watch?v=', 'embed/'));
+    } else {
+      this.icovideourl = this.sanitizer.bypassSecurityTrustResourceUrl(this.topicolist.videouploadurl);
+    }
   }
 
   ICOSorting() {
@@ -116,7 +146,9 @@ export class AppCompanylistComponent implements OnInit {
         iswhitelistjoined: o.iswhitelistjoined,
         id: o.id,
         livestreamstatus: o.livestreamstatus,
-        livestreamdate: o.icolivestreamdata ? new Date(o.icolivestreamdata) : undefined
+        livestreamdate: o.icolivestreamdata ? new Date(o.icolivestreamdata) : undefined,
+        videouploadurl: o.videouploadurl,
+        youtubevideolink: o.youtubevideolink
       };
     });
   }

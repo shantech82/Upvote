@@ -92,12 +92,16 @@
           <div class="row">
             <div class="col-md-11 col-lg-11 col-sm-12 col-xs-12">
               <div class="video_container">
-                <video width="100%" height="420px" controls>
-                  <source src="https://www.youtube.com/watch?v=C0DPdy98e4c" type="video/mp4"> Your browser does not support the video tag.
+                <div *ngIf="youtubeembedurl">
+                <iframe width="100%" height="420px" [src]= "youtubeembedurl" style="background: rgb(15, 15, 15);"
+                frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+              </div>
+                <video width="100%" height="420px"  (click)="toggleVideo()" #videoPlayer controls *ngIf="!youtubeembedurl">
+                  <source [src]="icovideourl" type="video/mp4"> Your browser does not support the video tag.
                 </video>
-                <div class="play_pause">
-                  <img src="..\assets\img\btn-play.png">
-                </div>
+              </div>
+              <div>
+                <h2> About {{ ico.iconame }}</h2>
               </div>
               <div class="summary">
                 <p>

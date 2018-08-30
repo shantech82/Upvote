@@ -51,6 +51,7 @@ export class AppCompanyComponent implements OnInit {
   smn_youtube: FormControl;
   phone_number: FormControl;
   address: FormControl;
+  youtubevideolink: FormControl;
 
   ico: IICO;
   icoform: FormGroup;
@@ -115,6 +116,7 @@ export class AppCompanyComponent implements OnInit {
     this.phone_number = new FormControl(this.icoGet.phone_number, [Validators.required, Validators.maxLength(13),
     Validators.minLength(8), Utility.isPhoneNumberValid('phone_number')]);
     this.address = new FormControl(this.icoGet.address, Validators.nullValidator);
+    this.youtubevideolink = new FormControl(this.icoGet.youtubevideolink, Utility.isWebsiteValid('youtubevideolink'));
   }
 
   createForm() {
@@ -127,7 +129,7 @@ export class AppCompanyComponent implements OnInit {
       linktoboundry: this.linktoboundry, tokcenname: this.tokcenname,
       tokeytype: this.tokeytype, pricepertoken: this.pricepertoken, iswhitelistjoined: this.iswhitelistjoined,
       smn_youtube: this.smn_youtube, phone_number: this.phone_number,
-      address: this.address, smn_linkedin: this.smn_linkedin
+      address: this.address, smn_linkedin: this.smn_linkedin, youtubevideolink: this.youtubevideolink
     });
   }
 
@@ -159,18 +161,24 @@ export class AppCompanyComponent implements OnInit {
   }
 
   videofileChangeEvent(fileInput: any) {
-    if (fileInput.target.files[0].type.startsWith('image')) {
+    if (fileInput.target.files[0].type.startsWith('video/mp4')) {
       this.videoToUpload = fileInput.target.files[0];
       const formData: any = new FormData();
       const modifiedfilename = Date.now() + this.videoToUpload.name;
       formData.append('file', this.videoToUpload, modifiedfilename);
-      this.fuservice.DeleteFile(this.updatedVideoFileName).subscribe(() => {
+      if (Utility.isNotEmptyNullUndefined(this.updatedprofileimageurl)) {
+        this.fuservice.DeleteFile(this.updatedVideoFileName).subscribe(() => {
+          this.fuservice.UploadCompanyImage(formData).subscribe(filename => {
+            this.updatedVideoFileName = filename;
+          });
+        });
+      } else {
         this.fuservice.UploadCompanyImage(formData).subscribe(filename => {
           this.updatedVideoFileName = filename;
         });
-      });
+      }
     } else {
-      this.alertService.alert(new Alert(AlertType.WARNING, 'please check your profile image format'));
+      this.alertService.alert(new Alert(AlertType.WARNING, 'Sorry!! We are not supporting your file format'));
     }
   }
 
@@ -257,7 +265,8 @@ export class AppCompanyComponent implements OnInit {
           address: icoform.controls['address'].value,
           createdon: new Date(),
           id: this.icoid,
-          userid: UserData.id
+          userid: UserData.id,
+          youtubevideolink: icoform.controls['youtubevideolink'].value,
         };
 
         if (this.icoid === 0) {

@@ -35,7 +35,6 @@
     "express": "^4.16.3",
     "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",
-    "ng-click-outside": "^4.0.0",
     "ng2-alert-center": "^0.5.1",
     "ng2-completer": "^1.6.3",
     "ng2-datepicker": "^3.1.0",

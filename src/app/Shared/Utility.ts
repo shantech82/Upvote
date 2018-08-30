@@ -72,6 +72,18 @@ export class Utility {
         }
     }
 
+    public static getVideoURL(vidoeUrl: string) {
+        if (this.isNotEmptyNullUndefined(vidoeUrl)) {
+            if (vidoeUrl.indexOf('http') === -1) {
+                return environment.ApiHostURL + 'static/companyimages/' + vidoeUrl;
+            } else {
+                return vidoeUrl;
+            }
+        } else {
+            return undefined;
+        }
+    }
+
     public static getUserImageURL(imageUrl: string) {
         if (this.isNotEmptyNullUndefined(imageUrl)) {
             if (imageUrl.indexOf('http') === -1) {
@@ -232,5 +244,12 @@ export class Utility {
             });
         }
         return returnList;
+    }
+
+    public static GetYoutubeVideo(videoURL: string) {
+        if (this.isNotEmptyNullUndefined(videoURL)) {
+            return videoURL.replace('watch?v=', 'embed/');
+        }
+       return undefined;
     }
 }

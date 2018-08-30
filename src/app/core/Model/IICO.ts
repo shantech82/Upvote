@@ -33,4 +33,5 @@ export interface IICO {
   long_description: string;
   address: string;
   userid: number;
+  youtubevideolink: string;
   }
