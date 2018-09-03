@@ -143,17 +143,11 @@ export class AppCompanyComponent implements OnInit {
       const formData: any = new FormData();
       const modifiedfilename = Date.now() + this.filesToUpload.name;
       formData.append('file', this.filesToUpload, modifiedfilename);
-      if (Utility.isNotEmptyNullUndefined(this.updatedprofileimageurl)) {
-        this.fuservice.DeleteFile(this.updatedprofileimageurl).subscribe(() => {
-          this.fuservice.UploadCompanyImage(formData).subscribe(filename => {
-            this.updatedprofileimageurl = filename;
-          });
-        });
-      } else {
+      this.fuservice.DeleteFile(this.updatedprofileimageurl).subscribe(() => {
         this.fuservice.UploadCompanyImage(formData).subscribe(filename => {
           this.updatedprofileimageurl = filename;
         });
-      }
+      });
     } else {
       this.imageSrc = '../../assets/img/empty_image.png';
       this.alertService.alert(new Alert(AlertType.WARNING, 'please check your profile image format'));
@@ -166,17 +160,12 @@ export class AppCompanyComponent implements OnInit {
       const formData: any = new FormData();
       const modifiedfilename = Date.now() + this.videoToUpload.name;
       formData.append('file', this.videoToUpload, modifiedfilename);
-      if (Utility.isNotEmptyNullUndefined(this.updatedprofileimageurl)) {
-        this.fuservice.DeleteFile(this.updatedVideoFileName).subscribe(() => {
-          this.fuservice.UploadCompanyImage(formData).subscribe(filename => {
-            this.updatedVideoFileName = filename;
-          });
-        });
-      } else {
+      this.fuservice.DeleteFile(this.updatedVideoFileName).subscribe(() => {
+        this.updatedVideoFileName = modifiedfilename;
         this.fuservice.UploadCompanyImage(formData).subscribe(filename => {
           this.updatedVideoFileName = filename;
         });
-      }
+      });
     } else {
       this.alertService.alert(new Alert(AlertType.WARNING, 'Sorry!! We are not supporting your file format'));
     }
