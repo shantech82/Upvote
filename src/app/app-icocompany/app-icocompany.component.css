@@ -497,6 +497,51 @@
   outline: none !important;
 }
 
+:host /deep/ .calModal .dropdown-menu {
+  left: 150px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 263px;
+  border: 0;
+  box-shadow: 0 10px 30px 0 rgba(207, 213, 218, 0.55);
+}
+
+:host /deep/ .calModal .dropdown-menu>ul {
+  list-style: none;
+  padding: 15px 0;
+  margin: 0;
+}
+
+:host /deep/ .calModal .dropdown-menu li {
+  padding: 8px 25px;
+  text-align: left;
+  list-style: none;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.43;
+  letter-spacing: normal;
+  color: #555c62;
+}
+
+:host /deep/ .calModal .dropdown-menu li span a i {
+  position: absolute;
+  right: 10px;
+  font-size: 18px;
+  color: #c62828;
+}
+
+:host /deep/ .calModal .dropdown-menu .drop_title {
+  padding: 17px 25px;
+  border-bottom: 1px solid #ddd;
+  font-weight: bold
+}
+
+:host /deep/ .calModal .dropdown-menu .drop_title:hover {
+  background: none;
+}
+
 :host /deep/ .dateModal .dropdown-menu {
   left: 150px !important;
   margin: 0 !important;

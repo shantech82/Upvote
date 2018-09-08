@@ -125,11 +125,11 @@ export class AppRegisterComponent implements OnInit {
             Utility.assignLocalStorageData(registeredData, '2');
             this.router.navigate(['/Home']);
           } else {
-            const mailData = Utility.getMailData(registeredData[0].activatekey, registeredData[0].email, registeredData[0].name);
+            const mailData = Utility.getMailDataForActivate(registeredData[0].activatekey, registeredData[0].email, registeredData[0].name);
             this.emailservice.SendActivateMail(mailData).subscribe(alertMessage => {
               this.CreateControls();
               this.spinner.hide();
-              this.alertService.alert(new Alert(AlertType.SUCCESS, 'Please check your mail to activate your account!!!'));
+              this.router.navigate(['/Message'], { queryParams: { email: registeredData[0].email, type: '1' } });
             });
           }
         },

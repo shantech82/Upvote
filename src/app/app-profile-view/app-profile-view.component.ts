@@ -5,6 +5,7 @@ import { IICOList } from '../core/Model/IICOList';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Utility } from '../Shared/Utility';
 import { Router } from '@angular/router';
+import { UrlparserService } from '../services/urlparser.service';
 
 @Component({
   selector: 'app-app-profile-view',
@@ -15,7 +16,9 @@ export class AppProfileViewComponent implements OnInit {
 
   userType: string;
   userId: number;
-  forminitialization: boolean;
+  investedICOSInitialization: boolean;
+  ownICOsInitialization: boolean;
+  userintilization: boolean;
   user: IUser;
   imageSrc: string;
   icolist: IICOList[];
@@ -27,7 +30,7 @@ export class AppProfileViewComponent implements OnInit {
   yourdisplayText: string;
 
   constructor(private icouserprofileservice: RegistrationService, private spinner: NgxSpinnerService,
-    private router: Router) { }
+    private router: Router, private urlservice: UrlparserService) { }
 
   ngOnInit() {
     this.spinner.show();
@@ -44,7 +47,7 @@ export class AppProfileViewComponent implements OnInit {
     return apiICOData.map(o => {
       return {
         iconame: o.iconame,
-        icologoimage: Utility.getImageURL(o.icologoimage),
+        icologoimage: o.icologoimage,
         icoshortdescription: o.icoshortdescription,
         icocreatedon: o.icocreatedon,
         icolivestreamData: Utility.getDiferenceInDays(o.icolivestreamdata),
@@ -53,6 +56,34 @@ export class AppProfileViewComponent implements OnInit {
         livestreamstatus: o.livestreamstatus,
         livestreamdate: o.icolivestreamdata ? new Date(o.icolivestreamdata) : undefined
       };
+    });
+  }
+
+  AssignImageURLforinvestorICOs() {
+    const count = this.icolist.length;
+    let index = 1;
+    this.icolist.map(o => {
+      this.urlservice.GetFileURL(o.icologoimage, 'icoimage').subscribe(value => {
+        o.icologoimage = value;
+        index++;
+        if (index > count) {
+          this.investedICOSInitialization = true;
+        }
+      });
+    });
+  }
+
+  AssignImageURLforOwnICOs() {
+    const count = this.yourICOList.length;
+    let index = 1;
+    this.yourICOList.map(o => {
+      this.urlservice.GetFileURL(o.icologoimage, 'icoimage').subscribe(value => {
+        o.icologoimage = value;
+        index++;
+        if (index > count) {
+          this.ownICOsInitialization = true;
+        }
+      });
     });
   }
 
@@ -84,14 +115,18 @@ export class AppProfileViewComponent implements OnInit {
           const investorICO = userICOsData[0];
           this.AssignUserData(investorICO);
           this.icolist = this.AssignICOData(investorICO);
-          this.user.profileimageurl = Utility.getUserImageURL(this.user.profileimageurl);
-          this.forminitialization = true;
+          this.urlservice.GetFileURL(this.user.profileimageurl, 'icouser').subscribe(value => {
+            this.user.profileimageurl = value;
+            this.userintilization = true;
+          });
           if (this.icolist[0].iconame !== null) {
             this.isICOAvailable = true;
             this.investordisplayText = 'INV ICOs';
             this.InvestedICOSorting();
+            this.AssignImageURLforinvestorICOs();
           } else {
             this.isICOAvailable = false;
+            this.investedICOSInitialization = true;
           }
           this.icouserprofileservice.GetOwnICOs(this.userId).subscribe(ownICOSData => {
             if (ownICOSData[0].length > 0) {
@@ -99,6 +134,9 @@ export class AppProfileViewComponent implements OnInit {
               this.yourICOList = this.AssignICOData(ownICO);
               this.yourdisplayText = 'own ICOs';
               this.OwnICOSorting();
+              this.AssignImageURLforOwnICOs();
+            } else {
+              this.ownICOsInitialization = true;
             }
           });
         } else {

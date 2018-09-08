@@ -6,6 +6,7 @@ import {
 import { Router } from '@angular/router';
 import { Utility } from '../Shared/Utility';
 import { RegistrationService } from '../services/registration.service';
+import { UrlparserService } from '../services/urlparser.service';
 
 @Component({
   selector: 'app-app-navbar',
@@ -17,16 +18,20 @@ export class AppNavbarComponent implements OnInit {
   public user: SocialUser;
   public loggedIn: boolean;
   mobileMenu: boolean;
+  formintilization: boolean;
 
 
   constructor(private socialAuthService: AuthService, private registrationser: RegistrationService,
-    private router: Router) { }
+    private router: Router, private urlservice: UrlparserService) { }
 
   ngOnInit() {
     const UserData = JSON.parse(localStorage.getItem('UserData'));
     if (UserData != null) {
         this.user = UserData;
-        this.user.image = Utility.getUserImageURL(this.user.image);
+        this.urlservice.GetFileURL(this.user.image, 'icouser').subscribe(value => {
+          this.user.image = value;
+          this.formintilization = true;
+        });
         this.loggedIn = true;
     } else {
       this.loggedIn = false;

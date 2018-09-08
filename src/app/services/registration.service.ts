@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import * as _ from 'lodash';
-import { IUser } from '../core/Model/IUser';
+import { IUser, Iforgetpassword } from '../core/Model/IUser';
 import { Observable } from '../../../node_modules/rxjs/Observable';
 import { environment } from '../../environments/environment';
 import { IInvestorICOs } from '../core/Model/IInvestorICOs';
@@ -63,6 +63,17 @@ export class RegistrationService {
     return this.http.put(environment.ApiURL + 'putUserActivate?email=' + email + '&activatekey=' + key, httpOptions)
       .map(data => _.values(data));
   }
+
+  PutChangePassword(userData: Iforgetpassword) {
+    return this.http.put<IUser>(environment.ApiURL + 'putChangePassword', JSON.stringify(userData), httpOptions)
+      .map(data => _.values(data));
+  }
+
+  PutActivateKey(userData: Iforgetpassword) {
+    return this.http.put<IUser>(environment.ApiURL + 'putActivateKey', JSON.stringify(userData), httpOptions)
+      .map(data => _.values(data));
+  }
+
   DeleteUserProfile(Id) {
     return this.http.delete(environment.ApiURL + 'Registration/' + Id).toPromise();
   }

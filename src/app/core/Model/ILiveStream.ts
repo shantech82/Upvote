@@ -17,3 +17,14 @@ export interface IAddSchedules {
     month: number;
     time: number;
 }
+
+export interface IliveStreamCalendar {
+    startdate: any;
+    timezone: string;
+    title: string;
+    description: string;
+    location: string;
+    hours: number;
+    minutes: number;
+    id: number;
+}

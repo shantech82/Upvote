@@ -23,4 +23,9 @@ export class EmailService {
     return this.http.post(environment.ApiURL + 'sendActivateMail', JSON.stringify(MailData), httpOptions)
     .map(data => _.values(data));
   }
+
+  SendPasswordResetMail(MailData) {
+    return this.http.post(environment.ApiURL + 'sendPasswordResetMail', JSON.stringify(MailData), httpOptions)
+    .map(data => _.values(data));
+  }
 }

@@ -1,5 +1,6 @@
 import { environment } from '../../environments/environment';
 import { IICOList } from '../core/Model/IICOList';
+import { IliveStreamCalendar } from '../core/Model/ILiveStream';
 
 export class Utility {
 
@@ -27,9 +28,18 @@ export class Utility {
         };
     }
 
-    public static getMailData(activatekey: string, email: string, name: string) {
+    public static getMailDataForActivate(activatekey: string, email: string, name: string) {
         const mailData = {
             linktoActivate: environment.AppHostURL + '/Activate?key=' + activatekey + '&&email=' + email,
+            userName: name,
+            toMailAddress: email
+        };
+        return mailData;
+    }
+
+    public static getMailDataForPassword(activatekey: string, email: string, name: string) {
+        const mailData = {
+            linktoreset: environment.AppHostURL + '/Forgot?key=' + activatekey + '&&email=' + email,
             userName: name,
             toMailAddress: email
         };
@@ -45,7 +55,7 @@ export class Utility {
     }
 
     public static isNotEmptyNullUndefined(value: string) {
-        if (value !== null && value !== '' && value !== ' ' && value !== undefined) {
+        if (value !== null && value !== '' && value !== ' ' && value !== undefined && value !== 'NaN') {
             return true;
         } else {
             return false;
@@ -60,39 +70,21 @@ export class Utility {
         }
     }
 
-    public static getImageURL(imageUrl: string) {
-        if (this.isNotEmptyNullUndefined(imageUrl)) {
-            if (imageUrl.indexOf('http') === -1) {
-                return environment.ApiHostURL + 'static/companyimages/' + imageUrl;
+    public static getFileURL(fileUrl: string, type: string, status: boolean) {
+        if (status && this.isNotEmptyNullUndefined(fileUrl)) {
+            if (fileUrl.indexOf('http') === -1) {
+                return environment.ApiHostURL + 'static/' + fileUrl;
             } else {
-                return imageUrl;
+                return fileUrl;
             }
         } else {
-            return '../../assets/img/empty_image.png';
-        }
-    }
-
-    public static getVideoURL(vidoeUrl: string) {
-        if (this.isNotEmptyNullUndefined(vidoeUrl)) {
-            if (vidoeUrl.indexOf('http') === -1) {
-                return environment.ApiHostURL + 'static/companyimages/' + vidoeUrl;
+            if (type === 'icovideo') {
+                return undefined;
+            } else if (type === 'icouser') {
+                return '../../assets/img/ico-user.png';
             } else {
-                return vidoeUrl;
+                return '../../assets/img/empty_image.png';
             }
-        } else {
-            return undefined;
-        }
-    }
-
-    public static getUserImageURL(imageUrl: string) {
-        if (this.isNotEmptyNullUndefined(imageUrl)) {
-            if (imageUrl.indexOf('http') === -1) {
-                return environment.ApiHostURL + 'static/companyimages/' + imageUrl;
-            } else {
-                return imageUrl;
-            }
-        } else {
-            return '../../assets/img/ico-user.png';
         }
     }
 
@@ -108,14 +100,6 @@ export class Utility {
         if (this.isNotEmptyNullUndefined(theDate)) {
             const newDate = new Date(theDate);
             return Math.round(Math.abs((newDate.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)));
-        }
-    }
-
-    public static AssignLogomage(icoImage: string): string {
-        if (this.isNotEmptyNullUndefined(icoImage)) {
-            return environment.ApiHostURL + 'static/companyimages/' + icoImage;
-        } else {
-            return '../../assets/img/icoimagecard.jpg';
         }
     }
 
@@ -216,11 +200,19 @@ export class Utility {
     }
 
     public static getHours(timeValue) {
-        return parseInt(timeValue.split(':')[0], 10);
+        if (this.isNotEmptyNullUndefined(timeValue.split(':')[0])) {
+            return parseInt(timeValue.split(':')[0], 10);
+        } else {
+            return 0;
+        }
     }
 
     public static getMinutes(timeValue) {
-        return parseInt(timeValue.split(':')[1], 10);
+        if (this.isNotEmptyNullUndefined(timeValue.split(':')[1])) {
+            return parseInt(timeValue.split(':')[1], 10);
+        } else {
+            return 0;
+        }
     }
 
     public static ICOSorting(icolist: IICOList[], isliveStramDateavailale: boolean) {
@@ -250,6 +242,75 @@ export class Utility {
         if (this.isNotEmptyNullUndefined(videoURL)) {
             return videoURL.replace('watch?v=', 'embed/');
         }
-       return undefined;
+        return undefined;
+    }
+
+    public static frameCalendarURL(livestreamcalendar: IliveStreamCalendar, typeOfCalendar: string) {
+        let calendarURL: string;
+        if (typeOfCalendar === 'google') {
+            calendarURL = this.googleCalendarURL(livestreamcalendar);
+        } else if (typeOfCalendar === 'yahoo') {
+            calendarURL = this.yahooCalendarURL(livestreamcalendar);
+        } else if (typeOfCalendar === 'microsoft') {
+            calendarURL = this.microsoftCalendarURL(livestreamcalendar);
+        }
+        return calendarURL;
+    }
+
+    public static googleCalendarURL(livestreamcalendar: IliveStreamCalendar) {
+        return 'http://www.google.com/calendar/event?action=TEMPLATE&dates=' +
+            this.GetDateTimeFormat(livestreamcalendar.startdate, livestreamcalendar.hours, livestreamcalendar.minutes, 0) + '/' +
+            this.GetDateTimeFormat(livestreamcalendar.startdate, livestreamcalendar.hours, livestreamcalendar.minutes, 2) + '&text=' +
+            livestreamcalendar.title + '&location=' + livestreamcalendar.location + '&details=' + livestreamcalendar.description;
+    }
+
+    public static yahooCalendarURL(livestreamcalendar: IliveStreamCalendar) {
+        return 'http://calendar.yahoo.com/?v=60&TITLE=' + livestreamcalendar.title + '&DESC=' + livestreamcalendar.description + '&ST=' +
+            this.GetDateTimeFormat(livestreamcalendar.startdate, livestreamcalendar.hours, livestreamcalendar.minutes, 0) +
+            '&DUR=0200&in_loc=' + livestreamcalendar.location + '&TYPE=21';
+    }
+
+    public static microsoftCalendarURL(livestreamcalendar: IliveStreamCalendar) {
+        return 'http://calendar.live.com/calendar/calendar.aspx?rru=addevent&summary=' + livestreamcalendar.title +
+            'dtstart=' + this.GetDateTimeFormat(livestreamcalendar.startdate, livestreamcalendar.hours, livestreamcalendar.minutes, 0) +
+            '&dtend=' + this.GetDateTimeFormat(livestreamcalendar.startdate, livestreamcalendar.hours, livestreamcalendar.minutes, 2) +
+            '&description=' + livestreamcalendar.title + '&location=' + livestreamcalendar.location;
+    }
+
+    public static GetDateTimeFormat(inputdate, hours, minutes, addHours) {
+        const x = new Date(inputdate);
+        const y = x.getFullYear().toString();
+        let m = (x.getMonth() + 1).toString();
+        let d = x.getDate().toString();
+        if (d.length === 1) {
+            (d = '0' + d);
+        }
+        if (m.length === 1) {
+            (m = '0' + m);
+        }
+        if (addHours > 0) {
+            if (hours === 22 || hours === null) {
+                hours = 0;
+            } else if (hours === 23) {
+                hours = 1;
+            } else {
+                hours = hours + addHours;
+            }
+        }
+
+        let h = hours.toString();
+        if (!this.isNotEmptyNullUndefined(h)) {
+            h = '00';
+        } else if (h.length === 1) {
+            (h = '0' + h);
+        }
+
+        let mn = minutes.toString();
+        if (!this.isNotEmptyNullUndefined(mn)) {
+            mn = '00';
+        } else if (mn.length === 1) {
+            (mn = '0' + mn);
+        }
+        return y + m + d + 'T' + h + mn + '00Z';
     }
 }

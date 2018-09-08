@@ -8,7 +8,7 @@
       <div class="row">
         <div class="col-md-2 col-lg-2 col-sm-4 col-xs-12">
           <div class="pro_img_holder">
-            <img [src]="ico.icologoimage || '..\assets\img\icoimagecard.jpg'" class="img-circle">
+            <img [src]="ico.icologoimage" class="img-circle">
           </div>
         </div>
         <div class="col-md-10 col-lg-10 col-sm-8 col-xs-12">
@@ -18,7 +18,7 @@
             <div class="pro_tag WhitePaper" *ngIf="ico.whitepaper">
               <a [attr.href]="ico.whitepaper" target="_blank">White Paper</a>
             </div>
-            <a [routerLink]="['/ListICO', ico.id]" routerLinkActive="active-link" class="join_whitelist" *ngIf="userType===1 && !ico.iswhitelistjoined">Join Whitelist</a>
+            <a [routerLink]="['/ListICO']"  [queryParams]="{name: ico.iconame}" routerLinkActive="active-link" class="join_whitelist" *ngIf="userType===1 && !ico.iswhitelistjoined">Join Whitelist</a>
             <div class="join_whitelist" *ngIf="ico.iswhitelistjoined">Whitelisted</div>
             <div class="pro_social">
               <ul>
@@ -165,7 +165,28 @@
                     </span>
                   </ng-template>
                 </div>
-                <a href="#">Download / add to your calendar</a>
+                <div ngbDropdown class="calModal">
+                  <a ngbDropdownToggle href="javascript:void(0)" id='downloadcalendar' >Download / add to your calendar</a>
+                  <div ngbDropdownMenu aria-labelledby="downloadcalendar" style="top:0px !important">
+                    <div class="drop_title">
+                      <span> Select Calendar </span>
+                    </div>
+                    <ul>
+                      <li class="dropdown-item">
+                        <span> <input type="radio" name="calendar" (click)= "DownloadCalendar('google')"> Google Calendar </span>
+                      </li>
+                      <li class="dropdown-item">
+                        <span> <input type="radio" name="calendar" (click)= "DownloadCalendar('yahoo')"> Yahoo! Calendar </span>
+                      </li>
+                      <li class="dropdown-item">
+                        <span> <input type="radio" name="calendar" (click)= "DownloadCalendar('microsoft')"> Microsoft Calendar </span>
+                      </li>
+                      <li class="dropdown-item">
+                        <span> <input type="radio" name="calendar" (click)= "DownloadCalendar('others')"> Other Calendar </span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="event_details">

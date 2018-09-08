@@ -20,13 +20,13 @@ export class CompanyService {
 
   constructor(private http: HttpClient) { }
 
-  CreateICO(CompanyData: IICO): Observable<IICO> {
+  CreateICO(CompanyData: IICO): Observable<string> {
     return this.http.post<IICO>(environment.ApiURL + 'createICO', CompanyData, httpOptions)
     .map(data => _.values(data));
   }
 
-  UpdateICO(CompanyData: IICO): Observable<IICO> {
-    return this.http.put<IICO>(environment.ApiURL + 'updateICO', CompanyData, httpOptions)
+  UpdateICO(CompanyData: IICO) {
+    return this.http.put<string>(environment.ApiURL + 'updateICO', CompanyData, httpOptions)
     .map(data => _.values(data));
   }
 
@@ -39,8 +39,8 @@ export class CompanyService {
     .then(data => _.values(data));
   }
 
-  GetICOById(Id): Observable<IICO> {
-    return this.http.get<IICO>(environment.ApiURL + 'getICO/' + Id)
+  GetICOByName(name): Observable<IICO> {
+    return this.http.get<IICO>(environment.ApiURL + 'getICO?iconame=' + name)
     .map(data => _.values(data));
   }
 

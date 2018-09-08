@@ -1,0 +1,15 @@
+<div class="message">
+  <div class="message_component">
+    <div class="message_inner">
+      <h1>Thank You</h1>
+      <p *ngIf="type==='1'">
+        We have sent you a confirmation email to
+        <b> {{ email }} </b>. To complete the registration, follow the link from your email.
+      </p>
+      <p *ngIf="type==='2'">
+        We have sent you a password reset email to
+        <b> {{ email }} </b>. To reset your password, follow the link from your email.
+      </p>
+    </div>
+  </div>
+</div>

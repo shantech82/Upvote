@@ -1,6 +1,6 @@
 <app-app-home></app-app-home>
 <div class="upVote">
-<div class="container"  *ngIf="forminitialization">
+<div class="container"  *ngIf="userintilization">
   <div class="row">
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
       <div class="profile_pic">
@@ -22,12 +22,12 @@
   </div>
 </div>
 </div>
-<div class="b1_background"  *ngIf="isICOAvailable">
+<div class="b1_background"  *ngIf="isICOAvailable && investedICOSInitialization">
   <div class="container">
       <app-app-icocard [icolist]="icolist" [page]="page" [displayText]="investordisplayText" ></app-app-icocard>
 </div>
 </div>
-<div class="b1_background"  *ngIf="yourICOList">
+<div class="b1_background"  *ngIf="yourICOList && ownICOsInitialization">
   <div class="container">
       <app-app-icocard [icolist]="yourICOList" [page]="page" [displayText]="yourdisplayText" ></app-app-icocard>
 </div>

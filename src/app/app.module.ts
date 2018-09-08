@@ -44,9 +44,12 @@ import { AppRegisterComponent } from './app-register/app-register.component';
 import { AppLoginComponent } from './app-login/app-login.component';
 import { LivestreamService } from './services/livestream.service';
 import { SharedService } from './services/shared.service';
+import { AppMessageComponent } from './app-message/app-message.component';
+import { AppForgetpasswordComponent } from './app-forgetpassword/app-forgetpassword.component';
+import { UrlparserService } from './services/urlparser.service';
 
 const appRoutes: Routes = [
-  { path: 'ICO/:id', component: AppIcocompanyComponent },
+  { path: 'ICO', component: AppIcocompanyComponent },
   { path: 'User', component: AppProfileCreateComponent },
   { path: 'UProfile', component: AppProfileViewComponent },
   { path: 'Home', component: AppCompanylistComponent },
@@ -54,9 +57,10 @@ const appRoutes: Routes = [
   { path: 'Activate', component: AppActivateComponent },
   { path: 'CVCompany', component: AppVideoComponent },
   { path: 'ListICO', component: AppCompanyComponent },
-  { path: 'ListICO/:id', component: AppCompanyComponent },
   { path: 'Register', component: AppRegisterComponent },
   { path: 'Login', component: AppLoginComponent },
+  { path: 'Message', component: AppMessageComponent },
+  { path: 'Forgot', component: AppForgetpasswordComponent },
 ];
 
 export function getAuthServiceConfigs() {
@@ -94,7 +98,9 @@ export function getAuthServiceConfigs() {
     AppIcocardComponent,
     IcofilterPipe,
     AppRegisterComponent,
-    AppLoginComponent
+    AppLoginComponent,
+    AppMessageComponent,
+    AppForgetpasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -122,6 +128,7 @@ export function getAuthServiceConfigs() {
     CompanyvideoService,
     LivestreamService,
     SharedService,
+    UrlparserService,
     {
       provide: AuthServiceConfig,
       useFactory: getAuthServiceConfigs,

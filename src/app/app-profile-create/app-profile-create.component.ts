@@ -9,6 +9,7 @@ import { AlertCenterService, Alert, AlertType } from 'ng2-alert-center';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Utility } from '../Shared/Utility';
+import { UrlparserService } from '../services/urlparser.service';
 
 @Component({
   selector: 'app-app-profile-create',
@@ -48,7 +49,7 @@ export class AppProfileCreateComponent implements OnInit {
 
   constructor(private icouserprofileservice: RegistrationService, private fuservice: FileuploadService,
     private mdservice: MasterDataService, private router: Router, private alertService: AlertCenterService,
-    private modalService: NgbModal, private spinner: NgxSpinnerService) {
+    private modalService: NgbModal, private spinner: NgxSpinnerService, private urlservice: UrlparserService) {
   }
 
   createFormControls() {
@@ -105,7 +106,10 @@ export class AppProfileCreateComponent implements OnInit {
 
   AssignProfileImage() {
     if (this.icoUserGet !== undefined) {
-      this.imageSrc = Utility.getUserImageURL(this.icoUserGet.profileimageurl);
+      this.urlservice.GetFileURL(this.icoUserGet.profileimageurl, 'icouser').subscribe(value => {
+        this.imageSrc = value;
+        this.forminitialization = true;
+      });
       this.updatedprofileimageurl = Utility.getImageURLforSave(this.icoUserGet.profileimageurl);
     }
   }
@@ -121,17 +125,15 @@ export class AppProfileCreateComponent implements OnInit {
       const formData: any = new FormData();
       const modifiedfilename = nameofUser + Date.now() + this.filesToUpload.name;
       formData.append('file', this.filesToUpload, modifiedfilename);
+      let existingfile = 'xxx';
       if (Utility.isNotEmptyNullUndefined(this.updatedprofileimageurl)) {
-        this.fuservice.DeleteFile(this.updatedprofileimageurl).subscribe(() => {
-          this.fuservice.UploadCompanyImage(formData).subscribe(filename => {
-            this.updatedprofileimageurl = filename;
-          });
-        });
-      } else {
-        this.fuservice.UploadCompanyImage(formData).subscribe(filename => {
-          this.updatedprofileimageurl = filename;
-        });
+        existingfile = this.updatedprofileimageurl;
       }
+      this.updatedprofileimageurl = modifiedfilename;
+      this.fuservice.UploadFiles(formData, existingfile).subscribe(filename => {
+        // this.updatedprofileimageurl = filename;
+        // this.spinner.hide();
+      });
     } else {
       this.imageSrc = '../../assets/img/ico-user@2x.png';
       this.alertService.alert(new Alert(AlertType.WARNING, 'please check your profile image format'));
@@ -149,7 +151,6 @@ export class AppProfileCreateComponent implements OnInit {
         this.AssignProfileImage();
         this.createFormControls();
         this.createForm();
-        this.forminitialization = true;
         } else {
           localStorage.removeItem('UserData');
           this.router.navigate(['/Login']);

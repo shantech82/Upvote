@@ -17,3 +17,10 @@ export interface IUser {
     ismoderator: boolean;
 
 }
+
+export interface Iforgetpassword {
+    id: number;
+    email: string;
+    password: string;
+    activatekey: string;
+}

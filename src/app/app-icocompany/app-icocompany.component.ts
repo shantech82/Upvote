@@ -4,16 +4,18 @@ import * as enLocale from 'date-fns/locale/en';
 import { CompanyService } from '../services/company.service';
 import { IICO } from '../core/Model/IICO';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AlertCenterService, Alert, AlertType } from 'ng2-alert-center';
 import { DOCUMENT } from '@angular/common';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Utility } from '../Shared/Utility';
 import { LivestreamService } from '../services/livestream.service';
-import { ILiveStream, IAddSchedules, ISchedules } from '../core/Model/ILiveStream';
-import { NgForm, FormGroup, FormBuilder, Validators } from '../../../node_modules/@angular/forms';
+import { ILiveStream, ISchedules, IliveStreamCalendar } from '../core/Model/ILiveStream';
+import { FormGroup, FormBuilder, Validators } from '../../../node_modules/@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
+import { FileuploadService } from '../services/fileupload.service';
+import { UrlparserService } from '../services/urlparser.service';
 
 declare function startLiveStreamJs(): any;
 declare function stopLiveStreamJs(): any;
@@ -32,7 +34,7 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit {
 
   forminitialization: boolean;
   ico: IICO;
-  icoid: number;
+  name: string;
   isLiveStreaming: boolean;
   userType: number;
   dateendstring: string;
@@ -52,12 +54,14 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit {
   currentlivestreammonth: string;
   youtubeembedurl: any;
   icovideourl: any;
+  livestreamcalendar: IliveStreamCalendar;
 
   constructor(private activateRoute: ActivatedRoute, private icoservice: CompanyService, private sanitizer: DomSanitizer,
     private spinner: NgxSpinnerService, private alertService: AlertCenterService, private livestreamService: LivestreamService,
-    @Inject(DOCUMENT) private document, private elementRef: ElementRef, private fb: FormBuilder, config: NgbDropdownConfig) {
-    this.activateRoute.params.subscribe(params => {
-      this.icoid = params['id'];
+    @Inject(DOCUMENT) private document, private elementRef: ElementRef, private fb: FormBuilder, config: NgbDropdownConfig,
+    private fsservice: FileuploadService, private urlservice: UrlparserService) {
+    this.activateRoute.queryParams.subscribe(params => {
+      this.name = params['name'];
     });
 
     this.createControls();
@@ -129,7 +133,7 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit {
   }
 
   getLiveStream() {
-    this.livestreamService.GetLiveStream(this.icoid).map(data => {
+    this.livestreamService.GetLiveStream(this.ico.id).map(data => {
       this.livestreamDatas = data[0];
       let index = 0;
       if (data[0].length > 0) {
@@ -148,7 +152,6 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit {
           });
           if (index === 0) {
             this.currentlivestreammonth = parseDate.toLocaleString('en-us', { month: 'long' });
-            this.startdate = { month: parseDate.getMonth() + 1, year: parseDate.getFullYear(), day: parseDate.getDate() };
           }
           index++;
           this.forminitialization = true;
@@ -163,6 +166,32 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit {
     }).subscribe(data => {
       this.createControls();
     });
+  }
+
+  DownloadCalendar(type: string) {
+    if (this.todaylivestream) {
+      this.livestreamcalendar = {
+        startdate: this.todaylivestream.livestreamdate,
+        title: this.ico.iconame + 'Live Stream',
+        timezone: '',
+        description: this.ico.iconame + 'Live Stream',
+        hours: Utility.getHours(this.todaylivestream.time),
+        minutes: Utility.getMinutes(this.todaylivestream.time),
+        location: 'UpvoteICO Livestream',
+        id: this.ico.id,
+      };
+
+    if (type === 'others') {
+        this.fsservice.GetLiveStreamICS(this.livestreamcalendar).subscribe(filename => {
+          const livestreamfilename = this.livestreamcalendar.title + '_event.ics';
+          this.urlservice.GetFileURL(filename, 'icoimage').subscribe(value => {
+            window.open(value);
+          });
+        });
+      } else {
+        window.open(Utility.frameCalendarURL(this.livestreamcalendar, type), '_blank');
+      }
+    }
   }
 
   ScheduleLiveStream(lviestreamDate, time) {
@@ -245,21 +274,25 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit {
   }
 
   GetICO() {
-    this.icoservice.GetICOById(this.icoid).subscribe(ICOData => {
+    this.icoservice.GetICOByName(this.name).subscribe(ICOData => {
       this.ico = ICOData[0][0];
       this.forminitialization = true;
       if (this.ico.iconame !== null) {
-        this.ico.icologoimage = Utility.getImageURL(this.ico.icologoimage);
+        this.urlservice.GetFileURL(this.ico.icologoimage, 'icoimage').subscribe(value => {
+          this.ico.icologoimage = value;
+        });
         this.checkCompanyUser(this.ico.userid);
         this.icoStartEndDateCalc(this.ico.icostartdate, this.ico.icoenddate);
         this.ico.youtubevideolink = Utility.GetYoutubeVideo(this.ico.youtubevideolink);
         if (this.ico.youtubevideolink !== undefined) {
           this.UrlSanitizer(true);
         } else {
-          this.ico.videouploadurl = Utility.getVideoURL(this.ico.videouploadurl);
-          if (this.ico.videouploadurl !== undefined) {
-            this.UrlSanitizer(false);
-          }
+          this.urlservice.GetFileURL(this.ico.videouploadurl, 'icovidoe').subscribe(value => {
+            this.ico.videouploadurl = value;
+            if (this.ico.videouploadurl !== undefined) {
+              this.UrlSanitizer(false);
+            }
+          });
         }
         this.getLiveStream();
       } else {
@@ -303,11 +336,5 @@ export class AppIcocompanyComponent implements OnInit, AfterViewInit {
     broadcastScript.type = 'text/javascript';
     broadcastScript.src = '../../assets/js/webrtc/broadcast.js';
     this.elementRef.nativeElement.appendChild(broadcastScript);
-
-    /* const handlingliveScript = this.document.createElement('script');
-    handlingliveScript.type = 'text/javascript';
-    handlingliveScript.src = '../../assets/js/webrtc/handlinglive.js';
-    this.elementRef.nativeElement.appendChild(handlingliveScript); */
   }
-
 }

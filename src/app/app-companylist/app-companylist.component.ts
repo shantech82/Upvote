@@ -5,6 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 import { Utility } from '../Shared/Utility';
 import { DomSanitizer } from '@angular/platform-browser';
+import { UrlparserService } from '../services/urlparser.service';
 
 @Component({
   selector: 'app-app-companylist',
@@ -62,7 +63,7 @@ export class AppCompanylistComponent implements OnInit {
   icovideourl: any;
 
   constructor(private icoservice: CompanyService, private spinner: NgxSpinnerService, private sanitizer: DomSanitizer,
-    private router: Router) { }
+    private router: Router, private urlservice: UrlparserService) { }
 
   ngOnInit() {
     this.spinner.show();
@@ -83,7 +84,6 @@ export class AppCompanylistComponent implements OnInit {
         this.topicolist = this.livestreamstartedICOs(this.icolist);
         this.setVidoeURL();
         this.ICOSorting();
-        this.forminitialization = true;
         if (this.icolist[0].iconame !== null) {
           this.isICOAvailable = true;
         } else {
@@ -92,20 +92,23 @@ export class AppCompanylistComponent implements OnInit {
       } else {
         this.isICOAvailable = false;
       }
+      this.AssignImageURL();
       this.spinner.hide();
     });
   }
 
   setVidoeURL() {
     this.topicolist.youtubevideolink = Utility.GetYoutubeVideo(this.topicolist.youtubevideolink);
-        if (this.topicolist.youtubevideolink !== undefined) {
-          this.UrlSanitizer(true);
-        } else {
-          this.topicolist.videouploadurl = Utility.getVideoURL(this.topicolist.videouploadurl);
-          if (this.topicolist.videouploadurl !== undefined) {
-            this.UrlSanitizer(false);
-          }
+    if (this.topicolist.youtubevideolink !== undefined) {
+      this.UrlSanitizer(true);
+    } else {
+      this.urlservice.GetFileURL(this.topicolist.videouploadurl, 'icovideo').subscribe(value => {
+        this.topicolist.videouploadurl = value;
+        if (this.topicolist.videouploadurl !== undefined) {
+          this.UrlSanitizer(false);
         }
+      });
+    }
   }
 
   UrlSanitizer(type: boolean) {
@@ -139,7 +142,7 @@ export class AppCompanylistComponent implements OnInit {
     this.icolist = apiICOData.map(o => {
       return {
         iconame: o.iconame,
-        icologoimage: Utility.getImageURL(o.icologoimage),
+        icologoimage: o.icologoimage,
         icoshortdescription: o.icoshortdescription,
         icocreatedon: o.createdon,
         icolivestreamData: Utility.getDiferenceInDays(o.icolivestreamdata),
@@ -150,6 +153,20 @@ export class AppCompanylistComponent implements OnInit {
         videouploadurl: o.videouploadurl,
         youtubevideolink: o.youtubevideolink
       };
+    });
+  }
+
+  AssignImageURL() {
+    const count = this.icolist.length;
+    let index = 1;
+    this.icolist.map(o => {
+      this.urlservice.GetFileURL(o.icologoimage, 'icoimage').subscribe(value => {
+        o.icologoimage = value;
+        index++;
+        if (index > count) {
+          this.forminitialization = true;
+        }
+      });
     });
   }
 }

@@ -9,6 +9,7 @@ import { AlertCenterService, Alert, AlertType } from 'ng2-alert-center';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Utility } from '../Shared/Utility';
+import { UrlparserService } from '../services/urlparser.service';
 
 @Component({
   selector: 'app-app-company',
@@ -59,7 +60,7 @@ export class AppCompanyComponent implements OnInit {
   icoGet: IICO;
   imageSrc: string;
   updatedprofileimageurl: string;
-  icoid: number;
+  name: string;
   updatedVideoFileName: string;
   ICOCategory: any;
   isDateCompare: boolean;
@@ -69,11 +70,11 @@ export class AppCompanyComponent implements OnInit {
 
   constructor(private icoservice: CompanyService, private fuservice: FileuploadService, private activateRoute: ActivatedRoute,
     private mdservice: MasterDataService, private router: Router, private alertService: AlertCenterService,
-    private modalService: NgbModal, private spinner: NgxSpinnerService) {
-    this.activateRoute.params.subscribe(params => {
-      this.icoid = params['id'];
-      if (this.icoid === undefined) {
-        this.icoid = 0;
+    private modalService: NgbModal, private spinner: NgxSpinnerService,private urlservice: UrlparserService) {
+    this.activateRoute.queryParams.subscribe(params => {
+      this.name = params['name'];
+      if (this.name === undefined) {
+        this.name = '';
       }
     });
   }
@@ -143,11 +144,18 @@ export class AppCompanyComponent implements OnInit {
       const formData: any = new FormData();
       const modifiedfilename = Date.now() + this.filesToUpload.name;
       formData.append('file', this.filesToUpload, modifiedfilename);
-      this.fuservice.DeleteFile(this.updatedprofileimageurl).subscribe(() => {
-        this.fuservice.UploadCompanyImage(formData).subscribe(filename => {
-          this.updatedprofileimageurl = filename;
+      let existingfile = 'xxx';
+      console.log(this.updatedprofileimageurl);
+      if (Utility.isNotEmptyNullUndefined(this.updatedprofileimageurl)) {
+        existingfile = this.updatedprofileimageurl;
+      }
+      this.updatedprofileimageurl = modifiedfilename;
+        this.fuservice.UploadFiles(formData, existingfile).subscribe(filename => {
+          console.log(filename);
+          this.updatedprofileimageurl = filename[0];
+          // this.spinner.hide();
         });
-      });
+
     } else {
       this.imageSrc = '../../assets/img/empty_image.png';
       this.alertService.alert(new Alert(AlertType.WARNING, 'please check your profile image format'));
@@ -160,12 +168,14 @@ export class AppCompanyComponent implements OnInit {
       const formData: any = new FormData();
       const modifiedfilename = Date.now() + this.videoToUpload.name;
       formData.append('file', this.videoToUpload, modifiedfilename);
-      this.fuservice.DeleteFile(this.updatedVideoFileName).subscribe(() => {
-        this.updatedVideoFileName = modifiedfilename;
-        this.fuservice.UploadCompanyImage(formData).subscribe(filename => {
-          this.updatedVideoFileName = filename;
+      let existingfile = 'xxx';
+      if (Utility.isNotEmptyNullUndefined(this.updatedVideoFileName)) {
+        existingfile = this.updatedVideoFileName;
+      }
+      this.updatedVideoFileName = modifiedfilename;
+        this.fuservice.UploadFiles(formData, existingfile).subscribe(filename => {
+          this.updatedVideoFileName = filename.toString();
         });
-      });
     } else {
       this.alertService.alert(new Alert(AlertType.WARNING, 'Sorry!! We are not supporting your file format'));
     }
@@ -182,7 +192,7 @@ export class AppCompanyComponent implements OnInit {
   }
 
   GetICOInfo() {
-    if (this.icoid === 0) {
+    if (!Utility.isNotEmptyNullUndefined(this.name)) {
       this.icoGet = {} as IICO;
       this.AssignProfileImage();
       this.createFormControls();
@@ -190,7 +200,7 @@ export class AppCompanyComponent implements OnInit {
       this.spinner.hide();
       this.forminitialization = true;
     } else {
-      this.icoservice.GetICOById(this.icoid).subscribe(icoData => {
+      this.icoservice.GetICOByName(this.name).subscribe(icoData => {
         this.icoGet = icoData[0][0];
         this.ICOStartDate = this.icoGet.icostartdate;
         this.ICOEndDate = this.icoGet.icoenddate;
@@ -205,7 +215,9 @@ export class AppCompanyComponent implements OnInit {
 
   AssignProfileImage() {
     if (this.icoGet !== undefined) {
-      this.imageSrc = Utility.getImageURL(this.icoGet.icologoimage);
+      this.urlservice.GetFileURL(this.icoGet.icologoimage, 'icoimage').subscribe(value => {
+        this.imageSrc = value;
+      });
       this.updatedprofileimageurl = Utility.getImageURLforSave(this.icoGet.icologoimage);
     }
   }
@@ -253,34 +265,37 @@ export class AppCompanyComponent implements OnInit {
           long_description: icoform.controls['shortdescription'].value,
           address: icoform.controls['address'].value,
           createdon: new Date(),
-          id: this.icoid,
+          id: 0,
           userid: UserData.id,
           youtubevideolink: icoform.controls['youtubevideolink'].value,
         };
 
-        if (this.icoid === 0) {
+        if (!Utility.isNotEmptyNullUndefined(this.name)) {
           this.icoservice.CreateICO(this.ico).subscribe(returnValue => {
             if (returnValue !== undefined) {
               this.spinner.hide();
-              this.alertService.alert(new Alert(AlertType.SUCCESS, 'ICO has been created!!!'));
-              this.icoservice.GetInsertedICOByName(this.ico.iconame).
-                subscribe(ids => {
-                  this.router.navigate(['/ICO', ids[0].id]);
-                 });
+              if (returnValue[0] === 'dublicate') {
+                this.alertService.alert(new Alert(AlertType.SUCCESS, 'ICO Name is already exist in our system.'));
+              } else {
+                this.alertService.alert(new Alert(AlertType.SUCCESS, 'ICO has been created!!!'));
+                this.router.navigate(['/ICO'], { queryParams: { name: this.ico.iconame } });
+              }
             } else {
               this.spinner.hide();
               this.alertService.alert(new Alert(AlertType.DANGER, 'Something went wrong, please try again after some time'));
             }
           });
         } else {
+          this.ico.id = this.icoGet.id;
           this.icoservice.UpdateICO(this.ico).subscribe(returnValue => {
             if (returnValue !== undefined) {
               this.spinner.hide();
-              this.alertService.alert(new Alert(AlertType.SUCCESS, 'ICO has been Updated!!!'));
-              this.icoservice.GetInsertedICOByName(this.ico.iconame).
-                subscribe(ids => {
-                  this.router.navigate(['/ICO', ids[0].id]);
-                 });
+              if (returnValue[0] === 'dublicate') {
+                this.alertService.alert(new Alert(AlertType.SUCCESS, 'ICO Name is already exist in our system.'));
+              } else {
+                this.alertService.alert(new Alert(AlertType.SUCCESS, 'ICO has been Updated!!!'));
+                this.router.navigate(['/ICO'], { queryParams: { name: this.ico.iconame } });
+              }
             } else {
               this.spinner.hide();
               this.alertService.alert(new Alert(AlertType.DANGER, 'Something went wrong, please try again after some time'));
