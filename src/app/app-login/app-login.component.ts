@@ -47,20 +47,21 @@ export class AppLoginComponent implements OnInit {
   }
 
   UpdateProfileImage(userDatafromsl, userDatafromdb) {
-    if (userDatafromsl.image.indexOf('http') !== -1 && userDatafromdb.profileimageurl.indexOf('http') !== -1) {
-        if (userDatafromsl.image !== userDatafromdb.profileimageurl) {
+    if (userDatafromsl.image.indexOf('http') !== -1 && userDatafromdb[0].profileimageurl.indexOf('http') !== -1) {
+        if (userDatafromsl.image !== userDatafromdb[0].profileimageurl) {
             const updateuserdata = {
-              id: userDatafromdb.id,
+              id: userDatafromdb[0].id,
               profileimageurl: userDatafromsl.image
             };
             this.regservice.putUserProfileImage(updateuserdata).subscribe(() => {
-              userDatafromdb.profileimageurl = userDatafromsl.image;
+              userDatafromdb[0].profileimageurl = userDatafromsl.image;
               Utility.assignLocalStorageData(userDatafromdb, '2');
             });
         }
-    } else {
-      Utility.assignLocalStorageData(userDatafromdb, '2');
     }
+    Utility.assignLocalStorageData(userDatafromdb, '2');
+    this.spinner.hide();
+    this.router.navigate(['/Home']);
   }
 
   RegisterUser(UserData, type) {
@@ -72,9 +73,6 @@ export class AppLoginComponent implements OnInit {
           return;
         } else {
           this.UpdateProfileImage(UserData, userData);
-          this.spinner.hide();
-          Utility.assignLocalStorageData(userData, '2');
-          this.router.navigate(['/Home']);
         }
       } else {
         this.userData = {

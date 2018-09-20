@@ -35,7 +35,7 @@ export class AppRegisterComponent implements OnInit {
   constructor(private socialAuthService: AuthService, private regservice: RegistrationService,
     private router: Router, private fb: FormBuilder, private emailservice: EmailService,
     private alertService: AlertCenterService, private spinner: NgxSpinnerService) {
-      this.CreateControls();
+    this.CreateControls();
   }
 
   MatchPassword(AC: AbstractControl) {
@@ -89,20 +89,21 @@ export class AppRegisterComponent implements OnInit {
   }
 
   UpdateProfileImage(userDatafromsl, userDatafromdb) {
-    if (userDatafromsl.image.indexOf('http') !== -1 && userDatafromdb.profileimageurl.indexOf('http') !== -1) {
-        if (userDatafromsl.image !== userDatafromdb.profileimageurl) {
-            const updateuserdata = {
-              id: userDatafromdb.id,
-              profileimageurl: userDatafromsl.image
-            };
-            this.regservice.putUserProfileImage(updateuserdata).subscribe(() => {
-              userDatafromdb.profileimageurl = userDatafromsl.image;
-              Utility.assignLocalStorageData(userDatafromdb, '2');
-            });
-        }
-    } else {
-      Utility.assignLocalStorageData(userDatafromdb, '2');
+    if (userDatafromsl.image.indexOf('http') !== -1 && userDatafromdb[0].profileimageurl.indexOf('http') !== -1) {
+      if (userDatafromsl.image !== userDatafromdb[0].profileimageurl) {
+        const updateuserdata = {
+          id: userDatafromdb[0].id,
+          profileimageurl: userDatafromsl.image
+        };
+        this.regservice.putUserProfileImage(updateuserdata).subscribe(() => {
+          userDatafromdb[0].profileimageurl = userDatafromsl.image;
+          Utility.assignLocalStorageData(userDatafromdb, '2');
+        });
+      }
     }
+    Utility.assignLocalStorageData(userDatafromdb, '2');
+    this.spinner.hide();
+    this.router.navigate(['/Home']);
   }
 
   RegisterUser(UserData, type) {
@@ -113,9 +114,7 @@ export class AppRegisterComponent implements OnInit {
           this.alertService.alert(new Alert(AlertType.INFO, 'Your email is already present in our system!!!'));
           return;
         } else {
-           this.UpdateProfileImage(UserData, userData);
-          this.spinner.hide();
-          this.router.navigate(['/Home']);
+          this.UpdateProfileImage(UserData, userData);
         }
       } else {
         this.userData = {
