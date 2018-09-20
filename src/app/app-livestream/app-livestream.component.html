@@ -1,0 +1,39 @@
+<div *ngIf="todaylivestream">
+  <input type="text" [(ngModel)]="todaylivestream.livestreamcode" name="room-id" id="room-id" style="display: none;">
+  <div class="container" *ngIf="userType===1 && todaylivestream">
+    <button type="button" id="startlive" name="startlive" *ngIf="!isLiveStreaming" (click)="startLiveStream()" class="btn stream_btn">
+      ► Start live streaming </button>
+    <button type="button" id="stoplive" name="stoplive" *ngIf="isLiveStreaming" (click)="stopLiveStream()" class="btn stream_btn stop">
+      ► Stop live streaming </button>
+  </div>
+  <div class="container" *ngIf="userType===0">
+    <button type="button" id="joinlive" *ngIf="isLiveStreaming && !livestreamjoined" (click)="joinLiveStream()" name="joinlive"
+      class="btn stream_btn"> ► Join live streaming </button>
+    <button type="button" id="leavelive" *ngIf="isLiveStreaming && livestreamjoined" name="leavelive" (click)="leaveLiveStream()"
+      class="btn stream_btn stop"> ► leave live streaming </button>
+  </div>
+</div>
+
+<div class="chat_profile" id="livstream" style="display: none">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-lg-8 col-xs-12 col-sm-12">
+        <div id="videos-container"></div>
+      </div>
+      <div class="col-md-4 col-lg-4 col-xs-12 col-sm-12" style="padding-top: 20px">
+        <div class="chat_box">
+          <h5>CHAT</h5>
+          <ul class="chatul"></ul>
+          <div class="chat_input">
+            <div class="input-group">
+              <input type="text" id="input-text-chat" class="form-control chat_inp" placeholder="write your message">
+              <span class="input-group-addon">
+                <img src="../assets/img/btn-send.png">
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,6 +5,7 @@ import 'rxjs/add/operator/do';
 import { environment } from '../../environments/environment';
 import { IliveStreamCalendar } from '../core/Model/ILiveStream';
 import * as _ from 'lodash';
+import { Observable } from '../../../node_modules/rxjs';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -19,7 +20,7 @@ export class FileuploadService {
 
   UploadFiles(formData, existingfilename) {
     return this.http.post(environment.ApiURL + 'uploadFiles?existingfilename=' + existingfilename, formData)
-      .map(returnvalues =>  _.values(returnvalues));
+      .map(returnvalues => _.values(returnvalues));
   }
 
   GetCompanyImage(filename) {
@@ -34,11 +35,21 @@ export class FileuploadService {
 
   GenerateFile(filename) {
     return this.http.get(environment.ApiURL + 'generateFiles?filename=' + filename)
-      .map(status => _.values(status));
+    .map(status => _.values(status));
   }
 
   GetLiveStreamICS(livestreamCalendar: IliveStreamCalendar) {
     return this.http.post(environment.ApiURL + 'getCalendar', livestreamCalendar, httpOptions)
       .map(filename => filename.toString());
+  }
+
+  GetAllFilesName() {
+    return this.http.get(environment.ApiURL + 'getAllFileName')
+    .map(filenamedata => _.values(filenamedata));
+  }
+
+  checkFileURL(filename) {
+    return this.http.get(environment.ApiURL + 'checkFileisAvailable?filename=' + filename)
+    .map(status => _.values(status));
   }
 }

@@ -74,6 +74,11 @@ export class RegistrationService {
       .map(data => _.values(data));
   }
 
+  putUserProfileImage(userData: any) {
+    return this.http.put<IUser>(environment.ApiURL + 'putUserProfileImage', JSON.stringify(userData), httpOptions)
+      .map(data => _.values(data));
+  }
+
   DeleteUserProfile(Id) {
     return this.http.delete(environment.ApiURL + 'Registration/' + Id).toPromise();
   }

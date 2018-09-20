@@ -46,7 +46,22 @@ export class AppLoginComponent implements OnInit {
     }
   }
 
-
+  UpdateProfileImage(userDatafromsl, userDatafromdb) {
+    if (userDatafromsl.image.indexOf('http') !== -1 && userDatafromdb.profileimageurl.indexOf('http') !== -1) {
+        if (userDatafromsl.image !== userDatafromdb.profileimageurl) {
+            const updateuserdata = {
+              id: userDatafromdb.id,
+              profileimageurl: userDatafromsl.image
+            };
+            this.regservice.putUserProfileImage(updateuserdata).subscribe(() => {
+              userDatafromdb.profileimageurl = userDatafromsl.image;
+              Utility.assignLocalStorageData(userDatafromdb, '2');
+            });
+        }
+    } else {
+      Utility.assignLocalStorageData(userDatafromdb, '2');
+    }
+  }
 
   RegisterUser(UserData, type) {
     this.regservice.GetUserEmail(UserData.email).subscribe(userData => {
@@ -56,6 +71,7 @@ export class AppLoginComponent implements OnInit {
           this.alertService.alert(new Alert(AlertType.INFO, 'Your email is already present in our system!!!'));
           return;
         } else {
+          this.UpdateProfileImage(UserData, userData);
           this.spinner.hide();
           Utility.assignLocalStorageData(userData, '2');
           this.router.navigate(['/Home']);

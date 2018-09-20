@@ -2,8 +2,8 @@
 <div class="alertCenter">
   <nac-alert-center [animation]="'fancy'" [htmlTextEnabled]="true"></nac-alert-center>
 </div>
-<div>
-  <div class="pro_info" *ngIf="forminitialization">
+<div *ngIf="forminitialization">
+  <div class="pro_info" >
     <div class="container">
       <div class="row">
         <div class="col-md-2 col-lg-2 col-sm-4 col-xs-12">
@@ -14,7 +14,7 @@
         <div class="col-md-10 col-lg-10 col-sm-8 col-xs-12">
           <div class="pro_info_content">
             <h1>{{ ico.iconame }}</h1>
-            <p class="block-with-text">{{ ico.shortdescription }}</p>
+            <p class="block-with-text" *ngIf="ico.shortdescription">{{ ico.shortdescription }}</p>
             <div class="pro_tag WhitePaper" *ngIf="ico.whitepaper">
               <a [attr.href]="ico.whitepaper" target="_blank">White Paper</a>
             </div>
@@ -44,48 +44,11 @@
       </div>
     </div>
   </div>
-
   <div class="pro_bg">
-    <div *ngIf="todaylivestream">
-      <input type="text" [(ngModel)]="todaylivestream.livestreamcode" name="room-id" id="room-id" style="display: none;">
-      <div class="container" *ngIf="userType===1 && todaylivestream">
-        <button type="button" id="startlive" name="startlive" *ngIf="!isLiveStreaming" (click)="startLiveStream()" class="btn stream_btn">
-          ► Start live streaming </button>
-        <button type="button" id="stoplive" name="stoplive" *ngIf="isLiveStreaming" (click)="stopLiveStream()" class="btn stream_btn stop">
-          ► Stop live streaming </button>
-      </div>
-      <div class="container" *ngIf="userType===0">
-        <button type="button" id="joinlive" *ngIf="isLiveStreaming && !livestreamjoined" (click)="joinLiveStream()" name="joinlive"
-          class="btn stream_btn"> ► Join live streaming </button>
-        <button type="button" id="leavelive" *ngIf="isLiveStreaming && livestreamjoined" name="leavelive" (click)="leaveLiveStream()"
-          class="btn stream_btn stop"> ► leave live streaming </button>
-      </div>
-    </div>
+    
     <!--- stream chat  *ngIf="isLiveStreaming" -->
-    <div class="chat_profile" id="livstream" style="display: none">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-8 col-lg-8 col-xs-12 col-sm-12">
-            <div id="videos-container"></div>
-          </div>
-          <div class="col-md-4 col-lg-4 col-xs-12 col-sm-12" style="padding-top: 20px">
-            <div class="chat_box">
-              <h5>CHAT</h5>
-              <ul class="chatul"></ul>
-              <div class="chat_input">
-                <div class="input-group">
-                  <input type="text" id="input-text-chat" class="form-control chat_inp" placeholder="write your message">
-                  <span class="input-group-addon">
-                    <img src="../assets/img/btn-send.png">
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--- stream chat ---->
+    <app-app-livestream [icoid]="ico.id" [userid]="ico.userid"></app-app-livestream>
+    <!--- stream chat -->
     <div class="container" *ngIf="forminitialization">
       <div class="row">
         <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
@@ -113,82 +76,7 @@
         </div>
         <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
           <div class="event_container">
-            <div class="calendar">
-              <div class="calendar_head">
-                <div class="cal_icon">
-                  <img src="..\assets\img\ico-cal.png">
-                </div>
-                <div class="cal_details" *ngIf="ico.icostartdate">
-                  <small>Started {{ ico.icostartdate | date:'MMMM dd' }}{{ dateendstring }}</small>
-                  <p *ngIf="expired">{{ expired }} </p>
-                  <p *ngIf="!expired">{{ enddatecal }} </p>
-                </div>
-              </div>
-              <div class="cal_holder">
-                <div ngbDropdown class="dateModal">
-                  <a *ngIf="userType===1" id="addschedules" ngbDropdownToggle href="javascript:void(0)" class="edit_icon" (click)="getLiveStream()">
-                    <img src="..\assets\img\ico-edit-cal-hover.png" srcset="..\assets\img\ico-edit-cal-hover@2x.png 2x,
-                        ..\assets\img\ico-edit-cal-hover@3x.png 3x" class="ico_edit_cal_hover" (click)="getLiveStream()">
-                  </a>
-                  <div ngbDropdownMenu aria-labelledby="addschedules">
-                    <div class="drop_title">
-                      <span> SCHEDULES </span>
-                    </div>
-                    <ul>
-                      <li class="dropdown-item" *ngFor="let s of schedules">
-                        <span> {{ s.livestreamdatetime }}
-                          <a href="javascript:void(0)" (click)="DeleteLiveStream(s)">
-                            <i class="fa fa-trash"></i>
-                          </a>
-                        </span>
-                      </li>
-                      <li class="divider" *ngIf="schedules.length > 0"></li>
-                      <li class="chooseDate">
-                        <form [formGroup]='scheduleform' (ngSubmit)="AddScheduleEventClick(scheduleform)">
-                          <input type="number" formControlName="day" value="1" placeholder="Day" max="31" min="1" required>
-                          <input type="number" formControlName="month" value="1" placeholder="Month" max="12" min="1" required>
-                          <input type="text" formControlName="time" value="12:00" placeholder="Time" required>
-                          <button type="submit" class="btn btn_add_date">Add</button>
-                        </form>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <p *ngIf="currentlivestreammonth">NEXT Live streaming ( {{ currentlivestreammonth }} )</p>
-                <div class="datepicker-container">
-                  <ngb-datepicker class="myDatePicker" [startDate]="startdate" [class.bg-primary]="selected" #dtp let (navigate)="date = $event.next"
-                    firstDayOfWeek=7 [dayTemplate]="customDay"></ngb-datepicker>
-                  <ng-template #customDay let-date="date" let-currentMonth="currentMonth" let-focused="focused">
-                    <span [ngClass]="myClass(date)" [class.hidden]="date.month !== currentMonth" [class.] [class.weekend]="isSunday(date)" [class.focused]="focused"
-                      [class.bg-primary]="selected" [class.text-muted]="disabled">
-                      {{ date.day }}
-                    </span>
-                  </ng-template>
-                </div>
-                <div ngbDropdown class="calModal">
-                  <a ngbDropdownToggle href="javascript:void(0)" id='downloadcalendar' >Download / add to your calendar</a>
-                  <div ngbDropdownMenu aria-labelledby="downloadcalendar" style="top:0px !important">
-                    <div class="drop_title">
-                      <span> Select Calendar </span>
-                    </div>
-                    <ul>
-                      <li class="dropdown-item">
-                        <span> <input type="radio" name="calendar" (click)= "DownloadCalendar('google')"> Google Calendar </span>
-                      </li>
-                      <li class="dropdown-item">
-                        <span> <input type="radio" name="calendar" (click)= "DownloadCalendar('yahoo')"> Yahoo! Calendar </span>
-                      </li>
-                      <li class="dropdown-item">
-                        <span> <input type="radio" name="calendar" (click)= "DownloadCalendar('microsoft')"> Microsoft Calendar </span>
-                      </li>
-                      <li class="dropdown-item">
-                        <span> <input type="radio" name="calendar" (click)= "DownloadCalendar('others')"> Other Calendar </span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <app-app-calendar [ico]="ico"></app-app-calendar>
             <div class="event_details">
               <div class="divider"></div>
               <div *ngIf="ico.email || ico.phone_number">

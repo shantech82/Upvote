@@ -47,6 +47,10 @@ import { SharedService } from './services/shared.service';
 import { AppMessageComponent } from './app-message/app-message.component';
 import { AppForgetpasswordComponent } from './app-forgetpassword/app-forgetpassword.component';
 import { UrlparserService } from './services/urlparser.service';
+import { AppCalendarComponent } from './app-calendar/app-calendar.component';
+import { AppImagegenerateComponent } from './app-imagegenerate/app-imagegenerate.component';
+import { AppLivestreamComponent } from './app-livestream/app-livestream.component';
+import { AppLivestreamnewComponent } from './app-livestreamnew/app-livestreamnew.component';
 
 const appRoutes: Routes = [
   { path: 'ICO', component: AppIcocompanyComponent },
@@ -61,6 +65,8 @@ const appRoutes: Routes = [
   { path: 'Login', component: AppLoginComponent },
   { path: 'Message', component: AppMessageComponent },
   { path: 'Forgot', component: AppForgetpasswordComponent },
+  { path: 'Image', component: AppImagegenerateComponent },
+  { path: 'Live', component: AppLivestreamnewComponent },
 ];
 
 export function getAuthServiceConfigs() {
@@ -100,7 +106,11 @@ export function getAuthServiceConfigs() {
     AppRegisterComponent,
     AppLoginComponent,
     AppMessageComponent,
-    AppForgetpasswordComponent
+    AppForgetpasswordComponent,
+    AppCalendarComponent,
+    AppImagegenerateComponent,
+    AppLivestreamComponent,
+    AppLivestreamnewComponent
   ],
   imports: [
     BrowserModule,

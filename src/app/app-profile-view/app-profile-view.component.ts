@@ -3,9 +3,10 @@ import { RegistrationService } from '../services/registration.service';
 import { IUser } from '../core/Model/IUser';
 import { IICOList } from '../core/Model/IICOList';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Utility } from '../Shared/Utility';
 import { Router } from '@angular/router';
 import { UrlparserService } from '../services/urlparser.service';
+import { Datetimeutility } from '../Shared/datetimeutility';
+import { Icoutility } from '../Shared/icoutility';
 
 @Component({
   selector: 'app-app-profile-view',
@@ -50,7 +51,7 @@ export class AppProfileViewComponent implements OnInit {
         icologoimage: o.icologoimage,
         icoshortdescription: o.icoshortdescription,
         icocreatedon: o.icocreatedon,
-        icolivestreamData: Utility.getDiferenceInDays(o.icolivestreamdata),
+        icolivestreamData: Datetimeutility.getDiferenceInDays(o.icolivestreamdata),
         iswhitelistjoined: o.iswhitelistjoined,
         id: o.id,
         livestreamstatus: o.livestreamstatus,
@@ -88,8 +89,8 @@ export class AppProfileViewComponent implements OnInit {
   }
 
   InvestedICOSorting() {
-    const icowithlivesteam: IICOList[] = Utility.ICOSorting(this.icolist.filter(ico => ico.livestreamdate !== undefined), true);
-    const icowithoutlivestream: IICOList[] = Utility.ICOSorting(this.icolist.filter(ico => ico.livestreamdate === undefined), true);
+    const icowithlivesteam: IICOList[] = Icoutility.ICOSorting(this.icolist.filter(ico => ico.livestreamdate !== undefined), true);
+    const icowithoutlivestream: IICOList[] = Icoutility.ICOSorting(this.icolist.filter(ico => ico.livestreamdate === undefined), true);
 
     this.icolist = [];
     this.icolist.push.apply(this.icolist, icowithlivesteam);
@@ -97,8 +98,8 @@ export class AppProfileViewComponent implements OnInit {
   }
 
   OwnICOSorting() {
-    const icowithlivesteam: IICOList[] = Utility.ICOSorting(this.yourICOList.filter(ico => ico.livestreamdate !== undefined), true);
-    const icowithoutlivestream: IICOList[] = Utility.ICOSorting(this.yourICOList.filter(ico => ico.livestreamdate === undefined), true);
+    const icowithlivesteam: IICOList[] = Icoutility.ICOSorting(this.yourICOList.filter(ico => ico.livestreamdate !== undefined), true);
+    const icowithoutlivestream: IICOList[] = Icoutility.ICOSorting(this.yourICOList.filter(ico => ico.livestreamdate === undefined), true);
 
     this.yourICOList = [];
     this.yourICOList.push.apply(this.yourICOList, icowithlivesteam);

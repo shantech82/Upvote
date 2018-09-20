@@ -1,8 +1,18 @@
-// __________________
-// getHTMLMediaElement.js
+// Last time updated at August 19, 2014, 14:46:23
 
-function getHTMLMediaElement(mediaElement, config) {
-    config = config || {};
+// Muaz Khan     - www.MuazKhan.com
+// MIT License   - www.WebRTC-Experiment.com/licence
+// Documentation - github.com/muaz-khan/WebRTC-Experiment/tree/master/getMediaElement
+
+// Demo          - www.WebRTC-Experiment.com/getMediaElement
+
+document.write('<link rel="stylesheet" href="https://cdn.WebRTC-Experiment.com/getMediaElement.css">');
+
+// __________________
+// getMediaElement.js
+
+function getMediaElement(mediaElement, config) {
+    config = config || { };
 
     if (!mediaElement.nodeName || (mediaElement.nodeName.toLowerCase() != 'audio' && mediaElement.nodeName.toLowerCase() != 'video')) {
         if (!mediaElement.getVideoTracks().length) {
@@ -11,25 +21,14 @@ function getHTMLMediaElement(mediaElement, config) {
 
         var mediaStream = mediaElement;
         mediaElement = document.createElement(mediaStream.getVideoTracks().length ? 'video' : 'audio');
-
-        try {
-            mediaElement.setAttributeNode(document.createAttribute('autoplay'));
-            mediaElement.setAttributeNode(document.createAttribute('playsinline'));
-        } catch (e) {
-            mediaElement.setAttribute('autoplay', true);
-            mediaElement.setAttribute('playsinline', true);
-        }
-
-        if ('srcObject' in mediaElement) {
-            mediaElement.srcObject = mediaStream;
-        } else {
-            mediaElement[!!navigator.mozGetUserMedia ? 'mozSrcObject' : 'src'] = !!navigator.mozGetUserMedia ? mediaStream : (window.URL || window.webkitURL).createObjectURL(mediaStream);
-        }
+        mediaElement[!!navigator.mozGetUserMedia ? 'mozSrcObject' : 'src'] = !!navigator.mozGetUserMedia ? mediaStream : window.webkitURL.createObjectURL(mediaStream);
     }
 
     if (mediaElement.nodeName && mediaElement.nodeName.toLowerCase() == 'audio') {
         return getAudioElement(mediaElement, config);
     }
+
+    mediaElement.controls = false;
 
     var buttons = config.buttons || ['mute-audio', 'mute-video', 'full-screen', 'volume-slider', 'stop'];
     buttons.has = function(element) {
@@ -244,18 +243,9 @@ function getHTMLMediaElement(mediaElement, config) {
     mediaBox.className = 'media-box';
     mediaElementContainer.appendChild(mediaBox);
 
-    if (config.title) {
-        var h2 = document.createElement('h2');
-        h2.innerHTML = config.title;
-        h2.setAttribute('style', 'position: absolute;color:white;font-size:17px;text-shadow: 1px 1px black;padding:0;margin:0;text-align: left; margin-top: 10px; margin-left: 10px; display: block; border: 0;line-height:1.5;z-index:1;');
-        mediaBox.appendChild(h2);
-    }
-
     mediaBox.appendChild(mediaElement);
 
-    mediaElementContainer.style.width = '100%';
-
-   /* if (!config.width) config.width = (innerWidth / 2) - 50;
+    if (!config.width) config.width = (innerWidth / 2) - 50;
 
     mediaElementContainer.style.width = config.width + 'px';
 
@@ -263,9 +253,7 @@ function getHTMLMediaElement(mediaElement, config) {
         mediaBox.style.height = config.height + 'px';
     }
 
-    //mediaBox.querySelector('video').style.maxHeight = innerHeight + 'px';
-    mediaBox.querySelector('video').style.height = '560px';*/
-    // mediaBox.querySelector('video').className('card_layout');
+    mediaBox.querySelector('video').style.maxHeight = innerHeight + 'px';
 
     var times = 0;
 
@@ -281,8 +269,7 @@ function getHTMLMediaElement(mediaElement, config) {
             volumeControl.style.marginLeft = (mediaElementContainer.clientWidth - volumeControl.clientWidth - 2) + 'px';
         }
 
-        //volumeControl.style.marginTop = (mediaElementContainer.clientHeight - volumeControl.clientHeight - 2) + 'px';
-        volumeControl.style.marginTop = '20px';
+        volumeControl.style.marginTop = (mediaElementContainer.clientHeight - volumeControl.clientHeight - 2) + 'px';
 
         if (times < 10) {
             times++;
@@ -341,31 +328,21 @@ function getHTMLMediaElement(mediaElement, config) {
 // getAudioElement.js
 
 function getAudioElement(mediaElement, config) {
-    config = config || {};
+    config = config || { };
 
     if (!mediaElement.nodeName || (mediaElement.nodeName.toLowerCase() != 'audio' && mediaElement.nodeName.toLowerCase() != 'video')) {
         var mediaStream = mediaElement;
         mediaElement = document.createElement('audio');
-
-        try {
-            mediaElement.setAttributeNode(document.createAttribute('autoplay'));
-            mediaElement.setAttributeNode(document.createAttribute('controls'));
-        } catch (e) {
-            mediaElement.setAttribute('autoplay', true);
-            mediaElement.setAttribute('controls', true);
-        }
-
-        if ('srcObject' in mediaElement) {
-            mediaElement.mediaElement = mediaStream;
-        } else {
-            mediaElement[!!navigator.mozGetUserMedia ? 'mozSrcObject' : 'src'] = !!navigator.mozGetUserMedia ? mediaStream : (window.URL || window.webkitURL).createObjectURL(mediaStream);
-        }
+        mediaElement[!!navigator.mozGetUserMedia ? 'mozSrcObject' : 'src'] = !!navigator.mozGetUserMedia ? mediaStream : window.webkitURL.createObjectURL(mediaStream);
     }
 
     config.toggle = config.toggle || [];
     config.toggle.has = function(element) {
         return config.toggle.indexOf(element) !== -1;
     };
+
+    mediaElement.controls = false;
+    mediaElement.play();
 
     var mediaElementContainer = document.createElement('div');
     mediaElementContainer.className = 'media-container';
@@ -469,8 +446,7 @@ function getAudioElement(mediaElement, config) {
 
     function adjustControls() {
         mediaControls.style.marginLeft = (mediaElementContainer.clientWidth - mediaControls.clientWidth - 7) + 'px';
-       // mediaControls.style.marginTop = (mediaElementContainer.clientHeight - mediaControls.clientHeight - 6) + 'px';
-       mediaControls.style.marginTop = '20px';
+        mediaControls.style.marginTop = (mediaElementContainer.clientHeight - mediaControls.clientHeight - 6) + 'px';
         if (times < 10) {
             times++;
             setTimeout(adjustControls, 1000);

@@ -10,6 +10,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Utility } from '../Shared/Utility';
 import { UrlparserService } from '../services/urlparser.service';
+import { Urlutility } from '../Shared/urlutility';
 
 @Component({
   selector: 'app-app-profile-create',
@@ -93,15 +94,13 @@ export class AppProfileCreateComponent implements OnInit {
   }
 
   DeleteUserProfile() {
-    this.fuservice.DeleteFile(this.updatedprofileimageurl).subscribe(() => {
-      this.icouserprofileservice.DeleteUserProfile(this.userId)
-        .then(() => {
-          localStorage.removeItem('UserData');
-          this.router.navigate(['/Login']);
-        }, error => {
-          this.alertService.alert(new Alert(AlertType.DANGER, 'There was a problem deleting the user. Please, try again'));
-        });
-    });
+    this.icouserprofileservice.DeleteUserProfile(this.userId)
+      .then(() => {
+        localStorage.removeItem('UserData');
+        this.router.navigate(['/Login']);
+      }, error => {
+        this.alertService.alert(new Alert(AlertType.DANGER, 'There was a problem deleting the user. Please, try again'));
+      });
   }
 
   AssignProfileImage() {
@@ -110,7 +109,7 @@ export class AppProfileCreateComponent implements OnInit {
         this.imageSrc = value;
         this.forminitialization = true;
       });
-      this.updatedprofileimageurl = Utility.getImageURLforSave(this.icoUserGet.profileimageurl);
+      this.updatedprofileimageurl = Urlutility.getImageURLforSave(this.icoUserGet.profileimageurl);
     }
   }
 
@@ -131,8 +130,6 @@ export class AppProfileCreateComponent implements OnInit {
       }
       this.updatedprofileimageurl = modifiedfilename;
       this.fuservice.UploadFiles(formData, existingfile).subscribe(filename => {
-        // this.updatedprofileimageurl = filename;
-        // this.spinner.hide();
       });
     } else {
       this.imageSrc = '../../assets/img/ico-user@2x.png';
@@ -148,9 +145,9 @@ export class AppProfileCreateComponent implements OnInit {
       this.icouserprofileservice.GetSingleUser(this.userId).subscribe(userData => {
         this.icoUserGet = userData[0];
         if (this.icoUserGet !== undefined && this.icoUserGet.id !== undefined) {
-        this.AssignProfileImage();
-        this.createFormControls();
-        this.createForm();
+          this.AssignProfileImage();
+          this.createFormControls();
+          this.createForm();
         } else {
           localStorage.removeItem('UserData');
           this.router.navigate(['/Login']);

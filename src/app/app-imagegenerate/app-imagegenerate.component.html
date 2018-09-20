@@ -1,0 +1,16 @@
+<app-app-home></app-app-home>
+<div class="alertCenter">
+  <nac-alert-center [animation]="'fancy'" [htmlTextEnabled]="true"></nac-alert-center>
+</div>
+<table *ngIf="formintilization">
+  <tr>
+    <th>File Name</th>
+    <th>Create</th>
+    <th>Check</th>
+  </tr>
+  <tr *ngFor="let filename of filenames">
+    <td>{{ filename.filename }}</td>
+    <td><input type="button" value="create" (click)="generateFile(filename.filename)"></td>
+    <td><input type="button" value="check" (click)="checkFile(filename.filename)"></td>
+  </tr>
+</table>

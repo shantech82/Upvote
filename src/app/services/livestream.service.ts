@@ -42,4 +42,9 @@ export class LivestreamService {
   DeleteLiveStream(Id) {
     return this.http.delete(environment.ApiURL + 'deleteLiveStream/' + Id).toPromise();
   }
+
+  deleteLiveStreamSystemCreated(Id) {
+    return this.http.delete(environment.ApiURL + 'deleteLiveStreamSystemCreated/' + Id)
+    .map(data => _.values(data));
+  }
 }

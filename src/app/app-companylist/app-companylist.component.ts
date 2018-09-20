@@ -3,9 +3,11 @@ import { CompanyService } from '../services/company.service';
 import { IICOList } from '../core/Model/IICOList';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
-import { Utility } from '../Shared/Utility';
 import { DomSanitizer } from '@angular/platform-browser';
 import { UrlparserService } from '../services/urlparser.service';
+import { Datetimeutility } from '../Shared/datetimeutility';
+import { Icoutility } from '../Shared/icoutility';
+import { Urlutility } from '../Shared/urlutility';
 
 @Component({
   selector: 'app-app-companylist',
@@ -98,7 +100,7 @@ export class AppCompanylistComponent implements OnInit {
   }
 
   setVidoeURL() {
-    this.topicolist.youtubevideolink = Utility.GetYoutubeVideo(this.topicolist.youtubevideolink);
+    this.topicolist.youtubevideolink = Urlutility.GetYoutubeVideo(this.topicolist.youtubevideolink);
     if (this.topicolist.youtubevideolink !== undefined) {
       this.UrlSanitizer(true);
     } else {
@@ -120,8 +122,8 @@ export class AppCompanylistComponent implements OnInit {
   }
 
   ICOSorting() {
-    const icowithlivesteam: IICOList[] = Utility.ICOSorting(this.icolist.filter(ico => ico.livestreamdate !== undefined), true);
-    const icowithoutlivestream: IICOList[] = Utility.ICOSorting(this.icolist.filter(ico => ico.livestreamdate === undefined), true);
+    const icowithlivesteam: IICOList[] = Icoutility.ICOSorting(this.icolist.filter(ico => ico.livestreamdate !== undefined), true);
+    const icowithoutlivestream: IICOList[] = Icoutility.ICOSorting(this.icolist.filter(ico => ico.livestreamdate === undefined), true);
 
     this.icolist = [];
     this.icolist.push.apply(this.icolist, icowithlivesteam);
@@ -145,7 +147,7 @@ export class AppCompanylistComponent implements OnInit {
         icologoimage: o.icologoimage,
         icoshortdescription: o.icoshortdescription,
         icocreatedon: o.createdon,
-        icolivestreamData: Utility.getDiferenceInDays(o.icolivestreamdata),
+        icolivestreamData: Datetimeutility.getDiferenceInDays(o.icolivestreamdata),
         iswhitelistjoined: o.iswhitelistjoined,
         id: o.id,
         livestreamstatus: o.livestreamstatus,

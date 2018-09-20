@@ -10,6 +10,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Utility } from '../Shared/Utility';
 import { UrlparserService } from '../services/urlparser.service';
+import { Datetimeutility } from '../Shared/datetimeutility';
+import { Urlutility } from '../Shared/urlutility';
 
 @Component({
   selector: 'app-app-company',
@@ -70,7 +72,7 @@ export class AppCompanyComponent implements OnInit {
 
   constructor(private icoservice: CompanyService, private fuservice: FileuploadService, private activateRoute: ActivatedRoute,
     private mdservice: MasterDataService, private router: Router, private alertService: AlertCenterService,
-    private modalService: NgbModal, private spinner: NgxSpinnerService,private urlservice: UrlparserService) {
+    private modalService: NgbModal, private spinner: NgxSpinnerService, private urlservice: UrlparserService) {
     this.activateRoute.queryParams.subscribe(params => {
       this.name = params['name'];
       if (this.name === undefined) {
@@ -145,13 +147,11 @@ export class AppCompanyComponent implements OnInit {
       const modifiedfilename = Date.now() + this.filesToUpload.name;
       formData.append('file', this.filesToUpload, modifiedfilename);
       let existingfile = 'xxx';
-      console.log(this.updatedprofileimageurl);
       if (Utility.isNotEmptyNullUndefined(this.updatedprofileimageurl)) {
         existingfile = this.updatedprofileimageurl;
       }
       this.updatedprofileimageurl = modifiedfilename;
         this.fuservice.UploadFiles(formData, existingfile).subscribe(filename => {
-          console.log(filename);
           this.updatedprofileimageurl = filename[0];
           // this.spinner.hide();
         });
@@ -188,7 +188,7 @@ export class AppCompanyComponent implements OnInit {
   }
 
   compareTwoDates(): boolean {
-    return Utility.compareTwoDates(this.icoform.controls['icoenddate'].value, this.icoform.controls['icostartdate'].value);
+    return Datetimeutility.compareTwoDates(this.icoform.controls['icoenddate'].value, this.icoform.controls['icostartdate'].value);
   }
 
   GetICOInfo() {
@@ -214,12 +214,10 @@ export class AppCompanyComponent implements OnInit {
   }
 
   AssignProfileImage() {
-    if (this.icoGet !== undefined) {
-      this.urlservice.GetFileURL(this.icoGet.icologoimage, 'icoimage').subscribe(value => {
-        this.imageSrc = value;
-      });
-      this.updatedprofileimageurl = Utility.getImageURLforSave(this.icoGet.icologoimage);
-    }
+    this.urlservice.GetFileURL(this.icoGet.icologoimage, 'icoimage').subscribe(value => {
+      this.imageSrc = value;
+    });
+    this.updatedprofileimageurl = Urlutility.getImageURLforSave(this.icoGet.icologoimage);
   }
 
   UpdateICO(icoform: FormGroup) {

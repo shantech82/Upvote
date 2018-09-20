@@ -1,0 +1,133 @@
+
+.stream_btn {
+    height: 50px;
+    border-radius: 8px;
+    border: solid 2px #151515;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    background: none;
+  }
+  
+  .stream_btn.stop {
+    background-color: #151515;
+    color: #fff;
+  }
+
+  .chat_profile {
+    background-color: #e5eaed;
+    padding: 50px 0;
+    margin-bottom: 60px;
+  }
+  
+  .chat_box {
+    display: block;
+    position: relative;
+    background: #fff;
+    height: 560px;
+    border-radius: 3px;
+    background-color: #ffffff;
+  }
+  
+  .chat_box h5 {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.43;
+    letter-spacing: 1px;
+    color: #43494e;
+    margin: 0;
+    padding: 15px;
+  }
+  
+  :host::ng-deep.chat_box ul {
+    padding: 0;
+    height: 454px;
+    overflow-y: auto;
+  }
+  
+  :host::ng-deep.chat_box ul li {
+    list-style: none;
+    position: relative;
+    padding: 20px;
+    color: #43494e;
+  }
+  
+  :host::ng-deep.chat_box ul li .user_name {
+    font-size: 14px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    color: #050505;
+    margin-bottom: 10px;
+    position: relative;
+  }
+  
+  :host::ng-deep.user_name span {
+    position: absolute;
+    right: 0;
+    font-size: 12px;
+    color: #88898a;
+  }
+  
+  :host::ng-deep.chat_box ul li:before {
+    content: "";
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    top: 24px;
+    left: 7px;
+  }
+  
+  :host::ng-deep.chat_box ul li.orange:before {
+    background: #f5a623;
+  }
+  
+  :host::ng-deep.chat_box ul li.red:before {
+    background: red;
+  }
+  
+  :host::ng-deep.chat_box ul li:nth-child(odd) {
+    background-color: #f6f8fa;
+  }
+  
+  .chat_input {
+    position: absolute;
+    bottom: 0;
+    padding: 10px;
+    width: 100%;
+  }
+  
+  .chat_input .input-group {
+    display: flex;
+  }
+  
+  .chat_inp {
+    border-right: 0;
+  }
+  
+  .chat_inp:focus,
+  .chat_inp:active,
+  .chat_inp:hover {
+    box-shadow: none;
+    outline: 0;
+    border-color: #ddd;
+  }
+  
+  .chat_input .input-group-addon {
+    background: none;
+    box-shadow: none;
+    border: 1px solid #ddd;
+    border-left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+  }
+  

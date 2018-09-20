@@ -5,6 +5,7 @@ export interface ILiveStream {
     time: string;
     livestreamcode: string;
     livestreamstatus: string;
+    userid: string;
 }
 
 export interface ISchedules {

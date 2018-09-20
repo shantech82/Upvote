@@ -34,11 +34,17 @@
   transform: translate(0%, -50%);
 }
 
-.footer_social,
-.footer_content .right {
+.footer_social {
   position: absolute;
   right: 0;
   top: 50%;
+  transform: translate(0%, -50%);
+}
+
+.footer_content .right {
+  position: absolute;
+  right: 0;
+  top: 85%;
   transform: translate(0%, -50%);
 }
 

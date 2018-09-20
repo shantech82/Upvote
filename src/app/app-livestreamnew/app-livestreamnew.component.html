@@ -1,0 +1,45 @@
+<app-app-home></app-app-home>
+<div class="row">
+    <input type="button" id="startlivestream" value="Start livestream">
+    <input type="button" id="moderatorjoin" value="moderator livestream">
+    <input type="button" id="joinlivestream" value="Join live stream">
+    <input type="button" id="sharescreen" value="Share Screen">
+    <input type="button" id="stoplivestream" value="Stop livestream">
+</div>
+<div class="row">
+    <div class="column left" style="background-color:#aaa;">
+        <div id="noofusers">
+
+        </div>
+        <div id="userlist">
+
+        </div>
+        <div id='left-video-container'>
+
+        </div>
+    </div>
+    <div class="column middle" style="background-color:#bbb;">
+        <div id="userspeaking">
+
+        </div>
+        <div id='screen-container'>
+
+            </div>
+
+        <div id='video-container'>
+
+        </div>
+
+    </div>
+    <div class="column right" style="background-color:#ccc;">
+        <div id='chatbox' class='chatbox'>
+                <div id='chatmessage' class='chatmessage'>
+                <input type="text" id="chat-input" style="font-size: 1.2em;" placeholder="chat message" disabled>
+
+        </div>
+        <div class='filebox'>
+            <button id="share-file" disabled>Share File</button>
+            <div id="file-container" class='filecontainer'></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,76 @@
+<div class="calendar" *ngIf="forminitialization">
+  <div class="calendar_head">
+    <div class="cal_icon">
+      <img src="..\assets\img\ico-cal.png">
+    </div>
+    <div class="cal_details" *ngIf="ico.icostartdate">
+      <small>Started {{ ico.icostartdate | date:'MMMM dd' }}{{ dateendstring }}</small>
+      <p *ngIf="expired">{{ expired }} </p>
+      <p *ngIf="!expired">{{ enddatecal }} </p>
+    </div>
+  </div>
+  <div class="cal_holder">
+    <div ngbDropdown class="dateModal">
+      <a *ngIf="userType===1" id="addschedules" ngbDropdownToggle href="javascript:void(0)" class="edit_icon" (click)="getLiveStream()">
+        <img src="..\assets\img\ico-edit-cal-hover.png" srcset="..\assets\img\ico-edit-cal-hover@2x.png 2x,
+            ..\assets\img\ico-edit-cal-hover@3x.png 3x" class="ico_edit_cal_hover" (click)="getLiveStream()">
+      </a>
+      <div ngbDropdownMenu aria-labelledby="addschedules">
+        <div class="drop_title">
+          <span> SCHEDULES </span>
+        </div>
+        <ul>
+          <li class="dropdown-item" *ngFor="let s of schedules">
+            <span> {{ s.livestreamdatetime }}
+              <a href="javascript:void(0)" (click)="DeleteLiveStream(s)">
+                <i class="fa fa-trash"></i>
+              </a>
+            </span>
+          </li>
+          <li class="divider" *ngIf="schedules.length > 0"></li>
+          <li class="chooseDate">
+            <form [formGroup]='scheduleform' (ngSubmit)="AddScheduleEventClick(scheduleform)">
+              <input type="number" formControlName="day" value="1" placeholder="Day" max="31" min="1" required>
+              <input type="number" formControlName="month" value="1" placeholder="Month" max="12" min="1" required>
+              <input type="text" formControlName="time" value="12:00" placeholder="Time" required>
+              <button type="submit" class="btn btn_add_date">Add</button>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <p *ngIf="currentlivestreammonth">NEXT Live streaming ( {{ currentlivestreammonth }} )</p>
+    <div class="datepicker-container">
+      <ngb-datepicker class="myDatePicker" [startDate]="startdate" [class.bg-primary]="selected" #dtp let (navigate)="date = $event.next"
+        firstDayOfWeek=7 [dayTemplate]="customDay"></ngb-datepicker>
+      <ng-template #customDay let-date="date" let-currentMonth="currentMonth" let-focused="focused">
+        <span [ngClass]="myClass(date)" [class.hidden]="date.month !== currentMonth" [class.] [class.weekend]="isSunday(date)" [class.focused]="focused"
+          [class.bg-primary]="selected" [class.text-muted]="disabled">
+          {{ date.day }}
+        </span>
+      </ng-template>
+    </div>
+    <div ngbDropdown class="calModal">
+      <a ngbDropdownToggle href="javascript:void(0)" id='downloadcalendar' >Download / add to your calendar</a>
+      <div ngbDropdownMenu aria-labelledby="downloadcalendar" style="top:0px !important">
+        <div class="drop_title">
+          <span> Select Calendar </span>
+        </div>
+        <ul>
+          <li class="dropdown-item">
+            <span> <input type="radio" name="calendar" (click)= "DownloadCalendar('google')"> Google Calendar </span>
+          </li>
+          <li class="dropdown-item">
+            <span> <input type="radio" name="calendar" (click)= "DownloadCalendar('yahoo')"> Yahoo! Calendar </span>
+          </li>
+          <li class="dropdown-item">
+            <span> <input type="radio" name="calendar" (click)= "DownloadCalendar('microsoft')"> Microsoft Calendar </span>
+          </li>
+          <li class="dropdown-item">
+            <span> <input type="radio" name="calendar" (click)= "DownloadCalendar('others')"> Other Calendar </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

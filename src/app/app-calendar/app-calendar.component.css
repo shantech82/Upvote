@@ -1,0 +1,292 @@
+.calModal a {
+  color: #88898a;
+  text-decoration: underline;
+}
+
+.calendar_head {
+    height: 90px;
+    background-color: #6949c5;
+    color: #fff;
+    display: flex;
+    padding: 20px;
+  }
+  
+  .cal_icon {
+    display: inline-block;
+  }
+  
+  .cal_details {
+    display: inline-block;
+    margin-left: 10px;
+  }
+  
+  .cal_content small {
+    font-size: 14px;
+  }
+  
+  .cal_content p {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 5px 0 0 0;
+  }
+  
+  .cal_holder,
+  .event_details {
+    padding: 20px;
+  }
+  
+  .cal_date {
+    width: 100%;
+    height: 166px;
+    border: 1px solid #ddd;
+  }
+  
+  .divider {
+    display: block;
+    margin: 24px 0;
+    border-top: solid 1px #e6eaf0;
+  }
+
+  
+.custom-day {
+    display: block;
+    width: 100%;
+    height: 100%;
+    line-height: 14px;
+    text-align: center;
+  }
+  
+  .custom-day.weekend {
+    color: red;
+  }
+  
+  .edit_icon {
+    display: block;
+    text-align: right;
+    color: #6949c5 !important;
+    font-size: 24px;
+  }
+  
+  :host .myDatePicker {
+    width: 100%;
+    border: 0;
+  }
+  
+  :host /deep/.ngb-dp-header {
+    display: none
+  }
+  
+  :host /deep/ .ngb-dp-month {
+    width: 100%;
+  }
+  
+  :host /deep/.ngb-dp-weekdays {
+    border: 0 !important;
+  }
+  
+  :host /deep/ .ngb-dp-day,
+  :host /deep/ .ngb-dp-weekday,
+  :host /deep/ .ngb-dp-week-number {
+    width: 16.6% !important;
+    height: 3rem !important;
+    color: #43494e;
+    font-size: 14px;
+  }
+  
+  :host /deep/ .ngb-dp-weekday {
+    color: #43494e !important;
+    font-weight: bold;
+    visibility: hidden;
+  }
+  
+  :host /deep/ .ngb-dp-weekday::first-letter {
+    visibility: visible;
+  }
+  
+  :host /deep/ .ngb-dp-day {
+    cursor: pointer;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  
+  :host /deep/.ngb-dp-day /deep/.bg-primary {
+    color: #fff;
+    background-color: #43494e !important;
+    border-radius: 50% !important;
+    width: 3rem;
+    height: 3rem;
+    line-height: 3rem;
+    text-align: center;
+  }
+  
+  :host /deep/.ngb-dp-weekday,
+  :host /deep/.ngb-dp-week-number {
+    line-height: 3rem !important;
+  }
+  
+  :host /deep/ ngb-datepicker.myDatePicker.ng-valid.ng-touched.ng-dirty:focus {
+    outline: none !important;
+  }
+  
+  :host /deep/ .calModal .dropdown-menu {
+    left: 150px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 263px;
+    border: 0;
+    box-shadow: 0 10px 30px 0 rgba(207, 213, 218, 0.55);
+  }
+  
+  :host /deep/ .calModal .dropdown-menu>ul {
+    list-style: none;
+    padding: 15px 0;
+    margin: 0;
+  }
+  
+  :host /deep/ .calModal .dropdown-menu li {
+    padding: 8px 25px;
+    text-align: left;
+    list-style: none;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.43;
+    letter-spacing: normal;
+    color: #555c62;
+  }
+  
+  :host /deep/ .calModal .dropdown-menu li span a i {
+    position: absolute;
+    right: 10px;
+    font-size: 18px;
+    color: #c62828;
+  }
+  
+  :host /deep/ .calModal .dropdown-menu .drop_title {
+    padding: 17px 25px;
+    border-bottom: 1px solid #ddd;
+    font-weight: bold
+  }
+  
+  :host /deep/ .calModal .dropdown-menu .drop_title:hover {
+    background: none;
+  }
+  
+  :host /deep/ .dateModal .dropdown-menu {
+    left: 150px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 263px;
+    top: 245px !important;
+    border: 0;
+    box-shadow: 0 10px 30px 0 rgba(207, 213, 218, 0.55);
+  }
+  
+  :host /deep/ .dateModal .dropdown-menu>ul {
+    list-style: none;
+    padding: 15px 0;
+    margin: 0;
+  }
+  
+  :host /deep/ .dateModal .dropdown-menu li {
+    padding: 8px 25px;
+    text-align: left;
+    list-style: none;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.43;
+    letter-spacing: normal;
+    color: #555c62;
+  }
+  
+  :host /deep/ .dateModal .dropdown-menu li span a i {
+    position: absolute;
+    right: 10px;
+    font-size: 18px;
+    color: #c62828;
+  }
+  
+  :host /deep/ .dateModal .dropdown-menu li a {
+    padding: 0;
+    color: #666 !important;
+    text-decoration: none;
+  }
+  
+  :host /deep/ .dateModal .dropdown-menu li.active a {
+    color: red !important;
+  }
+  
+  :host /deep/ .dateModal .dropdown-menu .drop_title {
+    padding: 17px 25px;
+    border-bottom: 1px solid #ddd;
+    font-weight: bold
+  }
+  
+  :host /deep/ .dateModal .dropdown-menu .drop_title:hover {
+    background: none;
+  }
+  
+  :host /deep/ .dateModal .dropdown-menu li.chooseDate {
+    padding: 10px 20px;
+  }
+  
+  :host /deep/ .dateModal .dropdown-menu li.divider {
+    height: 1px;
+    background-color: #e2e4e5;
+    margin: 20px 0;
+    padding: 0;
+  }
+  
+  :host /deep/ .dateModal .dropdown-menu li.chooseDate input {
+    width: 60px;
+    height: 40px;
+    text-align: center;
+    border: 1px solid #e2e2e2;
+    margin-right: 11px;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.5;
+  }
+  
+  :host /deep/ .dateModal .dropdown-menu li.chooseDate .btn_add_date {
+    display: block;
+    width: 161px;
+    height: 40px;
+    border-radius: 8px;
+    background-color: #3ccf94;
+    margin: 20px auto 0 auto;
+    color: #fff;
+  }
+  
+.custom-day {
+    text-align: center;
+    padding: 0.185rem 0.25rem;
+    border-radius: 0.25rem;
+    display: inline-block;
+    width: 2rem;
+  }
+  
+  .custom-day:hover,
+  .custom-day.focused {
+    background-color: #e6e6e6;
+  }
+  
+  .weekend {
+    color: #e26c7a;
+  }
+  
+  .classSelected {
+    color: #fff;
+    background-color: #43494e !important;
+    border-radius: 50% !important;
+    width: 3rem;
+    height: 3rem;
+    line-height: 3rem;
+    text-align: center;
+  }
