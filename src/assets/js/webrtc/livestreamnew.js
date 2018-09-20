@@ -113,10 +113,10 @@ connection.onstream = function (event) {
         });
     }
 
-    /* if (document.getElementById(event.streamid)) {
+     if (document.getElementById(event.streamid)) {
          var existing = document.getElementById(event.streamid);
          existing.parentNode.removeChild(existing);
-     }*/
+     }
 
     event.mediaElement.removeAttribute('src');
     event.mediaElement.removeAttribute('srcObject');
@@ -275,7 +275,6 @@ connection.onmessage = function (event) {
         appendDIV(event.data.content, 2);
         return;
     } else if(event.data.type === 'stoppedtyping') {
-        console.log(event.data);
         var div = document.getElementById(event.data.content.lastMessageUUID);
         if (div) div.parentNode.removeChild(div);
         return;
@@ -302,7 +301,6 @@ connection.onopen = function (event) {
 }
 
 function userListUpdate(event) {
-    console.log(event);
     var usernamediv = document.createElement('div');
     usernamediv.id = event.userid;
     usernamediv.innerHTML = event.extra.fullname;
