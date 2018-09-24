@@ -1,9 +1,9 @@
-<app-app-home></app-app-home>
+
 <div class="row">
-    <input type="button" id="startlivestream" value="Start livestream">
-    <input type="button" id="moderatorjoin" value="moderator livestream">
-    <input type="button" id="joinlivestream" value="Join live stream">
-    <input type="button" id="sharescreen" value="Share Screen">
+    <input type="button" id="startlivestream" value="Start livestream" [disabled]="host">
+    <input type="button" id="moderatorjoin" value="moderator livestream" [disabled]="moderator">
+    <input type="button" id="joinlivestream" value="Join live stream" [disabled]="join">
+    <input type="button" id="sharescreen" value="Share Screen" [disabled]="share">
     <input type="button" id="stoplivestream" value="Stop livestream">
 </div>
 <div class="row">

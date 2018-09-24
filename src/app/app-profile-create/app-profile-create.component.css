@@ -149,6 +149,11 @@ textarea.submitted.ng-invalid
   border:1px solid #f00;
 }
 
+.smallcharacter {
+  font-size: 10px;
+  font-style: italic;
+}
+
 .btn:focus,
 .btn:active {
   outline: 0;

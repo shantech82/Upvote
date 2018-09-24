@@ -8,10 +8,55 @@ import { DOCUMENT } from '@angular/common';
 })
 export class AppLivestreamnewComponent implements OnInit, AfterViewInit {
 
+  userid: number;
+  host: boolean;
+  moderator: boolean;
+  join: boolean;
+  share: boolean;
   constructor(private elementRef: ElementRef, @Inject(DOCUMENT) private document) { }
 
   ngOnInit() {
+      this.userid = this.getUserId();
+      console.log(this.userid);
+      if (this.userid === 134 || this.userid === 67 || this.userid === 108 || this.userid === 135 || this.userid === 140 ) {
+        this.host = true;
+        this.moderator = false;
+        this.join = true;
+        this.share = true;
+      } else
+      if (this.userid === 63 || this.userid === 8 || this.userid === 13 || this.userid === 103) {
+        this.host = true;
+        this.moderator = false;
+        this.join = true;
+        this.share = true;
+      } else
+      if (this.userid === 112 || this.userid === 4 || this.userid === 102) {
+        this.host = true;
+        this.moderator = true;
+        this.join = false;
+        this.share = true;
+      } else
+      if (this.userid === 131 || this.userid === 144) {
+        this.host = false;
+        this.moderator = false;
+        this.join = false;
+        this.share = false;
+      } else {
+        this.host = true;
+        this.moderator = true;
+        this.join = true;
+        this.share = true;
+      }
   }
+
+  getUserId() {
+    const UserData = JSON.parse(localStorage.getItem('UserData'));
+    if (UserData !== undefined && UserData !== null) {
+        return UserData.id;
+    } else {
+        return 0;
+    }
+}
 
   ngAfterViewInit() {
     const RTCMultiConnectionScript = this.document.createElement('script');

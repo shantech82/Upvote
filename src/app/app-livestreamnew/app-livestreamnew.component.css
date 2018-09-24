@@ -108,6 +108,10 @@ small-flex-square {
   width:95%;
 }
 
+input:disabled {
+  background: #dddddd;
+}
+
 @media screen and (max-width: 800px) {
   .column {
       width: 100%;
