@@ -88,7 +88,7 @@ small-flex-square {
 
 :host::ng-deep.videomain {
     margin: 10px;
-    width: 60%;
+    width: 40%;
     border-radius: 15px;
 }
 

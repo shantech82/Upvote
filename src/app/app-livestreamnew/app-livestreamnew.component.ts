@@ -16,37 +16,10 @@ export class AppLivestreamnewComponent implements OnInit, AfterViewInit {
   constructor(private elementRef: ElementRef, @Inject(DOCUMENT) private document) { }
 
   ngOnInit() {
-      this.userid = this.getUserId();
-      console.log(this.userid);
-      if (this.userid === 134 || this.userid === 67 || this.userid === 108 || this.userid === 135 || this.userid === 140 ) {
-        this.host = true;
-        this.moderator = false;
-        this.join = true;
-        this.share = true;
-      } else
-      if (this.userid === 63 || this.userid === 8 || this.userid === 13 || this.userid === 103) {
-        this.host = true;
-        this.moderator = false;
-        this.join = true;
-        this.share = true;
-      } else
-      if (this.userid === 112 || this.userid === 4 || this.userid === 102) {
-        this.host = true;
-        this.moderator = true;
-        this.join = false;
-        this.share = true;
-      } else
-      if (this.userid === 131 || this.userid === 144) {
-        this.host = false;
-        this.moderator = false;
-        this.join = false;
-        this.share = false;
-      } else {
-        this.host = true;
-        this.moderator = true;
-        this.join = true;
-        this.share = true;
-      }
+    this.host = false;
+    this.moderator = false;
+    this.join = false;
+    this.share = false;
   }
 
   getUserId() {
@@ -63,6 +36,11 @@ export class AppLivestreamnewComponent implements OnInit, AfterViewInit {
     RTCMultiConnectionScript.type = 'text/javascript';
     RTCMultiConnectionScript.src = '../../assets/js/webrtc/rmc3.min.js';
     this.elementRef.nativeElement.appendChild(RTCMultiConnectionScript);
+
+    const adapterScript = this.document.createElement('script');
+    adapterScript.type = 'text/javascript';
+    adapterScript.src = '../../assets/js/webrtc/adapter.js';
+    this.elementRef.nativeElement.appendChild(adapterScript);
 
     const socketScript = this.document.createElement('script');
     socketScript.type = 'text/javascript';

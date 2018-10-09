@@ -1,5 +1,15 @@
 var connection = new RTCMultiConnection();
 connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/'
+connection.socketMessageEvent = 'ICOlivestream';
+connection.enableLogs = true;
+connection.enableFileSharing = true;
+var roomid = 'Q12345e123'
+
+connection.session = {
+    audio: true,
+    video: true,
+    data: true
+};
 
 connection.sdpConstraints.mandatory = {
     OfferToReceiveAudio: true,
@@ -18,35 +28,29 @@ connection.getScreenConstraints = function (callback) {
     });
 };
 
-connection.socketMessageEvent = 'livestream';
-connection.enableLogs = false;
-connection.enableFileSharing = true;
-var roomid = 'Q12345e'
+
 
 document.getElementById('startlivestream').onclick = function () {
-    connection.session = {
-        audio: true,
-        video: true,
-        data: true
-    };
+    connection.open(roomid);
     connection.extra = {
         fullname: getName()
     };
-
-    connection.open(roomid);
 }
 
 document.getElementById('moderatorjoin').onclick = function () {
-    connection.session = {
-        audio: true,
-        video: true,
-        data: true
-    };
+    connection.checkPresence(roomid, function(isRoomExist,roomid,error) {
+        if (isRoomExist) {
+            connection.join(roomid);
+        } else {
+            alert('live stream not started');
+          }
+          if(error) {
+            console.log(error);
+        }
+    });
     connection.extra = {
         fullname: getName()
     };
-
-    connection.openOrJoin(roomid);
 }
 
 document.getElementById('joinlivestream').onclick = function () {
@@ -58,8 +62,13 @@ document.getElementById('joinlivestream').onclick = function () {
     connection.extra = {
         fullname: getName()
     };
-
-    connection.join(roomid);
+    connection.checkPresence(roomid, function(isRoomExist) {
+        if (isRoomExist) {
+            connection.join(roomid);
+        } else {
+            alert('live stream not started yet')
+        }
+    });
 }
 
 document.getElementById('share-file').onclick = function (file) {
@@ -135,10 +144,12 @@ connection.onstream = function (event) {
         video.id = event.stream.id;
         video.className = 'screencontainervideo';
         screenContainer.appendChild(video);
-        placingVideos(video, 'screen');
+        //placingVideos(video, 'screen');
     } else {
         video.id = event.stream.id;
-        placingVideos(video, 'video');
+        video.className = 'videomain';
+        videosContainer.appendChild(video);
+        //placingVideos(video, 'video');
     }
 }
 
