@@ -71,12 +71,12 @@ document.getElementById('joinlivestream').onclick = function () {
     });
 }
 
-document.getElementById('share-file').onclick = function (file) {
+/*document.getElementById('share-file').onclick = function (file) {
     var fileSelector = new FileSelector();
     fileSelector.selectSingleFile(function (file) {
         connection.send(file);
     });
-};
+};*/
 
 document.getElementById('sharescreen').onclick = function () {
     connection.addStream({
@@ -93,15 +93,18 @@ document.getElementById('stoplivestream').onclick = function () {
     connection.close();
 };
 
-connection.filesContainer = document.getElementById('file-container');
-var videosContainer = document.getElementById('video-container');
-var screenContainer = document.getElementById('screen-container');
-var leftvideocontainer = document.getElementById('left-video-container');
+//connection.filesContainer = document.getElementById('file-container');
+var presentervideosContainer = document.getElementById('presentervideo');
+var moderatorvideosContainer = document.getElementById('moderatorvideo');
+var livevideoparentContainer = document.getElementById('livevideoparent');
+
+//var screenContainer = document.getElementById('screen-container');
+//var leftvideocontainer = document.getElementById('left-video-container');
 var lastSelectedFile;
 var chunk_size = 60 * 1000;
 connection.fileReceived = {};
 connection.chunkSize = chunk_size;
-var chatOutput = document.getElementById('chatmessage');
+var chatContainer = document.querySelector('.chatwindow');
 var numberOfKeys = 0;
 var lastMessageUUID;
 
@@ -114,13 +117,13 @@ connection.onstreamended = function (event) {
 }
 
 connection.onstream = function (event) {
-    if (event.stream.isScreen !== true) {
+    /*if (event.stream.isScreen !== true) {
         initHark({
             stream: event.stream,
             streamedObject: event,
             connection: connection
         });
-    }
+    }*/
 
      if (document.getElementById(event.streamid)) {
          var existing = document.getElementById(event.streamid);
@@ -138,8 +141,8 @@ connection.onstream = function (event) {
     if (event.type === 'local') {
         video.muted = true;
     }
+    
     video.srcObject = event.stream;
-
     if (event.stream.isScreen === true) {
         video.id = event.stream.id;
         video.className = 'screencontainervideo';
@@ -147,8 +150,17 @@ connection.onstream = function (event) {
         //placingVideos(video, 'screen');
     } else {
         video.id = event.stream.id;
-        video.className = 'videomain';
-        videosContainer.appendChild(video);
+        if(event.type === 'local') {
+            moderatorvideosContainer.appendChild(video);
+        } else {
+            var childcount = presentervideosContainer.childElementCount;
+            if(childcount === 1) {
+                livevideoparentContainer.className = 'live_video two';
+            } else if(childcount > 1) {
+                livevideoparentContainer.className = 'live_video three';
+            }
+            presentervideosContainer.appendChild(video);
+        }
         //placingVideos(video, 'video');
     }
 }
@@ -162,89 +174,92 @@ function getName() {
     }
 }
 
-function placingVideos(video, callingfrom) {
-    var getCurrentMainVideo = screenContainer.getElementsByClassName("screencontainervideo")[0];
-    var isScreenSharing = getCurrentMainVideo ? true : false;
-    if (isScreenSharing) {
-        var childelements = videosContainer.childNodes;
-        childelements.forEach(element => {
-            if (element.localName === 'video' && element.className !== 'movevideo') {
-                element.className = 'movevideo';
-            }
-        });
-        if (callingfrom === 'video') {
-            video.className = 'movevideo';
-            videosContainer.appendChild(video);
-        }
-    } else {
-        var getCurrentMainVideo = videosContainer.getElementsByClassName("videomain")[0];
-        if (getCurrentMainVideo) {
-            video.className = 'videosec';
+ function appendDIV(data, type) {
+    var existing = false;
+    var disabl = false;
+    if(disabl){
+        div;
+        if (document.getElementById(data.lastMessageUUID)) {
+            div = document.getElementById(data.lastMessageUUID);
+            existing = true;
         } else {
-            video.className = 'videomain';
+            div = document.createElement('div');
+            if (data.lastMessageUUID) {
+                div.id = data.lastMessageUUID;
+            }
         }
-        videosContainer.appendChild(video);
+        if(type === 1) {
+            div.innerHTML = data.username + ' says: ' + data.text;
+        } else {
+            div.innerHTML = data.username + ' typing ';
+        }
     }
-}
 
-function appendDIV(data, type) {
-    var existing = false,
-    div;
-    if (document.getElementById(data.lastMessageUUID)) {
-        div = document.getElementById(data.lastMessageUUID);
-        existing = true;
-    } else {
-        div = document.createElement('div');
-        if (data.lastMessageUUID) {
-            div.id = data.lastMessageUUID;
-        }
-    }
-    if(type === 1) {
-        div.innerHTML = data.username + ' says: ' + data.text;
-    } else {
-        div.innerHTML = data.username + ' typing ';
-    }
+    var li = document.createElement('li');
+    var img = document.createElement('img');
+    img.src = "../../assets/img/ico-user.png";
+    li.appendChild(img);
+    var divchatcontent = document.createElement('div');
+    divchatcontent.className = 'chat_content';
     
+    var span = document.createElement('span')
+    var d = new Date();
+    span.innerHTML  = d.toLocaleTimeString();
+    divchatcontent.appendChild(span);
+
+    var h5 = document.createElement('h5');
+    h5.innerHTML = data.username;
+    divchatcontent.appendChild(h5);
+
+    var p = document.createElement('p');
+    p.innerHTML = data.text;
+    divchatcontent.appendChild(p);
+
+    li.appendChild(divchatcontent);
+
+
     if (!existing) {
-        chatOutput.appendChild(div);
+        chatContainer.appendChild(li);
     }
-    div.tabIndex = 0;
-    div.focus();
+    chatContainer.tabIndex = 0;
+    chatContainer.focus();
 }
 
 document.getElementById('chat-input').onkeypress = function(e) {
     numberOfKeys++;
-
-    if (numberOfKeys > 3) {
-        numberOfKeys = 0;
-    }
-
-    if (!numberOfKeys) {
-        if (!lastMessageUUID) {
-            lastMessageUUID = Math.round(Math.random() * 999999999) + 9995000;
+    var disabled = false;
+    if(disabled){
+        if (numberOfKeys > 3) {
+            numberOfKeys = 0;
         }
 
-        var chatmessage = {
-            username: connection.extra.fullname,
-            lastMessageUUID: lastMessageUUID
-        }
+        if (!numberOfKeys) {
+            if (!lastMessageUUID) {
+                lastMessageUUID = Math.round(Math.random() * 999999999) + 9995000;
+            }
 
-        connection.send({
-            type: 'typing',
-            content: chatmessage
-        });
-    }
+            var chatmessage = {
+                username: connection.extra.fullname,
+                lastMessageUUID: lastMessageUUID
+            }
 
-    if (!this.value.replace(/^\s+|\s+$/g, '').length) {
-        var chatmessage = {
-            username: connection.extra.fullname,
-            lastMessageUUID: lastMessageUUID
+            connection.send({
+                type: 'typing',
+                content: chatmessage
+            });
         }
-        connection.send({
-            type: 'stoppedtyping',
-            content: chatmessage
-        });
-        return;
+    
+        if (!this.value.replace(/^\s+|\s+$/g, '').length) {
+            var chatmessage = {
+                username: connection.extra.fullname,
+                lastMessageUUID: lastMessageUUID
+            }
+            connection.send({
+                type: 'stoppedtyping',
+                content: chatmessage
+            });
+            return;
+        }
     }
     if (e.keyCode !== 13) return;
 
@@ -267,19 +282,7 @@ document.getElementById('chat-input').onkeypress = function(e) {
 };
 
 connection.onmessage = function (event) {
-    if (event.data.type === 'voice') {
-        if (event.data.speaking) {
-            var divuserspeaking = document.getElementById('userspeaking');
-            divuserspeaking.innerHTML = event.data.username + " is speaking";
-            var getCurrentMainVideo = videosContainer.getElementsByClassName("videomain")[0];
-            var getProposedMainVideo = document.getElementById(event.data.streamid);
-            if (getCurrentMainVideo.id !== getProposedMainVideo.id) {
-                getCurrentMainVideo.className = 'videosec';
-                getProposedMainVideo.className = 'videomain';
-            }
-        }
-        return;
-    } else if(event.data.type === 'message') {
+    if(event.data.type === 'message') {
         appendDIV(event.data.content, 1);
         return;
     } else if(event.data.type === 'typing') {
@@ -293,7 +296,7 @@ connection.onmessage = function (event) {
 }
 
 
-var numberOfConnectedUsers = document.getElementById('noofusers');
+/*var numberOfConnectedUsers = document.getElementById('noofusers');
 var userlist = document.getElementById('userlist');
 
 function setConnectedUsers(length) {

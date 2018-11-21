@@ -1,4 +1,4 @@
-<app-app-home></app-app-home>
+
 <div class="row">
     <input type="button" id="startlivestream" value="Start livestream" [disabled]="host">
     <input type="button" id="moderatorjoin" value="moderator livestream" [disabled]="moderator">
@@ -6,40 +6,51 @@
     <input type="button" id="sharescreen" value="Share Screen" [disabled]="share">
     <input type="button" id="stoplivestream" value="Stop livestream">
 </div>
-<div class="row">
-    <div class="column left" style="background-color:#aaa;">
-        <div id="noofusers">
-
-        </div>
-        <div id="userlist">
-
-        </div>
-        <div id='left-video-container'>
-
-        </div>
+<div class="live_stream">
+    <div class="liveConvo" style="display: none">
+        <ul>
+            <li><a href="javascript:void(0)"><img src="../../assets/img/ico-user.png"></a></li>
+            <li><a href="javascript:void(0)"><img src="../../assets/img/ico-user.png"></a></li>
+            <li><a href="javascript:void(0)"><img src="../../assets/img/ico-user.png"></a></li>
+            <li><a href="javascript:void(0)"><img src="../../assets/img/ico-user.png"></a></li>
+            <li><a href="javascript:void(0)"><img src="../../assets/img/ico-user.png"></a></li>
+        </ul>
+        <div class="view_more"> + 5</div>
+        <div class="see_icon"><a href="javascript:void(0)"><img src="../../assets/img/baseline-visibility_off-24px.svg"></a></div>
     </div>
-    <div class="column middle" style="background-color:#bbb;">
-        <div id="userspeaking">
+    <div class="live_video" id="livevideoparent">
+        <div class="video_mode">
+                <div class="presenter_name" style="display: none">Justine Marshall / UpvoteICO</div>
+                <div id="presentervideo">
 
-        </div>
-        <div id='screen-container'>
+                </div>
+            </div> 
 
+            <div class="live_chat one">
+                <div class="" id="moderatorvideo">
+                   
+                </div>                  
+                <div class="designation" style="display: none">
+                    <p>MODERATOR</p>
+                    <p>Davea Butler</p>
+                </div>
             </div>
-
-        <div id='video-container'>
-
-        </div>
-
-    </div>
-    <div class="column right" style="background-color:#ccc;">
-        <div id='chatbox' class='chatbox'>
-                <div id='chatmessage' class='chatmessage'>
-                <input type="text" id="chat-input" style="font-size: 1.2em;" placeholder="chat message" disabled>
-
-        </div>
-        <div class='filebox'>
-            <button id="share-file" disabled>Share File</button>
-            <div id="file-container" class='filecontainer'></div>
-        </div>
+        <div class="video_chat" style="display: none">
+                <ul>
+                    <li><a href="javascript:void(0)" class="latptop active"><img src="../../assets/img/baseline_laptop_white_18dp.png"></a></li>
+                    <li><a href="javascript:void(0)" class="video_show stop_video active"><img src="../../assets/img/baseline_videocam_white_18dp.png"></a></li>
+                    <li><a href="javascript:void(0)" class="mic active"><img src="../../assets/img/baseline_mic_white_18dp.png"></a></li>
+                    <li><a href="javascript:void(0)" class="chat active"><img src="../../assets/img/baseline_forum_white_18dp.png"></a></li>
+                </ul>
+                <div class="close_video"><a href="javascript:void(0)"><img src="../../assets/img/baseline-cancel-24px.svg"></a></div>
+            </div>
+            <div class="video_chat_box">
+                    <ul class="chatwindow">
+                    </ul>
+                    <div class="type_box">
+                        <input type="text" id="chat-input" class="form-control chat_inp" placeholder="Send a message">
+                        <div class="btn_send"><img src="../../assets/img/btn-send.png"></div>
+                    </div>
+                </div>
     </div>
 </div>

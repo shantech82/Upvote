@@ -1,119 +1,424 @@
-.card_layout {
-    border-radius: 3px;
-    box-shadow: 0 10px 30px 0 rgba(207, 213, 218, 0.55);
-    margin-bottom: 20px;
-  }
-
-  video {
-    object-fit: fill;
-    width: 30%;
+* {
+  box-sizing: border-box;
 }
 
-.column {
-  float: left;
-  padding: 10px;
-  height: 1200px; 
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Heebo', sans-serif;
+  box-sizing: border-box;
 }
 
-.left {
-    width: 15%;
+.live_stream {
+  display: flex;
+  position: relative;
+  height: 100%;
+  height: 100vh;
 }
 
-.right {
-  width: 20%;
+:host::ng-deep.liveConvo {
+  width: 95px;
+  display: block;
+  height: 100%;
+  position: relative;
 }
 
-.middle {
-    width: 65%;
-}
-
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.flex-square{
+:host::ng-deep.liveConvo>ul {
   width: 100%;
-  margin: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  height: 215px;
+  overflow: hidden;
 }
 
-.screencontainer {
+:host::ng-deep.liveConvo>ul>li {
+  display: block;
+  list-style: none;
+  margin-bottom: 15px;
+}
+
+:host::ng-deep.liveConvo>ul>li>a {
+  text-decoration: none;
+  text-align: center;
+}
+
+:host::ng-deep.liveConvo>ul>li>a>img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: block;
+  text-align: center;
+  margin: 0 auto;
+}
+
+:host::ng-deep.view_more {
+  text-align: center;
+  display: block;
+  font-size: 14px;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+:host::ng-deep.see_icon,
+:host::ng-deep.setting_icon {
+  position: absolute;
+  bottom: 0;
+  display: block;
+  text-align: center;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  width: 24px;
+}
+
+:host::ng-deep.setting_icon {
+  bottom: 40px;
+}
+
+:host::ng-deep.live_video {
+  position: relative;
+  background: none;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  height: 100vh;
   width: 100%;
-  height: 582px;
-  margin: 10px;
-  z-index: 10000;
 }
 
-.filecontainer{
-  height: 400px;
-  width: 300px;
-  overflow-y: auto;
-  margin:10px;
+:host::ng-deep.video_mode {
+  position: relative;
 }
 
-.filebox {
-  margin:10px;
+:host::ng-deep.presenter_name {
+  width: 246px;
+  height: 30px;
+  border-radius: 24.5px;
+  box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  left:30px;
+  top:30px;
+  color:#fff;
+  font-weight: 600;
+  padding:10px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;    
 }
 
-.chatbox {
-  height: 500px;
-  width: 345px;
-  overflow-y: auto;
-  margin:10px;
+:host::ng-deep.live_video video {
+  width: 75%;
+  height: 100%;
 }
 
-chatmessage {
-  height: 480px;
-  width: 345px;
-  overflow-y: auto;
-  margin:10px;
-}
-
-small-flex-square {
-  width: 30%;
-  height: 184px;
-  margin-top: 140px;
+:host::ng-deep.live_video.two video {
+  width: 37%;
   float: left;
-  margin-left: 10px;
-  margin-bottom: 45px;
-  border-radius: 15px;
+  height: 100%;
 }
 
-:host::ng-deep.videosec {
-  width: 40%;
-  border-radius: 15px;
-  margin-left: 15px;
+:host::ng-deep.live_video.three video,
+:host::ng-deep.live_video.four video {
+  width: 50%;
+  float: left;
+  height: 50%;
 }
 
-:host::ng-deep.videomain {
-    margin: 10px;
-    width: 40%;
-    border-radius: 15px;
+:host::ng-deep.live_chat {
+  position: absolute;
+  left: -20px;
+  bottom: -154px;
 }
 
-:host::ng-deep.movevideo {
-  width: 25%;
-  border-radius: 15px;
-  margin-left: 10px;
+:host::ng-deep.live_chat.one {
+  width: 240px;
+  height: 280px;
 }
 
-:host::ng-deep.screencontainer {
-  border-radius: 15px;
-  z-index: 999;
+:host::ng-deep.live_chat p {
+  font-size: 15px;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.25;
+  letter-spacing: 1px;
+  color: #1e1e1e;
+  margin: 5px 0 0 0;
+  padding-left: 20px;
 }
 
-:host::ng-deep.screencontainervideo {
-  border-radius: 15px;
-  width:95%;
+:host::ng-deep.live_chat p:first-child {
+  font-weight: bold;
+  font-size: 12px;
 }
 
-input:disabled {
-  background: #dddddd;
+:host::ng-deep.live_chat.one>div>img,
+:host::ng-deep.live_chat.one>div>video {
+  display: block;
+  width: 100%;
+  box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.2);
 }
 
-@media screen and (max-width: 800px) {
-  .column {
-      width: 100%;
-  }
+:host::ng-deep.video_chat {
+  position: absolute;
+  bottom: 30px;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  width: 284px;
+  height: 49px;
+  display: flex;
+
+}
+
+:host::ng-deep.video_chat>ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-radius: 24.5px;
+  box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+:host::ng-deep.video_chat>ul>li {
+  list-style: none;
+  display: inline-block;
+  margin-right: 5px;
+  width: 50px;
+}
+
+:host::ng-deep.video_chat>ul>li>a {
+  position: relative;
+}
+
+:host::ng-deep.video_chat>ul>li>a.stop_video:before {
+  content: '';
+  width: 27px;
+  background: #cf011a;
+  height: 2px;
+  position: absolute;
+  transform: rotate(135deg);
+  top: 11px;
+  left: 11px;
+  z-index: 99;
+}
+
+:host::ng-deep.video_chat>ul>li>a.mic.active:before,
+:host::ng-deep.video_chat>ul>li>a.latptop.active:before,
+:host::ng-deep.video_chat>ul>li>a.chat.active:before,
+:host::ng-deep.video_chat>ul>li>a.video_show.active:before {
+  content: '';
+  width: 27px;
+  background: green;
+  height: 5px;
+  width: 5px;
+  position: absolute;
+  top: 2px;
+  left: 13px;
+  z-index: 99;
+  border-radius: 50%;
+}
+
+:host::ng-deep.video_chat>ul>li>a.latptop.active:before,
+:host::ng-deep.video_chat>ul>li>a.chat.active:before,
+:host::ng-deep.video_chat>ul>li>a.video_show.active:before
+{
+  left: 7px;
+}
+
+:host::ng-deep.video_chat>ul>li>a>img {
+  width: 24px;
+  margin: 0 auto;
+  text-align: center;
+  display: block;
+}
+
+:host::ng-deep.close_video {
+  width: 60px;
+  height: 49px;
+  border-radius: 24.5px;
+  box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.2);
+  background-color: #d0021b;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:host::ng-deep.video_chat_box {
+  width: 380px;
+  height: 100vh;
+  background-color: none;
+  padding: 15px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  box-shadow: none;
+  transition: background-color 0.5s ease;
+}
+
+:host::ng-deep.video_chat_box:hover {
+  background-color: #222222;
+  box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.2);
+  transition: background-color 0.5s ease;
+}
+
+:host::ng-deep.video_chat_box>ul {
+  padding: 0;
+  margin: 0;
+  height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+
+:host::ng-deep.video_chat_box>ul>li {
+  display: flex;
+  list-style: none;
+  margin-top: 24px;
+  opacity: 0.8;
+  width: 100%;
+  border-radius: 13px;
+  box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.2);
+  background-color: #2f2f2fa8;
+  padding: 10px 20px;
+  visibility: hidden;
+  cursor: default;
+  min-height: 91px;
+  flex-grow: 1;
+}
+
+:host::ng-deep.video_chat_box>ul>li:last-child {
+  margin-bottom: 30px;
+}
+
+:host::ng-deep.video_chat_box>ul>li:last-child,
+.video_chat_box>ul>li:nth-last-child(2),
+.video_chat_box>ul>li:nth-last-child(3) {
+  visibility: visible;
+}
+
+:host::ng-deep.video_chat_box>ul>li:nth-last-child(3) {
+  opacity: 0.3;
+}
+
+:host::ng-deep.video_chat_box:hover>ul>li {
+  visibility: visible;
+  opacity: 1;
+}
+
+:host::ng-deep.video_chat_box:hover>ul>li:hover {
+  box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.2);
+  background-color: #434444;
+}
+
+:host::ng-deep.video_chat_box>ul>li .chat_content h5 {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.29;
+  letter-spacing: normal;
+  color: #ffffff;
+  margin: 0;
+}
+
+:host::ng-deep.video_chat_box>ul>li .chat_content {
+  position: relative;
+  color: #fff;
+}
+
+:host::ng-deep.video_chat_box>ul>li .chat_content p {
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+:host::ng-deep.video_chat_box>ul>li .chat_content span {
+  font-size: 11px;
+  line-height: 1.09;
+  color: #ffffff;
+  position: absolute;
+  right: 0px;
+}
+
+:host::ng-deep.video_chat_box>ul>li>img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+:host::ng-deep.type_box {
+  height: 50px;
+  border-radius: 13px;
+  box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.2);
+  background-color: #ffffff;
+  width: 354px;
+  display: flex;
+  padding: 0 20px;
+  align-items: center;
+  position: absolute;
+  bottom: 5px;
+}
+
+:host::ng-deep.type_box .chat_inp {
+  background: none;
+  border: 0;
+  box-shadow: none;
+  color: #3b4043;
+  font-size: 14px;
+  width: 100%;
+  height: 50px;
+
+}
+
+:host::ng-deep.type_box .btn_send {
+  text-align: right;
+  width: 50px;
+  cursor: pointer;
+}
+
+:host::ng-deep.file_download {
+  display: flex;
+  position: relative;
+  justify-content: flex-end;
+  margin: 10px 0;
+}
+
+:host::ng-deep.file_download>ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+:host::ng-deep.file_download>ul>li {
+  width: 207px;
+  height: 40px;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.2);
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  padding: 9px 20px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+:host::ng-deep.file_download>ul>li p {
+  margin: 0;
+  width: 100%;
+}
+
+:host::ng-deep.edit_note img {
+  width: 34px;
+  margin-left: 42px;
 }
