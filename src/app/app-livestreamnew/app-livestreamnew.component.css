@@ -108,33 +108,36 @@ body {
   z-index: 99;    
 }
 
-:host::ng-deep.live_video video {
-  width: 75%;
+:host::ng-deep.live_video ::ng-deep #presentervideo video {
+  width: calc(100% - 380px);
+  height: calc(100vh - 78px); object-fit: fill;}
+:host::ng-deep.live_video  ::ng-deep #moderatorvideo video {
+  width: 100%;
   height: 100%;
 }
 
-:host::ng-deep.live_video.two video {
-  width: 37%;
+:host::ng-deep.live_video.two ::ng-deep #presentervideo video {
+  width: 37% !important;
   float: left;
-  height: 100%;
+  object-fit: contain;
 }
 
-:host::ng-deep.live_video.three video,
-:host::ng-deep.live_video.four video {
-  width: 50%;
+:host::ng-deep.live_video.three ::ng-deep #presentervideo video,
+:host::ng-deep.live_video.four ::ng-deep #presentervideo video  {
+  width: calc((100% - 380px) / 2) !important;
   float: left;
-  height: 50%;
+  height: calc((100vh - 78px) / 2) !important;
 }
 
 :host::ng-deep.live_chat {
   position: absolute;
   left: -20px;
-  bottom: -154px;
+  bottom: 2px;
 }
 
 :host::ng-deep.live_chat.one {
   width: 240px;
-  height: 280px;
+  height: 250px;
 }
 
 :host::ng-deep.live_chat p {
@@ -253,14 +256,13 @@ body {
 
 :host::ng-deep.video_chat_box {
   width: 380px;
-  height: 100vh;
-  background-color: none;
-  padding: 15px;
+  height: 90vh;  
+  padding: 0 15px;
   position: absolute;
   right: 0;
   top: 0;
   box-shadow: none;
-  transition: background-color 0.5s ease;
+  transition: background-color 0.5s ease;  
 }
 
 :host::ng-deep.video_chat_box:hover {
@@ -269,19 +271,17 @@ body {
   transition: background-color 0.5s ease;
 }
 
-:host::ng-deep.video_chat_box>ul {
+:host::ng-deep.video_chat_box::ng-deep ul.chatBox {
   padding: 0;
   margin: 0;
-  height: 90vh;
-  overflow-y: auto;
-  display: flex;
-  flex-shrink: 0;
-  flex-direction: column;
-  justify-content: flex-end;
+  height: 80vh;
+  max-height: 80vh;
+  display: table-cell;  
+  vertical-align: bottom; 
+  width:380px;
 }
 
-
-:host::ng-deep.video_chat_box>ul>li {
+:host::ng-deep.video_chat_box::ng-deep ul.chatBox>li {
   display: flex;
   list-style: none;
   margin-top: 24px;
@@ -293,35 +293,36 @@ body {
   padding: 10px 20px;
   visibility: hidden;
   cursor: default;
-  min-height: 91px;
-  flex-grow: 1;
+  min-height: 91px;  
 }
-
-:host::ng-deep.video_chat_box>ul>li:last-child {
+:host::ng-deep.video_chat_box::ng-deep ul.chatBox>li:first-child {
+  margin-top:0;
+}
+:host::ng-deep.video_chat_box::ng-deep ul.chatBox>li:last-child {
   margin-bottom: 30px;
 }
 
-:host::ng-deep.video_chat_box>ul>li:last-child,
-.video_chat_box>ul>li:nth-last-child(2),
-.video_chat_box>ul>li:nth-last-child(3) {
+:host::ng-deep.video_chat_box::ng-deep ul.chatBox>li:last-child,
+:host::ng-deep.video_chat_box::ng-deep ul.chatBox>li:nth-last-child(2),
+:host::ng-deep.video_chat_box::ng-deep ul.chatBox>li:nth-last-child(3) {
   visibility: visible;
 }
 
-:host::ng-deep.video_chat_box>ul>li:nth-last-child(3) {
+:host::ng-deep.video_chat_box::ng-deep ul.chatBox>li:nth-last-child(3) {
   opacity: 0.3;
 }
 
-:host::ng-deep.video_chat_box:hover>ul>li {
+:host::ng-deep.video_chat_box:hover::ng-deep ul.chatBox>li {
   visibility: visible;
   opacity: 1;
 }
 
-:host::ng-deep.video_chat_box:hover>ul>li:hover {
+:host::ng-deep.video_chat_box:hover::ng-deep ul.chatBox>li:hover {
   box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.2);
   background-color: #434444;
 }
 
-:host::ng-deep.video_chat_box>ul>li .chat_content h5 {
+:host::ng-deep.video_chat_box::ng-deep ul.chatBox>li .chat_content h5 {
   font-size: 14px;
   font-weight: bold;
   font-style: normal;
@@ -332,17 +333,18 @@ body {
   margin: 0;
 }
 
-:host::ng-deep.video_chat_box>ul>li .chat_content {
+:host::ng-deep.video_chat_box::ng-deep ul.chatBox>li .chat_content {
   position: relative;
   color: #fff;
+  width:100%;
 }
 
-:host::ng-deep.video_chat_box>ul>li .chat_content p {
+:host::ng-deep.video_chat_box::ng-deep ul.chatBox>li .chat_content p {
   margin: 5px 0;
   font-size: 16px;
 }
 
-:host::ng-deep.video_chat_box>ul>li .chat_content span {
+:host::ng-deep.video_chat_box::ng-deep ul.chatBox>li .chat_content span {
   font-size: 11px;
   line-height: 1.09;
   color: #ffffff;
@@ -350,7 +352,7 @@ body {
   right: 0px;
 }
 
-:host::ng-deep.video_chat_box>ul>li>img {
+:host::ng-deep.video_chat_box::ng-deep ul.chatBox>li>img {
   width: 36px;
   height: 36px;
   border-radius: 50%;

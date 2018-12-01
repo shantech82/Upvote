@@ -38,6 +38,7 @@
     "ng2-alert-center": "^0.5.1",
     "ng2-completer": "^1.6.3",
     "ng2-datepicker": "^3.1.0",
+    "ngx-perfect-scrollbar": "^5.3.5",
     "ngx-spinner": "^6.0.0",
     "ngx-useful-swiper": "^0.3.1-beta",
     "path": "^0.12.7",

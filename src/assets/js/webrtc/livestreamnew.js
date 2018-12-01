@@ -154,10 +154,14 @@ connection.onstream = function (event) {
             moderatorvideosContainer.appendChild(video);
         } else {
             var childcount = presentervideosContainer.childElementCount;
+            console.log(childcount)
             if(childcount === 1) {
                 livevideoparentContainer.className = 'live_video two';
-            } else if(childcount > 1) {
+            } else if(childcount === 2) {
                 livevideoparentContainer.className = 'live_video three';
+            }
+            else if(childcount === 3) {
+                livevideoparentContainer.className = 'live_video four';
             }
             presentervideosContainer.appendChild(video);
         }

@@ -45,12 +45,14 @@
                 <div class="close_video"><a href="javascript:void(0)"><img src="../../assets/img/baseline-cancel-24px.svg"></a></div>
             </div>
             <div class="video_chat_box">
-                    <ul class="chatwindow">
+                <perfect-scrollbar [config]="config">
+                    <ul class="chatwindow chatBox">
                     </ul>
+                </perfect-scrollbar>
                     <div class="type_box">
                         <input type="text" id="chat-input" class="form-control chat_inp" placeholder="Send a message">
                         <div class="btn_send"><img src="../../assets/img/btn-send.png"></div>
-                    </div>
+                    </div>                
                 </div>
     </div>
 </div>

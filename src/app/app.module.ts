@@ -51,6 +51,7 @@ import { AppCalendarComponent } from './app-calendar/app-calendar.component';
 import { AppImagegenerateComponent } from './app-imagegenerate/app-imagegenerate.component';
 import { AppLivestreamComponent } from './app-livestream/app-livestream.component';
 import { AppLivestreamnewComponent } from './app-livestreamnew/app-livestreamnew.component';
+import {PerfectScrollbarModule, PerfectScrollbarConfigInterface, PERFECT_SCROLLBAR_CONFIG} from 'ngx-perfect-scrollbar';
 
 const appRoutes: Routes = [
   { path: 'ICO', component: AppIcocompanyComponent },
@@ -68,6 +69,11 @@ const appRoutes: Routes = [
   { path: 'Image', component: AppImagegenerateComponent },
   { path: 'Live', component: AppLivestreamnewComponent },
 ];
+
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  wheelPropagation: true,
+  suppressScrollX: true
+};
 
 export function getAuthServiceConfigs() {
   const config = new AuthServiceConfig(
@@ -127,6 +133,7 @@ export function getAuthServiceConfigs() {
     NgxSpinnerModule,
     NgDatepickerModule,
     SwiperModule,
+    PerfectScrollbarModule
   ],
   providers: [
     RegistrationService,
@@ -142,6 +149,10 @@ export function getAuthServiceConfigs() {
     {
       provide: AuthServiceConfig,
       useFactory: getAuthServiceConfigs,
+    },
+    {
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
     }
   ],
   bootstrap: [
