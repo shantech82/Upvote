@@ -13,7 +13,7 @@ body {
   display: flex;
   position: relative;
   height: 100%;
-  height: 100vh;
+  height: 90vh;
 }
 
 :host::ng-deep.liveConvo {
@@ -49,7 +49,7 @@ body {
   border-radius: 50%;
   display: block;
   text-align: center;
-  margin: 0 auto;
+  margin: 20px 15px;;
 }
 
 :host::ng-deep.view_more {

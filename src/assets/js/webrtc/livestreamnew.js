@@ -23,21 +23,31 @@ connection.getScreenConstraints = function (callback) {
             callback(error, screen_constraints);
             return;
         }
-
         throw error;
     });
 };
 
+function startLiveStreamJs(userImage) {
+    userType = getModerator();
+    if(userType === 1){
+        moderatorJoin(userImage);
+    } else if (userType === 2) {
+        presenterJoin(userImage);
+    } else {
+        investorJoin(userImage);
+    }
+}
 
-
-document.getElementById('startlivestream').onclick = function () {
+function moderatorJoin(userImage) {
     connection.open(roomid);
     connection.extra = {
-        fullname: getName()
+        fullname: getName(),
+        image: userImage,
+        Type: 'Modertor'
     };
 }
 
-document.getElementById('moderatorjoin').onclick = function () {
+function presenterJoin(userImage){
     connection.checkPresence(roomid, function(isRoomExist,roomid,error) {
         if (isRoomExist) {
             connection.join(roomid);
@@ -49,18 +59,22 @@ document.getElementById('moderatorjoin').onclick = function () {
         }
     });
     connection.extra = {
-        fullname: getName()
+        fullname: getName(),
+        image: userImage,
+        Type: 'Presenter'
     };
 }
 
-document.getElementById('joinlivestream').onclick = function () {
+function investorJoin(userImage){
     connection.session = {
         audio: false,
         video: false,
         data: true
     };
     connection.extra = {
-        fullname: getName()
+        fullname: getName(),
+        image: userImage,
+        Type: 'Investor'
     };
     connection.checkPresence(roomid, function(isRoomExist) {
         if (isRoomExist) {
@@ -71,21 +85,21 @@ document.getElementById('joinlivestream').onclick = function () {
     });
 }
 
-/*document.getElementById('share-file').onclick = function (file) {
+document.getElementById('share-file').onclick = function (file) {
     var fileSelector = new FileSelector();
     fileSelector.selectSingleFile(function (file) {
         connection.send(file);
     });
-};*/
+};
 
-document.getElementById('sharescreen').onclick = function () {
+/*document.getElementById('sharescreen').onclick = function () {
     connection.addStream({
         screen: true,
         oneway: true
     });
-};
+};*/
 
-document.getElementById('stoplivestream').onclick = function () {
+window.onbeforeunload = function(e) {
     connection.attachStreams.forEach(function (stream) {
         stream.stop();
     });
@@ -93,13 +107,12 @@ document.getElementById('stoplivestream').onclick = function () {
     connection.close();
 };
 
-//connection.filesContainer = document.getElementById('file-container');
+connection.filesContainer = document.getElementById('file-container');
 var presentervideosContainer = document.getElementById('presentervideo');
 var moderatorvideosContainer = document.getElementById('moderatorvideo');
 var livevideoparentContainer = document.getElementById('livevideoparent');
 
 //var screenContainer = document.getElementById('screen-container');
-//var leftvideocontainer = document.getElementById('left-video-container');
 var lastSelectedFile;
 var chunk_size = 60 * 1000;
 connection.fileReceived = {};
@@ -124,7 +137,7 @@ connection.onstream = function (event) {
             connection: connection
         });
     }*/
-
+console.log(event);
      if (document.getElementById(event.streamid)) {
          var existing = document.getElementById(event.streamid);
          existing.parentNode.removeChild(existing);
@@ -147,14 +160,12 @@ connection.onstream = function (event) {
         video.id = event.stream.id;
         video.className = 'screencontainervideo';
         screenContainer.appendChild(video);
-        //placingVideos(video, 'screen');
     } else {
         video.id = event.stream.id;
-        if(event.type === 'local') {
+        if(event.extra.Type === 'Modertor') {
             moderatorvideosContainer.appendChild(video);
         } else {
             var childcount = presentervideosContainer.childElementCount;
-            console.log(childcount)
             if(childcount === 1) {
                 livevideoparentContainer.className = 'live_video two';
             } else if(childcount === 2) {
@@ -165,7 +176,6 @@ connection.onstream = function (event) {
             }
             presentervideosContainer.appendChild(video);
         }
-        //placingVideos(video, 'video');
     }
 }
 
@@ -177,6 +187,35 @@ function getName() {
         return 'guest';
     }
 }
+
+function getImage() {
+    const UserData = JSON.parse(localStorage.getItem('UserData'));
+    if (UserData !== undefined && UserData !== null && UserData.image !== '' && UserData.image !== null && UserData.image !== undefined) {
+        var fileUrl = UserData.image;
+        if (fileUrl.indexOf('http') === -1) {
+            return environment.ApiHostURL + 'static/' + fileUrl;
+        } else {
+            return fileUrl;
+        }
+    } else {
+        return "../../assets/img/ico-user.png";
+    }
+}
+
+function getModerator() {
+    const UserData = JSON.parse(localStorage.getItem('UserData'));
+    if (UserData !== undefined && UserData !== null) {
+        if(UserData.ismoderator) {
+            return 1;
+        } else {
+            return 2;
+        }
+    } else {
+        return 0;
+    }
+  }
+
+
 
  function appendDIV(data, type) {
     var existing = false;
@@ -201,7 +240,7 @@ function getName() {
 
     var li = document.createElement('li');
     var img = document.createElement('img');
-    img.src = "../../assets/img/ico-user.png";
+    img.src = data.image;
     li.appendChild(img);
     var divchatcontent = document.createElement('div');
     divchatcontent.className = 'chat_content';
@@ -244,6 +283,7 @@ document.getElementById('chat-input').onkeypress = function(e) {
 
             var chatmessage = {
                 username: connection.extra.fullname,
+                image: connection.extra.image,
                 lastMessageUUID: lastMessageUUID
             }
 
@@ -256,7 +296,8 @@ document.getElementById('chat-input').onkeypress = function(e) {
         if (!this.value.replace(/^\s+|\s+$/g, '').length) {
             var chatmessage = {
                 username: connection.extra.fullname,
-                lastMessageUUID: lastMessageUUID
+                image: connection.extra.image,
+                lastMessageUUID: lastMessageUUID,
             }
             connection.send({
                 type: 'stoppedtyping',
@@ -271,6 +312,7 @@ document.getElementById('chat-input').onkeypress = function(e) {
 
     chatmessage = {
         username: connection.extra.fullname,
+        image: connection.extra.image,     
         text: this.value,
         lastMessageUUID: lastMessageUUID
     }
@@ -300,40 +342,33 @@ connection.onmessage = function (event) {
 }
 
 
-/*var numberOfConnectedUsers = document.getElementById('noofusers');
-var userlist = document.getElementById('userlist');
+var numberOfConnectedUsers = document.getElementsByClassName('view_more');
+var userlist = document.getElementById('connectedusers');
 
 function setConnectedUsers(length) {
-    numberOfConnectedUsers.innerHTML = "No.Of Connected Users: " + length;
-    
+    if(length > 5) {
+        numberOfConnectedUsers.innerHTML = "+ " + length;
+    }
 }
 
 connection.onopen = function (event) {
     setConnectedUsers(connection.getAllParticipants().length);
-    userListUpdate(event)
-
-    document.getElementById('share-file').disabled = false;
-    if (document.getElementById('chat-input')) {
-        document.getElementById('chat-input').disabled = false;
-    }
+    userListUpdate(event.userid, event.extra.image);
 }
 
-function userListUpdate(event) {
-    var usernamediv = document.createElement('div');
-    usernamediv.id = event.userid;
-    usernamediv.innerHTML = event.extra.fullname;
-    usernamediv.style.color = 'green';
-
-    var usestatusdiv = document.createElement('span');
-    usestatusdiv.id = event.userid + 'status';
-    usestatusdiv.innerHTML = ' Online';
-    usestatusdiv.style.color = 'green';
-
-    usernamediv.appendChild(usestatusdiv);
-    userlist.appendChild(usernamediv);
+function userListUpdate(userid,image) {
+    var usernameli = document.createElement('li');
+    usernameli.id = userid;
+    var linktoUser = document.createElement('a');
+    linktoUser.href = "javascript:void(0)";
+    var userImage = document.createElement("img");
+    userImage.src = image;
+    linktoUser.appendChild(userImage);
+    usernameli.appendChild(linktoUser);
+    userlist.appendChild(usernameli);
 }
 
-connection.onUserStatusChanged = function (event) {
+/*connection.onUserStatusChanged = function (event) {
     var usernamediv = document.getElementById(event.userid);
     var usestatusdiv = document.getElementById(event.userid + 'status');
 
@@ -358,7 +393,7 @@ connection.onleave = function(event) {
     usestatusdiv.innerHTML = ' left';
     
     setConnectedUsers(connection.getAllParticipants().length);
-};
+};*/
 
 var progressHelper = {};
 
@@ -373,14 +408,14 @@ connection.onFileProgress = function (chunk, uuid) {
 var existinguid;
 connection.onFileStart = function (file) {
     if (existinguid !== file.uuid) {
-        var div = document.createElement('div');
-        div.title = file.name;
-        div.innerHTML = '<label>0%</label> <progress></progress>';
-        connection.filesContainer.appendChild(div);
+        var li = document.createElement('li');
+        li.title = file.name;
+        li.innerHTML = '<label>0%</label> <progress></progress>';
+        connection.filesContainer.appendChild(li);
         progressHelper[file.uuid] = {
-            div: div,
-            progress: div.querySelector('progress'),
-            label: div.querySelector('label')
+            li: li,
+            progress: li.querySelector('progress'),
+            label: li.querySelector('label')
         };
         progressHelper[file.uuid].progress.max = file.maxChunks;
         existinguid = file.uuid;
@@ -388,7 +423,7 @@ connection.onFileStart = function (file) {
 };
 
 connection.onFileEnd = function (file) {
-    progressHelper[file.uuid].div.innerHTML = '<a href="' + file.url + '" target="_blank" download="' + file.name + '">' + file.name + '</a>';
+    progressHelper[file.uuid].li.innerHTML = '<a href="' + file.url + '" target="_blank" download="' + file.name + '">' + file.name + '</a>';
 };
 
 function updateLabel(progress, label) {
@@ -398,7 +433,7 @@ function updateLabel(progress, label) {
 }
 
 
-connection.onspeaking = function (e) {
+/*connection.onspeaking = function (e) {
     connection.send({
         username: e.extra.fullname,
         speaking: true,

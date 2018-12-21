@@ -1,5 +1,8 @@
-import { Component, OnInit, AfterViewInit, ElementRef, Inject, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { Urlutility } from '../Shared/urlutility';
+
+declare function startLiveStreamJs(any): any;
 
 @Component({
   selector: 'app-app-livestreamnew',
@@ -29,6 +32,15 @@ export class AppLivestreamnewComponent implements OnInit, AfterViewInit {
     } else {
         return 0;
     }
+}
+
+getUserImage() {
+  const UserData = JSON.parse(localStorage.getItem('UserData'));
+  if (UserData !== undefined && UserData !== null) {
+      return UserData.image;
+  } else {
+      return '';
+  }
 }
 
   ngAfterViewInit() {
@@ -71,5 +83,10 @@ export class AppLivestreamnewComponent implements OnInit, AfterViewInit {
     livestreamnewScript.type = 'text/javascript';
     livestreamnewScript.src = '../../assets/js/webrtc/livestreamnew.js';
     this.elementRef.nativeElement.appendChild(livestreamnewScript);
+
+    const userImage = Urlutility.getFileURL(this.getUserImage(), 'icouser', true);
+    setTimeout(() => {
+      startLiveStreamJs(userImage);
+    }, 7000);
   }
 }
