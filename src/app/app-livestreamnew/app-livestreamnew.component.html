@@ -1,3 +1,4 @@
+<app-app-home></app-app-home>
 <div class="live_stream">
     <div class="liveConvo">
         <ul id="connectedusers">
@@ -32,7 +33,8 @@
                 <div class="close_video"><a href="javascript:void(0)"><img src="../../assets/img/baseline-cancel-24px.svg"></a></div>
             </div>
             <div class="video_chat_box">
-                <perfect-scrollbar>
+                    <perfect-scrollbar fxFlex="auto" [config]="config" [scrollIndicators]="true" (psXReachEnd)="onScrollEvent($event)" 
+                    (psYReachEnd)="onScrollEvent($event)" (psXReachStart)="onScrollEvent($event)" (psYReachStart)="onScrollEvent($event)">
                     <ul class="chatwindow chatBox">
                     </ul>
                 </perfect-scrollbar>

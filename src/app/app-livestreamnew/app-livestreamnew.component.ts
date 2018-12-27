@@ -1,6 +1,8 @@
-import { Component, OnInit, AfterViewInit, ElementRef, Inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, Inject, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Urlutility } from '../Shared/urlutility';
+import { PerfectScrollbarConfigInterface,
+  PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
 
 declare function startLiveStreamJs(any): any;
 
@@ -16,6 +18,10 @@ export class AppLivestreamnewComponent implements OnInit, AfterViewInit {
   moderator: boolean;
   join: boolean;
   share: boolean;
+  public config: PerfectScrollbarConfigInterface = {};
+  @ViewChild(PerfectScrollbarComponent) componentRef?: PerfectScrollbarComponent;
+  @ViewChild(PerfectScrollbarDirective) directiveRef?: PerfectScrollbarDirective;
+
   constructor(private elementRef: ElementRef, @Inject(DOCUMENT) private document) { }
 
   ngOnInit() {
@@ -23,6 +29,25 @@ export class AppLivestreamnewComponent implements OnInit, AfterViewInit {
     this.moderator = false;
     this.join = false;
     this.share = false;
+  }
+
+  public scrollToBottom(): void {
+    console.log(this.directiveRef);
+    console.log(this.componentRef);
+    if (this.directiveRef) {
+      this.directiveRef.scrollToBottom();
+    } else if (this.componentRef && this.componentRef.directiveRef) {
+      this.componentRef.directiveRef.scrollToBottom();
+    }
+  }
+
+  public onScrollEvent(event: any): void {
+    // console.log(event);
+    if (this.directiveRef) {
+      this.directiveRef.scrollToBottom();
+    } else if (this.componentRef && this.componentRef.directiveRef) {
+      this.componentRef.directiveRef.scrollToBottom();
+    }
   }
 
   getUserId() {

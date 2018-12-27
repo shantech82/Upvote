@@ -137,7 +137,6 @@ connection.onstream = function (event) {
             connection: connection
         });
     }*/
-console.log(event);
      if (document.getElementById(event.streamid)) {
          var existing = document.getElementById(event.streamid);
          existing.parentNode.removeChild(existing);
@@ -259,6 +258,8 @@ function getModerator() {
     divchatcontent.appendChild(p);
 
     li.appendChild(divchatcontent);
+    li.tabIndex = 0;
+    li.focus();
 
 
     if (!existing) {
