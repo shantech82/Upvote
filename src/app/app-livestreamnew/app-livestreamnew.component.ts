@@ -3,6 +3,12 @@ import { DOCUMENT } from '@angular/common';
 import { Urlutility } from '../Shared/urlutility';
 import { PerfectScrollbarConfigInterface,
   PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
+import {
+    AuthService,
+    SocialUser,
+  } from 'angular5-social-auth';
+  import { Router } from '@angular/router';
+  import { UrlparserService } from '../services/urlparser.service';
 
 declare function startLiveStreamJs(any): any;
 
@@ -21,14 +27,33 @@ export class AppLivestreamnewComponent implements OnInit, AfterViewInit {
   public config: PerfectScrollbarConfigInterface = {};
   @ViewChild(PerfectScrollbarComponent) componentRef?: PerfectScrollbarComponent;
   @ViewChild(PerfectScrollbarDirective) directiveRef?: PerfectScrollbarDirective;
+  public user: SocialUser;
+  public loggedIn: boolean;
+  mobileMenu: boolean;
+  formintilization: boolean;
 
-  constructor(private elementRef: ElementRef, @Inject(DOCUMENT) private document) { }
+  constructor(private elementRef: ElementRef, @Inject(DOCUMENT) private document, private socialAuthService: AuthService,
+  private router: Router, private urlservice: UrlparserService) { }
 
   ngOnInit() {
     this.host = false;
     this.moderator = false;
     this.join = false;
     this.share = false;
+
+    const UserData = JSON.parse(localStorage.getItem('UserData'));
+    if (UserData != null) {
+        this.user = UserData;
+        this.urlservice.GetFileURL(this.user.image, 'icouser').subscribe(value => {
+          this.user.image = value;
+          this.formintilization = true;
+        });
+        this.loggedIn = true;
+    } else {
+      this.loggedIn = false;
+      this.router.navigate(['/Login']);
+    }
+    this.mobileMenu = false;
   }
 
   public scrollToBottom(): void {
@@ -42,7 +67,6 @@ export class AppLivestreamnewComponent implements OnInit, AfterViewInit {
   }
 
   public onScrollEvent(event: any): void {
-    // console.log(event);
     if (this.directiveRef) {
       this.directiveRef.scrollToBottom();
     } else if (this.componentRef && this.componentRef.directiveRef) {
@@ -50,14 +74,35 @@ export class AppLivestreamnewComponent implements OnInit, AfterViewInit {
     }
   }
 
-  getUserId() {
-    const UserData = JSON.parse(localStorage.getItem('UserData'));
-    if (UserData !== undefined && UserData !== null) {
-        return UserData.id;
+  mobileMenuShow() {
+    if (this.mobileMenu === false) {
+      this.mobileMenu = true;
     } else {
-        return 0;
+      this.mobileMenu = false;
     }
-}
+  }
+
+  SignOut() {
+    const UserData = JSON.parse(localStorage.getItem('UserData'));
+    if (UserData.type === '2') {
+      localStorage.removeItem('UserData');
+      localStorage.removeItem('CompanyId');
+      this.user = null;
+      this.loggedIn = false;
+      this.router.navigate(['/Login']);
+      this.socialAuthService.signOut().then((signoutuser) => {
+      });
+
+    } else {
+      localStorage.removeItem('UserData');
+      localStorage.removeItem('CompanyId');
+      this.user = null;
+      this.loggedIn = false;
+      this.router.navigate(['/Login']);
+    }
+  }
+
+
 
 getUserImage() {
   const UserData = JSON.parse(localStorage.getItem('UserData'));

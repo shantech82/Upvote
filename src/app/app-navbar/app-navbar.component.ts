@@ -4,8 +4,6 @@ import {
   SocialUser,
 } from 'angular5-social-auth';
 import { Router } from '@angular/router';
-import { Utility } from '../Shared/Utility';
-import { RegistrationService } from '../services/registration.service';
 import { UrlparserService } from '../services/urlparser.service';
 
 @Component({
@@ -21,7 +19,7 @@ export class AppNavbarComponent implements OnInit {
   formintilization: boolean;
 
 
-  constructor(private socialAuthService: AuthService, private registrationser: RegistrationService,
+  constructor(private socialAuthService: AuthService,
     private router: Router, private urlservice: UrlparserService) { }
 
   ngOnInit() {

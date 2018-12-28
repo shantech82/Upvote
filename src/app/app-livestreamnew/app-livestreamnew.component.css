@@ -9,6 +9,238 @@ body {
   box-sizing: border-box;
 }
 
+.List-your-ICO {
+  width: 152px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #3ccf94;
+  margin-left: 800px;
+}
+
+header {
+  position: relative;
+  z-index: 99;
+  background-color: #fff;
+}
+
+.header_inner {
+  /* position: relative;*/
+  height: 90px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  padding: 25px 0;
+  vertical-align: middle;
+}
+
+.logo {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translate(0%, -50%);
+}
+
+._imglogo {
+  width: 135px;
+  height: 25px;
+  object-fit: contain;
+  margin-left: 15%;
+}
+
+.profile_icon {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(0%, -50%);
+  margin-right: 3%;
+}
+
+.profile_icon .dropdown_profile i {
+  display: inline-block;
+}
+
+.dropdown_profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mydrop {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mydrop a.btn:active {
+  box-shadow: none;
+  outline: none;
+}
+
+.mydrop>ul {
+  padding: 0;
+  margin: 0;
+}
+
+.mydrop>ul>li {
+  padding: 5px 10px;
+}
+
+.mydrop>ul>li.divider {
+  border-top: 1px solid #ddd;
+  margin: 10px 0
+}
+
+.mydrop>ul>li>a {
+  text-decoration: none;
+  color: #151515
+}
+
+.mydrop a.btn {
+  display: inline-block;
+  margin-right: 10px;
+  overflow: hidden;
+  width: 50px;
+  height: 50px;
+  transform: rotate(45deg);
+  border-radius: 15px;
+}
+
+.mydrop a.btn img {
+  display: block;
+  transform: rotate(-45deg);
+  transform-origin: 6px 46px;
+  width: 60px;
+  height: 60px;
+  border-radius: 0;
+}
+
+.list_ico_btn {
+  position: absolute;
+  right: 110px;
+  top: 50%;
+  transform: translate(0%, -50%);
+  width: 152px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #3ccf94;
+  font-size: 15px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 25px;
+  letter-spacing: 1px;
+  color: #fff;
+  border: 2px solid #3ccf94;
+}
+
+.list_ico_btn:hover {
+  background: none;
+  color: #3ccf94;
+}
+
+:host /deep/ .mydrop .dropdown-menu {
+  left: -100px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 183px;
+  top: 45px !important;
+  border: 0;
+  box-shadow: 0 10px 30px 0 rgba(207, 213, 218, 0.55);
+}
+
+:host /deep/ .mydrop .dropdown-menu>ul {
+  list-style: none;
+  padding: 15px 0;
+  margin: 0;
+}
+
+:host /deep/ .mydrop .dropdown-menu li {
+  padding: 8px 25px;
+  text-align: left;
+  list-style: none;
+}
+
+:host /deep/ .mydrop .dropdown-menu li a {
+  padding: 0;
+  color: #666 !important;
+  text-decoration: none;
+}
+
+:host /deep/ .mydrop .dropdown-menu li.active a {
+  color: red !important;
+}
+
+:host /deep/ .mydrop .dropdown-menu .drop_title {
+  padding: 17px 25px;
+  border-bottom: 1px solid #ddd;
+  font-weight: bold
+}
+
+:host /deep/ .mydrop .dropdown-menu .drop_title:hover {
+  background: none;
+}
+
+.mobile_menu {
+  display: none;
+}
+
+@media(min-width:1024px) and (max-width:1200px) {
+  :host /deep/ .mydrop .dropdown-menu {
+    left: -95px !important;
+  }
+}
+
+@media(max-width:767px) {
+  .list_ico_btn {
+    display: none;
+    left: 25px;
+    top: 40%;
+  }
+  .mobile_menu {
+    display: block;
+  }
+  .desktop_menu,
+  .mobi_i {
+    display: none !important;
+  }
+  .mydrop a.btn {
+    margin-right: 0px;
+    width: 30px;
+    height: 30px;
+    -webkit-transform: none;
+    transform: none;
+    border-radius: 0;
+    padding: 0;
+  }
+  .mydrop a.btn img {
+    display: block;
+    -webkit-transform: none;
+    transform: none;
+    -webkit-transform-origin: none;
+    transform-origin: none;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+  .mydrop .dropdown-menu {
+    left: -246px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 289px;
+    top: 35px !important;
+  }
+  .mobile_menu span {
+    width: 30px;
+    height: 2px;
+    background: #151515;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .mobile_menu span:first-child {
+    width: 18px;
+  }
+}
+
 .live_stream {
   display: flex;
   position: relative;
@@ -44,8 +276,8 @@ body {
 }
 
 :host::ng-deep.liveConvo>ul>li>a>img {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   display: block;
   text-align: center;

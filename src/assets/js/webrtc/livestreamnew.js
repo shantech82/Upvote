@@ -3,6 +3,7 @@ connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/'
 connection.socketMessageEvent = 'ICOlivestream';
 connection.enableLogs = true;
 connection.enableFileSharing = true;
+
 var roomid = 'Q12345e123'
 
 connection.session = {
@@ -43,7 +44,8 @@ function moderatorJoin(userImage) {
     connection.extra = {
         fullname: getName(),
         image: userImage,
-        Type: 'Modertor'
+        Type: 'Modertor',
+        id: getUserId()
     };
 }
 
@@ -61,7 +63,8 @@ function presenterJoin(userImage){
     connection.extra = {
         fullname: getName(),
         image: userImage,
-        Type: 'Presenter'
+        Type: 'Presenter',
+        id: getUserId()
     };
 }
 
@@ -74,7 +77,8 @@ function investorJoin(userImage){
     connection.extra = {
         fullname: getName(),
         image: userImage,
-        Type: 'Investor'
+        Type: 'Investor',
+        id: getUserId()
     };
     connection.checkPresence(roomid, function(isRoomExist) {
         if (isRoomExist) {
@@ -149,7 +153,7 @@ connection.onstream = function (event) {
     video.setAttributeNode(document.createAttribute('playsinline'));
     video.setAttributeNode(document.createAttribute('controls'));
 
-    video.controls = true;
+    video.controls = false;
     if (event.type === 'local') {
         video.muted = true;
     }
@@ -198,6 +202,15 @@ function getImage() {
         }
     } else {
         return "../../assets/img/ico-user.png";
+    }
+}
+
+function getUserId() {
+    const UserData = JSON.parse(localStorage.getItem('UserData'));
+    if (UserData !== undefined && UserData !== null) {
+        return UserData.id;
+    } else {
+        return 0;
     }
 }
 
@@ -354,16 +367,17 @@ function setConnectedUsers(length) {
 
 connection.onopen = function (event) {
     setConnectedUsers(connection.getAllParticipants().length);
-    userListUpdate(event.userid, event.extra.image);
+    userListUpdate(event);
 }
 
-function userListUpdate(userid,image) {
+function userListUpdate(event) {
     var usernameli = document.createElement('li');
-    usernameli.id = userid;
+    usernameli.id = event.userid;
     var linktoUser = document.createElement('a');
-    linktoUser.href = "javascript:void(0)";
+    linktoUser.href = "/UProfile/" + event.extra.id;
+    linktoUser.target = "_blank";
     var userImage = document.createElement("img");
-    userImage.src = image;
+    userImage.src = event.extra.image;
     linktoUser.appendChild(userImage);
     usernameli.appendChild(linktoUser);
     userlist.appendChild(usernameli);

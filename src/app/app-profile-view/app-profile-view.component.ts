@@ -3,7 +3,7 @@ import { RegistrationService } from '../services/registration.service';
 import { IUser } from '../core/Model/IUser';
 import { IICOList } from '../core/Model/IICOList';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UrlparserService } from '../services/urlparser.service';
 import { Datetimeutility } from '../Shared/datetimeutility';
 import { Icoutility } from '../Shared/icoutility';
@@ -31,7 +31,14 @@ export class AppProfileViewComponent implements OnInit {
   yourdisplayText: string;
 
   constructor(private icouserprofileservice: RegistrationService, private spinner: NgxSpinnerService,
-    private router: Router, private urlservice: UrlparserService) { }
+    private router: Router, private route: ActivatedRoute, private urlservice: UrlparserService) {
+      this.route.params.subscribe( params => {
+        this.userId = params['id'];
+        if (this.userId === undefined) {
+          this.userId = 0;
+        }
+      });
+    }
 
   ngOnInit() {
     this.spinner.show();
@@ -106,11 +113,20 @@ export class AppProfileViewComponent implements OnInit {
     this.yourICOList.push.apply(this.yourICOList, icowithoutlivestream);
   }
 
+  GetUserId() {
+    if (this.userId === 0) {
+      const UserData = JSON.parse(localStorage.getItem('UserData'));
+      if (UserData !== undefined && UserData !== null) {
+        this.userId = UserData.id;
+      } else {
+        this.userId = 0;
+      }
+    }
+  }
+
   GetUserWithICOsInfo() {
-    const UserData = JSON.parse(localStorage.getItem('UserData'));
-    if (UserData !== undefined && UserData !== null) {
-      this.userId = UserData.id;
-      this.userType = UserData.type;
+    this.GetUserId();
+    if (this.userId !== undefined && this.userId !== null && this.userId !== 0) {
       this.icouserprofileservice.GetInvestorWithICOs(this.userId).subscribe(userICOsData => {
         if (userICOsData[0].length > 0) {
           const investorICO = userICOsData[0];

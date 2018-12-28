@@ -1,4 +1,53 @@
-<app-app-home></app-app-home>
+<header *ngIf='formintilization'>
+        <div class="container">
+          <div class="header_inner">
+            <div class="logo">
+              <a routerLink="/Home" routerLinkActive="active-link">
+                <img src="..\assets\img\imglogo.png" srcset="..\assets\img\imglogo@2x.png 2x, ..\assets\img\imglogo@3x.png 3x" class="_imglogo">
+              </a>
+            </div>
+            <div class="profile_icon">
+              <div class="dropdown_profile">
+                <div class="col mydrop">
+                  <div ngbDropdown class="d-inline-block" id="dropdownBasic1" ngbDropdownToggle>
+                    <a class="btn">
+                      <div class="desktop_menu">
+                        <div *ngIf="loggedIn && user && user.image!==''">
+                          <img src="{{ user.image }}">
+                        </div>
+                        <div *ngIf="loggedIn && user.image===''">
+                          <img src="..\assets\img\ico-user.png">
+                        </div>
+                      </div>
+                      <div class="mobile_menu"  [ngClass]="{'mobiShow' : mobileMenu}">
+                        <a href="javasript:void(0)"  (click)="mobileMenuShow()">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </a>
+                      </div>
+                    </a>
+                    <i class="fa fa-caret-down mobi_i"></i>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1" ngbDropdownToggle *ngIf="loggedIn">
+                      <div class="drop_title">
+                        <span> {{ user.name }} </span>
+                      </div>
+                      <ul>
+                        <li class="dropdown-item">
+                          <a routerLink="/UProfile" routerLinkActive="active-link">Profile </a>
+                        </li>
+                        <li class="dropdown-item active">
+                          <a href="javascript:void(0)" (click)="SignOut()">Log Out</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
 <div class="live_stream">
     <div class="liveConvo">
         <ul id="connectedusers">
