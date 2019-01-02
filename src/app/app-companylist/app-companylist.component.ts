@@ -71,7 +71,7 @@ export class AppCompanylistComponent implements OnInit {
     this.spinner.show();
     this.GetUAllICOs();
     this.page = 'ico';
-    this.displayText = 'All ICOs';
+    this.displayText = 'All Startups';
   }
 
   toggleVideo(event: any) {

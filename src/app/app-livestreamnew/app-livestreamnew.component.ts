@@ -157,6 +157,6 @@ getUserImage() {
     const userImage = Urlutility.getFileURL(this.getUserImage(), 'icouser', true);
     setTimeout(() => {
       startLiveStreamJs(userImage);
-    }, 7000);
+    }, 5000);
   }
 }

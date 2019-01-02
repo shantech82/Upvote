@@ -67,7 +67,7 @@ export class AppIcocompanyComponent implements OnInit {
         }
       } else {
         this.forminitialization = false;
-        this.alertService.alert(new Alert(AlertType.WARNING, 'There is no data for this ICO'));
+        this.alertService.alert(new Alert(AlertType.WARNING, 'There is no data for this Startup'));
       }
       this.spinner.hide();
     });

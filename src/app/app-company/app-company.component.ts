@@ -222,7 +222,7 @@ export class AppCompanyComponent implements OnInit {
 
   UpdateICO(icoform: FormGroup) {
     if (this.compareTwoDates()) {
-      this.alertService.alert(new Alert(AlertType.WARNING, 'ICO start date shoule be less then ICO end date'));
+      this.alertService.alert(new Alert(AlertType.WARNING, 'Funding round start date shoule be less then end date'));
       return;
     }
     if (icoform.valid) {
@@ -273,9 +273,9 @@ export class AppCompanyComponent implements OnInit {
             if (returnValue !== undefined) {
               this.spinner.hide();
               if (returnValue[0] === 'dublicate') {
-                this.alertService.alert(new Alert(AlertType.SUCCESS, 'ICO Name is already exist in our system.'));
+                this.alertService.alert(new Alert(AlertType.SUCCESS, 'Startup Name is already exist in our system.'));
               } else {
-                this.alertService.alert(new Alert(AlertType.SUCCESS, 'ICO has been created!!!'));
+                this.alertService.alert(new Alert(AlertType.SUCCESS, 'Startup has been created!!!'));
                 this.router.navigate(['/ICO'], { queryParams: { name: this.ico.iconame } });
               }
             } else {
@@ -289,9 +289,9 @@ export class AppCompanyComponent implements OnInit {
             if (returnValue !== undefined) {
               this.spinner.hide();
               if (returnValue[0] === 'dublicate') {
-                this.alertService.alert(new Alert(AlertType.SUCCESS, 'ICO Name is already exist in our system.'));
+                this.alertService.alert(new Alert(AlertType.SUCCESS, 'Startup Name is already exist in our system.'));
               } else {
-                this.alertService.alert(new Alert(AlertType.SUCCESS, 'ICO has been Updated!!!'));
+                this.alertService.alert(new Alert(AlertType.SUCCESS, 'Startup has been Updated!!!'));
                 this.router.navigate(['/ICO'], { queryParams: { name: this.ico.iconame } });
               }
             } else {

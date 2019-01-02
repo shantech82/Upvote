@@ -138,7 +138,7 @@ export class AppProfileViewComponent implements OnInit {
           });
           if (this.icolist[0].iconame !== null) {
             this.isICOAvailable = true;
-            this.investordisplayText = 'INV ICOs';
+            this.investordisplayText = 'INV Startups';
             this.InvestedICOSorting();
             this.AssignImageURLforinvestorICOs();
           } else {
@@ -149,7 +149,7 @@ export class AppProfileViewComponent implements OnInit {
             if (ownICOSData[0].length > 0) {
               const ownICO = ownICOSData[0];
               this.yourICOList = this.AssignICOData(ownICO);
-              this.yourdisplayText = 'own ICOs';
+              this.yourdisplayText = 'own Startup';
               this.OwnICOSorting();
               this.AssignImageURLforOwnICOs();
             } else {
