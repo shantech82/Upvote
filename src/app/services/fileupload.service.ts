@@ -30,7 +30,7 @@ export class FileuploadService {
 
   DeleteFile(filename) {
     return this.http.delete(environment.ApiURL + 'deleteFile?filename=' + filename)
-      .map(message => message);
+      .map(message => _.values(message));
   }
 
   GenerateFile(filename) {

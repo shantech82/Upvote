@@ -46,4 +46,10 @@ export class AppImagegenerateComponent implements OnInit {
       }
     });
   }
+
+  deleteFile(filename) {
+    this.fsservice.DeleteFile(filename).subscribe(status => {
+      this.alertService.alert(new Alert(AlertType.SUCCESS, status[0]));
+    });
+  }
 }
