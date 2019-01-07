@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FileuploadService } from '../services/fileupload.service';
 import { AlertCenterService, Alert, AlertType } from 'ng2-alert-center';
-import { Urlutility } from '../Shared/urlutility';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-app-imagegenerate',
@@ -12,6 +12,7 @@ export class AppImagegenerateComponent implements OnInit {
 
   formintilization: boolean;
   filenames: any;
+  imgageurl: string;
   constructor(private fsservice: FileuploadService, private alertService: AlertCenterService) { }
 
   ngOnInit() {
@@ -38,6 +39,7 @@ export class AppImagegenerateComponent implements OnInit {
   checkFile(filename) {
     this.fsservice.checkFileURL(filename).subscribe(status => {
       if (status[0] === true) {
+        this.imgageurl = environment.ApiHostURL + 'static/' + filename;
         this.alertService.alert(new Alert(AlertType.SUCCESS, 'File is available'));
       } else {
         this.alertService.alert(new Alert(AlertType.WARNING, 'File is not available'));
