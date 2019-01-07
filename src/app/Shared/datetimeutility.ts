@@ -13,7 +13,9 @@ export class Datetimeutility {
     public static getDiferenceInDays(theDate: string): number {
         if (Utility.isNotEmptyNullUndefined(theDate)) {
             const newDate = new Date(theDate);
-            return Math.round(Math.abs((newDate.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)));
+            if (newDate.getTime() >= new Date().getTime()) {
+                return Math.round(Math.abs((newDate.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)));
+            }
         }
     }
 

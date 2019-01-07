@@ -15,11 +15,13 @@
           <div class="pro_info_content">
             <h1>{{ ico.iconame }}</h1>
             <p class="block-with-text" *ngIf="ico.shortdescription">{{ ico.shortdescription }}</p>
-            <div class="pro_tag WhitePaper" *ngIf="ico.whitepaper">
+            <div class="pro_tag WhitePaper" *ngIf="ico.whitepaper" style="display: none">
               <a [attr.href]="ico.whitepaper" target="_blank">White Paper</a>
             </div>
-            <a [routerLink]="['/ListICO']"  [queryParams]="{name: ico.iconame}" routerLinkActive="active-link" class="join_whitelist" *ngIf="userType===1 && !ico.iswhitelistjoined">Join Whitelist</a>
-            <div class="join_whitelist" *ngIf="ico.iswhitelistjoined">Whitelisted</div>
+            <a [routerLink]="['/ListICO']"  [queryParams]="{name: ico.iconame}" routerLinkActive="active-link" 
+            class="join_whitelist" *ngIf="userType===1">
+              Edit Startup</a>
+            <div class="join_whitelist" *ngIf="ico.iswhitelistjoined" style="display: none">Whitelisted</div>
             <div class="pro_social">
               <ul>
                 <li *ngIf="ico.smn_youtube">
@@ -116,17 +118,18 @@
                 </div>
                 <div class="divider"></div>
               </div>
-              <div *ngIf="ico.tokcenname">
-                <div class="token">
-                  <h5>TOKEN</h5>
-                  <div>{{ ico.tokcenname }}</div>
-                </div>
-                <div class="divider"></div>
-              </div>
               <div *ngIf="ico.website">
                 <div class="website">
                   <h5>WEBSITE</h5>
                   <div>{{ ico.website }}</div>
+                </div>
+                <div class="divider"></div>
+              </div>
+            <div style="display: none">
+              <div *ngIf="ico.tokcenname">
+                <div class="token">
+                  <h5>TOKEN</h5>
+                  <div>{{ ico.tokcenname }}</div>
                 </div>
                 <div class="divider"></div>
               </div>
@@ -151,6 +154,7 @@
                 </div>
                 <div class="divider"></div>
               </div>
+            </div>
             </div>
           </div>
         </div>

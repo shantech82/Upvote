@@ -22,12 +22,12 @@
   </div>
 </div>
 </div>
-<div class="b1_background"  *ngIf="isICOAvailable && investedICOSInitialization">
+<div class="b1_background"  *ngIf="isICOAvailable && investedICOSInitialization" style="display: none">
   <div class="container">
       <app-app-icocard [icolist]="icolist" [page]="page" [displayText]="investordisplayText" ></app-app-icocard>
 </div>
 </div>
-<div class="b1_background"  *ngIf="yourICOList && ownICOsInitialization">
+<div class="b1_background"  *ngIf="yourICOList && ownICOsInitialization" style="display: none">
   <div class="container">
       <app-app-icocard [icolist]="yourICOList" [page]="page" [displayText]="yourdisplayText" ></app-app-icocard>
 </div>

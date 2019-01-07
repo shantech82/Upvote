@@ -55,7 +55,7 @@
         <p>{{ ico.icoshortdescription }}</p>
       </div>
       <div class="card_footer">
-        <a href="javascript:void(0)" class="btn" *ngIf="ico.iswhitelistjoined">Whitelisted</a>
+        <a href="javascript:void(0)" class="btn" *ngIf="ico.iswhitelistjoined" style="display: none">Whitelisted</a>
         <p>
           <span class="left" *ngIf="ico.icocreatedon">
             <i class="fa fa-clock-o"></i>Added on {{ ico.icocreatedon | date }}</span>

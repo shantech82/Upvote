@@ -84,8 +84,8 @@
         </div>
         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
           <div class="form-group">
-            <label class="control-label">Product Video on Youtube</label>
-            <input type="text" formControlName="youtubevideolink" class="form-control listInp dirty" placeholder="">
+            <label class="control-label">Website</label>
+            <input type="text"  formControlName="website" class="form-control listInp " placeholder="http://...">
           </div>
         </div>
       </div>
@@ -122,14 +122,16 @@
       <div class="row">
         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
           <div class="form-group">
-            <label class="control-label">Website</label>
-            <input type="text"  formControlName="website" class="form-control listInp " placeholder="http://...">
+            <label class="control-label">Funding round Start date</label>
+            <input class="form-control" placeholder="dd/mm/yyyy" 
+             formControlName="icostartdate"  class="form-control listInp " type="date">
           </div>
         </div>
         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
           <div class="form-group">
-            <label class="control-label">Whitepaper</label>
-            <input type="text" formControlName="whitepaper" class="form-control listInp dirty" placeholder="http://...">
+            <label class="control-label">Funding round End date</label>
+            <input class="form-control" placeholder="dd/mm/yyyy"
+            formControlName="icoenddate"  class="form-control listInp "type="date">
           </div>
         </div>
       </div>
@@ -141,6 +143,7 @@
           </div>
         </div>
       </div>
+      <div style="display: none">
       <div class="row">
         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
           <div class="form-group">
@@ -165,16 +168,14 @@
       <div class="row">
         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
           <div class="form-group">
-            <label class="control-label">Funding round Start date</label>
-            <input class="form-control" placeholder="dd/mm/yyyy" 
-             formControlName="icostartdate"  class="form-control listInp " type="date">
+            <label class="control-label">Product Video on Youtube</label>
+            <input type="text" formControlName="youtubevideolink" class="form-control listInp dirty" placeholder="">
           </div>
         </div>
         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
           <div class="form-group">
-            <label class="control-label">Funding round End date</label>
-            <input class="form-control" placeholder="dd/mm/yyyy"
-            formControlName="icoenddate"  class="form-control listInp "type="date">
+            <label class="control-label">Whitepaper</label>
+            <input type="text" formControlName="whitepaper" class="form-control listInp dirty" placeholder="http://...">
           </div>
         </div>
       </div>
@@ -224,6 +225,7 @@
           </label>
         </div>
       </div>
+    </div>
       <div class="row">
         <div class="form-group width100">
           <button type="submit" class="btn list_submit">Submit</button>
