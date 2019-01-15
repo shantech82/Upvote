@@ -46,10 +46,12 @@
       </div>
     </div>
   </div>
+  <button type="button" id="startlive" name="startlive" (click)="startLiveStream()" class="btn stream_btn">
+    ► Start / Join live streaming </button>
   <div class="pro_bg">
-    
-    <!--- stream chat  *ngIf="isLiveStreaming" -->
-    <app-app-livestream [icoid]="ico.id" [userid]="ico.userid"></app-app-livestream>
+   
+    <!--- stream chat  *ngIf="isLiveStreaming" 
+    <app-app-livestream [icoid]="ico.id" [userid]="ico.userid"></app-app-livestream>-->
     <!--- stream chat -->
     <div class="container" *ngIf="forminitialization">
       <div class="row">

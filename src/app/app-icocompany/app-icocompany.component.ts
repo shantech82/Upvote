@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CompanyService } from '../services/company.service';
 import { IICO } from '../core/Model/IICO';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertCenterService, Alert, AlertType } from 'ng2-alert-center';
 import { UrlparserService } from '../services/urlparser.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -28,7 +28,7 @@ export class AppIcocompanyComponent implements OnInit {
 
 
   constructor(private activateRoute: ActivatedRoute, private icoservice: CompanyService, private urlservice: UrlparserService,
-    private spinner: NgxSpinnerService, private alertService: AlertCenterService,
+    private spinner: NgxSpinnerService, private alertService: AlertCenterService, private router: Router,
      private sanitizer: DomSanitizer) {
     this.activateRoute.queryParams.subscribe(params => {
       this.name = params['name'];
@@ -43,6 +43,10 @@ export class AppIcocompanyComponent implements OnInit {
 
   toggleVideo(event: any) {
     this.videoplayer.nativeElement.play();
+  }
+
+  startLiveStream() {
+    this.router.navigateByUrl('/Live');
   }
 
   GetICO() {
