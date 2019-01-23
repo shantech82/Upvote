@@ -147,6 +147,7 @@ export class AppLoginComponent implements OnInit {
     }
     this.socialAuthService.signIn(socialPlatformProvider).then(
       (userData) => {
+        console.log(userData);
         const registrationUser = {
           name: userData.name,
           email: userData.email,
