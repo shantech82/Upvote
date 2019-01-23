@@ -3,7 +3,7 @@ export const environment = {
   ApiURL: 'https://icoupvoteapi.herokuapp.com/api/',
   ApiHostURL: 'https://icoupvoteapi.herokuapp.com/',
   AppHostURL: 'https://icoupvote.herokuapp.com',
-  GoogleProviderID: '989617535961-7fu1of9kbqkhul51eompp3em5ticnjls.apps.googleusercontent.com',
-  FacebookProviderID: '2072218223042667',
-  LinkediInProviderID: '81ybqfrc9pm1zw'
+  GoogleProviderID: '371211842934-fefbvdet9fllljkupc5ele0lkeruh27o.apps.googleusercontent.com',
+  FacebookProviderID: '163948034314248',
+  LinkediInProviderID: '77abup1pkna5ba'
 };

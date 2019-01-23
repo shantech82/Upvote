@@ -12,5 +12,5 @@ export const environment = {
     AppHostURL: 'https://localhost:4200',
     GoogleProviderID: '853849272854-i2bpckdiorbb2ek72qjia5mbmg0t2s0t.apps.googleusercontent.com',
     FacebookProviderID: '169972637210542',
-    LinkediInProviderID: '819n7v4l31xidr'
+    LinkediInProviderID: '77abup1pkna5ba'
 };
