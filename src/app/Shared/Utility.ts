@@ -72,7 +72,6 @@ export class Utility {
     }
 
     public static assignLocalStorageData(dbUserData, type) {
-        console.log(dbUserData);
         const userData = {
             name: dbUserData[0].name,
             email: dbUserData[0].email,

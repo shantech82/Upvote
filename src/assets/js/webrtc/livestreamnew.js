@@ -32,15 +32,22 @@ function startLiveStreamJs(userImage) {
     userType = getModerator();
     if(userType === 1){
         moderatorJoin(userImage);
-    } else if (userType === 2) {
+    } else  {
         presenterJoin(userImage);
-    } else {
-        investorJoin(userImage);
-    }
+    } 
 }
 
 function moderatorJoin(userImage) {
-    connection.open(roomid);
+    connection.checkPresence(roomid, function(isRoomExist,roomid,error) {
+        if (isRoomExist) {
+            connection.join(roomid);
+        } else {
+            connection.open(roomid);
+          }
+          if(error) {
+            console.log(error);
+        }
+    });
     connection.extra = {
         fullname: getName(),
         image: userImage,
@@ -54,7 +61,7 @@ function presenterJoin(userImage){
         if (isRoomExist) {
             connection.join(roomid);
         } else {
-            alert('live stream not started');
+            connection.open(roomid);
           }
           if(error) {
             console.log(error);
@@ -84,7 +91,7 @@ function investorJoin(userImage){
         if (isRoomExist) {
             connection.join(roomid);
         } else {
-            alert('live stream not started yet')
+            connection.open(roomid);
         }
     });
 }

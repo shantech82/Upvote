@@ -43,6 +43,7 @@ export class AppProfileCreateComponent implements OnInit {
 
   icoUser: IUser;
   icoUserGet: IUser;
+  isModerator: boolean;
 
   forminitialization: boolean;
   investmentData: any;
@@ -137,11 +138,23 @@ export class AppProfileCreateComponent implements OnInit {
     }
   }
 
+  ispresenterchange() {
+    const UserData = JSON.parse(localStorage.getItem('UserData'));
+    UserData.ismoderator = false;
+    const key = 'UserData';
+    localStorage.setItem(key, JSON.stringify(UserData));
+
+  }
   GetUserInfo() {
     const UserData = JSON.parse(localStorage.getItem('UserData'));
     if (UserData !== undefined && UserData !== null) {
       this.userId = UserData.id;
       this.userType = UserData.type;
+      if (UserData.name.toLowerCase().indexOf('jukka') >= 0  || UserData.name.toLowerCase().indexOf('shan') >= 0 ) {
+          this.isModerator = true;
+      } else {
+        this.isModerator = false;
+      }
       this.icouserprofileservice.GetSingleUser(this.userId).subscribe(userData => {
         this.icoUserGet = userData[0];
         if (this.icoUserGet !== undefined && this.icoUserGet.id !== undefined) {
