@@ -341,24 +341,24 @@ header {
 }
 
 :host::ng-deep.live_video ::ng-deep #presentervideo video {
-  width: calc(100% - 380px);
-  height: calc(93vh - 78px); object-fit: fill;}
+  width: 74%;
+  height: 637px;
+  object-fit: fill;}
 :host::ng-deep.live_video  ::ng-deep #moderatorvideo video {
   width: 100%;
-  height: 100%;
+  height: 181px;
 }
 
 :host::ng-deep.live_video.two ::ng-deep #presentervideo video {
   width: 37% !important;
   float: left;
-  object-fit: contain;
 }
 
 :host::ng-deep.live_video.three ::ng-deep #presentervideo video,
 :host::ng-deep.live_video.four ::ng-deep #presentervideo video  {
-  width: calc((100% - 380px) / 2) !important;
+  width: 37% !important;;
+  height: 319px !important;;
   float: left;
-  height: calc((93vh - 78px) / 2) !important;
 }
 
 :host::ng-deep.live_chat {

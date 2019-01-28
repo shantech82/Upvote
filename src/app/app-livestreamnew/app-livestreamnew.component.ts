@@ -51,7 +51,7 @@ export class AppLivestreamnewComponent implements OnInit, AfterViewInit {
         this.loggedIn = true;
     } else {
       this.loggedIn = false;
-      this.router.navigate(['/Login']);
+      // this.router.navigate(['/Login']);
     }
     this.mobileMenu = false;
   }
