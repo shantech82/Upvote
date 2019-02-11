@@ -343,7 +343,9 @@ header {
 :host::ng-deep.live_video ::ng-deep #presentervideo video {
   width: 74%;
   height: 83vh;
-  object-fit: fill;}
+  object-fit: fill;
+  
+}
 :host::ng-deep.live_video  ::ng-deep #moderatorvideo video {
   width: 98%;
   height: 23vh;
@@ -351,7 +353,10 @@ header {
 
 :host::ng-deep.live_video.two ::ng-deep #presentervideo video {
   width: 37% !important;
+  height: 65vh;
   float: left;
+  margin-top: 5%;
+  object-fit: fill;
 }
 
 :host::ng-deep.live_video.three ::ng-deep #presentervideo video,
@@ -566,6 +571,7 @@ header {
 :host::ng-deep.video_chat_box::ng-deep ul.chatBox>li .chat_content p {
   margin: 5px 0;
   font-size: 16px;
+  word-break: break-word;
 }
 
 :host::ng-deep.video_chat_box::ng-deep ul.chatBox>li .chat_content span {
