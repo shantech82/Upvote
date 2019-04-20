@@ -57,7 +57,7 @@
         <div class="see_icon"><a href="javascript:void(0)"><img src="../../assets/img/baseline-visibility_off-24px.svg"></a></div>-->
     </div>
     <div class="live_video" id="livevideoparent">
-        <div class="video_mode">
+            <div class="video_mode">
                 <div class="presenter_name" style="display: none">Justine Marshall / Upvote</div>
                 <div id="presentervideo">
                   
@@ -73,7 +73,7 @@
                     <p>Davea Butler</p>
                 </div>
             </div>
-        <div class="video_chat" >
+            <div class="video_chat" >
                 <ul style="display: none">
                     <li><a href="javascript:void(0)" class="latptop active"><img src="../../assets/img/baseline_laptop_white_18dp.png"></a></li>
                     <li><a href="javascript:void(0)" class="video_show stop_video active"><img src="../../assets/img/baseline_videocam_white_18dp.png"></a></li>
@@ -92,8 +92,18 @@
                         <input type="text" id="chat-input" class="form-control chat_inp" placeholder="Send a message">
                         <div class="btn_send"><img src="../../assets/img/btn-send.png"></div>
                     </div>                
-                </div>
+            </div>
     </div>
+    <div id="videos-container">
+      
+    </div>
+
+</div>
+<div class="screen_share_btn_container">
+    <input type="btn" value="Share Screen" (click)="openscreenshare()">
+</div>
+<div class="screen_share_btn_container">
+    <input type="btn" value="Join Room" (click)="joinscreenshare()">
 </div>
 <div class="file_download">
     <ul id="file-container">

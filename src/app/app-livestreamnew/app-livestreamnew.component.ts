@@ -11,6 +11,8 @@ import {
   import { UrlparserService } from '../services/urlparser.service';
 
 declare function startLiveStreamJs(any): any;
+declare function startScreenSharing(): any;
+declare function joinScreenSharing(): any;
 
 @Component({
   selector: 'app-app-livestreamnew',
@@ -36,6 +38,7 @@ export class AppLivestreamnewComponent implements OnInit, AfterViewInit {
   private router: Router, private urlservice: UrlparserService) { }
 
   ngOnInit() {
+
     this.host = false;
     this.moderator = false;
     this.join = false;
@@ -114,6 +117,7 @@ getUserImage() {
 }
 
   ngAfterViewInit() {
+    console.log("in live");
     const RTCMultiConnectionScript = this.document.createElement('script');
     RTCMultiConnectionScript.type = 'text/javascript';
     RTCMultiConnectionScript.src = '../../assets/js/webrtc/rmc3.min.js';
@@ -158,5 +162,13 @@ getUserImage() {
     setTimeout(() => {
       startLiveStreamJs(userImage);
     }, 5000);
+  }
+
+  openscreenshare(){
+      startScreenSharing();
+  }
+
+  joinscreenshare(){
+      joinScreenSharing();
   }
 }

@@ -12,7 +12,8 @@ connection.session = {
     audio: true,
     video: true,
     oneway: true,
-    data: true
+    data: true,
+    screen: true,
 };
 
 connection.sdpConstraints.mandatory = {

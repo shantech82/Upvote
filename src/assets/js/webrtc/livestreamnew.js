@@ -9,7 +9,8 @@ var roomid = 'Q12345e123'
 connection.session = {
     audio: true,
     video: true,
-    data: true
+    data: true,
+    screen: false,
 };
 
 connection.sdpConstraints.mandatory = {
@@ -30,6 +31,7 @@ connection.getScreenConstraints = function (callback) {
 
 function startLiveStreamJs(userImage) {
     userType = getModerator();
+    console.log("start live stream");
     if(userType === 1){
         moderatorJoin(userImage);
     } else  {
@@ -232,11 +234,11 @@ function getModerator() {
     } else {
         return 0;
     }
-  }
+}
 
 
 
- function appendDIV(data, type) {
+function appendDIV(data, type) {
     var existing = false;
     var disabl = false;
     if(disabl){
@@ -452,6 +454,33 @@ function updateLabel(progress, label) {
     if (progress.position == -1) return;
     var position = +progress.position.toFixed(2).split('.')[1] || 100;
     label.innerHTML = position + '%';
+}
+
+function startScreenSharing(){
+    connection.session = {
+        audio: true,
+        video: true,
+        data: true,
+        screen: true,
+    };
+
+    connection.open(roomid, function() {
+                    showRoomURL(connection.sessionid);
+                });
+
+}
+
+function joinScreenSharing(){
+    connection.session = {
+        audio: true,
+        video: true,
+        data: true,
+        oneway: true,
+        screen: true,
+    };
+
+    connection.join(roomid);
+
 }
 
 
