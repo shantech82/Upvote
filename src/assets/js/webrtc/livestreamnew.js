@@ -125,7 +125,7 @@ var presentervideosContainer = document.getElementById('presentervideo');
 var moderatorvideosContainer = document.getElementById('moderatorvideo');
 var livevideoparentContainer = document.getElementById('livevideoparent');
 
-//var screenContainer = document.getElementById('screen-container');
+var screenContainer = document.getElementById('videos-container');
 var lastSelectedFile;
 var chunk_size = 60 * 1000;
 connection.fileReceived = {};
@@ -461,12 +461,11 @@ function startScreenSharing(){
         audio: true,
         video: true,
         data: true,
+        oneway: true,
         screen: true,
     };
 
-    connection.open(roomid, function() {
-                    showRoomURL(connection.sessionid);
-                });
+    connection.open(roomid);
 
 }
 
