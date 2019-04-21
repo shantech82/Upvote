@@ -78,6 +78,7 @@ export class Utility {
             image: dbUserData[0].profileimageurl,
             id: dbUserData[0].id,
             type: type,
+            isinvestor: dbUserData[0].isinvestor,
             ismoderator: dbUserData[0].ismoderator
         };
         const key = 'UserData';
