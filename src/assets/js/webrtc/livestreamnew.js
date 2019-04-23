@@ -13,6 +13,12 @@ connection.session = {
     screen: false,
 };
 
+var RMCMediaTrack = {
+    cameraStream: null,
+    cameraTrack: null,
+    screen: null
+};
+
 connection.sdpConstraints.mandatory = {
     OfferToReceiveAudio: true,
     OfferToReceiveVideo: true
@@ -161,6 +167,7 @@ connection.onstream = function (event) {
     video.setAttributeNode(document.createAttribute('autoplay'));
     video.setAttributeNode(document.createAttribute('playsinline'));
     video.setAttributeNode(document.createAttribute('controls'));
+    RMCMediaTrack.selfVideo = video;
 
     video.controls = false;
     if (event.type === 'local') {
@@ -457,16 +464,87 @@ function updateLabel(progress, label) {
 }
 
 function startScreenSharing(){
-    connection.session = {
-        audio: true,
-        video: true,
-        data: true,
-        oneway: true,
-        screen: true,
-    };
+    // connection.session = {
+    //     audio: true,
+    //     video: true,
+    //     data: true,
+    //     oneway: true,
+    //     screen: true,
+    // };
 
-    connection.open(roomid);
+    // connection.open(roomid);
+    getScreenStream(function(screen) {
+        var isLiveSession = connection.getAllParticipants().length > 0;
+        if (isLiveSession) {
+            replaceTrack(RMCMediaTrack.screen);
+        }
 
+        // now remove old video track from "attachStreams" array
+        // so that newcomers can see screen as well
+        connection.attachStreams.forEach(function(stream) {
+            stream.getVideoTracks().forEach(function(track) {
+                stream.removeTrack(track);
+            });
+
+            // now add screen track into that stream object
+            stream.addTrack(RMCMediaTrack.screen);
+        });
+    });
+}
+
+function getScreenStream(callback) {
+    getScreenId(function(error, sourceId, screen_constraints) {
+        navigator.mediaDevices.getUserMedia(screen_constraints).then(function(screen) {
+            RMCMediaTrack.screen = screen.getVideoTracks()[0];
+            RMCMediaTrack.selfVideo.srcObject = screen;
+
+            // in case if onedned event does not fire
+            (function looper() {
+                // readyState can be "live" or "ended"
+                if (RMCMediaTrack.screen.readyState === 'ended') {
+                    RMCMediaTrack.screen.onended();
+                    return;
+                }
+                setTimeout(looper, 1000);
+            })();
+
+            var firedOnce = false;
+            RMCMediaTrack.screen.onended = RMCMediaTrack.screen.onmute = RMCMediaTrack.screen.oninactive = function() {
+                if (firedOnce) return;
+                firedOnce = true;
+
+                if (RMCMediaTrack.cameraStream.getVideoTracks()[0].readyState) {
+                    RMCMediaTrack.cameraStream.getVideoTracks().forEach(function(track) {
+                        RMCMediaTrack.cameraStream.removeTrack(track);
+                    });
+                    RMCMediaTrack.cameraStream.addTrack(RMCMediaTrack.cameraTrack);
+                }
+
+                RMCMediaTrack.selfVideo.srcObject = RMCMediaTrack.cameraStream;
+
+                connection.socket && connection.socket.emit(connection.socketCustomEvent, {
+                    justStoppedMyScreen: true,
+                    userid: connection.userid
+                });
+
+                // share camera again
+                replaceTrack(RMCMediaTrack.cameraTrack);
+
+                // now remove old screen from "attachStreams" array
+                connection.attachStreams = [RMCMediaTrack.cameraStream];
+
+                // so that user can share again
+                btnShareScreen.disabled = false;
+            };
+
+            connection.socket && connection.socket.emit(connection.socketCustomEvent, {
+                justSharedMyScreen: true,
+                userid: connection.userid
+            });
+
+            callback(screen);
+        });
+    });
 }
 
 function joinScreenSharing(){
