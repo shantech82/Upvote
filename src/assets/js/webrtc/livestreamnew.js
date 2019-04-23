@@ -492,6 +492,29 @@ function startScreenSharing(){
     });
 }
 
+function replaceTrack(videoTrack) {
+    if (!videoTrack) return;
+    if (videoTrack.readyState === 'ended') {
+        alert('Can not replace an "ended" track. track.readyState: ' + videoTrack.readyState);
+        return;
+    }
+    connection.getAllParticipants().forEach(function(pid) {
+        var peer = connection.peers[pid].peer;
+        if (!peer.getSenders) return;
+
+        var trackToReplace = videoTrack;
+
+        peer.getSenders().forEach(function(sender) {
+            if (!sender || !sender.track) return;
+
+            if (sender.track.kind === 'video' && trackToReplace) {
+                sender.replaceTrack(trackToReplace);
+                trackToReplace = null;
+            }
+        });
+    });
+}
+
 function getScreenStream(callback) {
     getScreenId(function(error, sourceId, screen_constraints) {
         navigator.mediaDevices.getUserMedia(screen_constraints).then(function(screen) {
