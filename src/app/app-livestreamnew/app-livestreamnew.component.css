@@ -623,6 +623,7 @@ header {
   display: block;
   margin: 30px auto 15px;
   z-index: 99;
+  position: relative;
 }
 .screen_share_btn_container input {
   background: #5cd094;
