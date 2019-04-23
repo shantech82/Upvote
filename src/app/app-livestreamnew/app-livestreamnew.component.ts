@@ -161,7 +161,9 @@ getUserImage() {
     const userImage = Urlutility.getFileURL(this.getUserImage(), 'icouser', true);
     setTimeout(() => {
       startLiveStreamJs(userImage);
+      joinScreenSharing();
     }, 5000);
+
   }
 
   openscreenshare(){
@@ -169,6 +171,6 @@ getUserImage() {
   }
 
   joinscreenshare(){
-      joinScreenSharing();
+    joinScreenSharing();
   }
 }

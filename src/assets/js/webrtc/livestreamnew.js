@@ -171,7 +171,7 @@ connection.onstream = function (event) {
     if (event.stream.isScreen === true) {
         video.id = event.stream.id;
         video.className = 'screencontainervideo';
-        screenContainer.appendChild(video);
+        // screenContainer.appendChild(video);
     } else {
         video.id = event.stream.id;
         if(event.extra.Type === 'Modertor') {
@@ -470,13 +470,13 @@ function startScreenSharing(){
 }
 
 function joinScreenSharing(){
-    connection.session = {
-        audio: true,
-        video: true,
-        data: true,
-        oneway: true,
-        screen: true,
-    };
+    // connection.session = {
+    //     audio: true,
+    //     video: true,
+    //     data: true,
+    //     oneway: true,
+    //     screen: true,
+    // };
 
     connection.join(roomid);
 

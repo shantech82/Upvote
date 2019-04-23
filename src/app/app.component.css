@@ -24,3 +24,6 @@
   font-weight: 600;
   cursor: pointer;
 }
+.videos-container video  {
+  width: 50%;  
+}
