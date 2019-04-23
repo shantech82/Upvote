@@ -161,15 +161,17 @@ connection.onstream = function (event) {
          existing.parentNode.removeChild(existing);
      }
 
+     if(event.type === 'local' && event.stream.isVideo) {
+      RMCMediaTrack.cameraStream = event.stream;
+      RMCMediaTrack.cameraTrack = event.stream.getVideoTracks()[0];
+    }
+
     event.mediaElement.removeAttribute('src');
     event.mediaElement.removeAttribute('srcObject');
 
     var video = document.createElement('video');
 
-    if(event.type === 'local' && event.stream.isVideo) {
-      RMCMediaTrack.cameraStream = event.stream;
-      RMCMediaTrack.cameraTrack = event.stream.getVideoTracks()[0];
-    }
+    
     video.setAttributeNode(document.createAttribute('autoplay'));
     video.setAttributeNode(document.createAttribute('playsinline'));
     video.setAttributeNode(document.createAttribute('controls'));
@@ -202,6 +204,13 @@ connection.onstream = function (event) {
             presentervideosContainer.appendChild(video);
         }
     }
+
+    if(event.type === 'local') {
+      RMCMediaTrack.selfVideo = mediaElement.media;
+    }
+
+    // to keep room-id in cache
+    localStorage.setItem(connection.socketMessageEvent, connection.sessionid);
 }
 
 function getName() {
@@ -563,7 +572,7 @@ function getScreenStream(callback) {
                 connection.attachStreams = [RMCMediaTrack.cameraStream];
 
                 // so that user can share again
-                btnShareScreen.disabled = false;
+              //  btnShareScreen.disabled = false;
             };
 
             connection.socket && connection.socket.emit(connection.socketCustomEvent, {
