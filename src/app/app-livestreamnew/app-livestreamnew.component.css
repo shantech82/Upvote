@@ -620,8 +620,8 @@ header {
 }
 
 .screen_share_btn_container {
-  text-align: center;
-  margin: 20px 0;
+  display: block;
+  margin: 30px auto 15px;
 }
 .screen_share_btn_container input {
   background: #5cd094;
