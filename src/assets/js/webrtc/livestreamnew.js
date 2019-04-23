@@ -163,7 +163,13 @@ connection.onstream = function (event) {
 
     event.mediaElement.removeAttribute('src');
     event.mediaElement.removeAttribute('srcObject');
+
     var video = document.createElement('video');
+
+    if(event.type === 'local' && event.stream.isVideo) {
+      RMCMediaTrack.cameraStream = event.stream;
+      RMCMediaTrack.cameraTrack = event.stream.getVideoTracks()[0];
+    }
     video.setAttributeNode(document.createAttribute('autoplay'));
     video.setAttributeNode(document.createAttribute('playsinline'));
     video.setAttributeNode(document.createAttribute('controls'));
