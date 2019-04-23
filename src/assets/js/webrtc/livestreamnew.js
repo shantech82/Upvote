@@ -9,8 +9,6 @@ var roomid = 'Q12345e123'
 connection.session = {
     audio: true,
     video: true,
-    data: true,
-    screen: false,
 };
 
 var RMCMediaTrack = {
@@ -168,14 +166,21 @@ connection.onstream = function (event) {
 
     event.mediaElement.removeAttribute('src');
     event.mediaElement.removeAttribute('srcObject');
+    event.mediaElement.muted = true;
+    event.mediaElement.volume = 0;
 
     var video = document.createElement('video');
 
     
-    video.setAttributeNode(document.createAttribute('autoplay'));
-    video.setAttributeNode(document.createAttribute('playsinline'));
-    video.setAttributeNode(document.createAttribute('controls'));
-    RMCMediaTrack.selfVideo = video;
+    try {
+        video.setAttributeNode(document.createAttribute('autoplay'));
+        video.setAttributeNode(document.createAttribute('playsinline'));
+    } catch (e) {
+        video.setAttribute('autoplay', true);
+        video.setAttribute('playsinline', true);
+    }
+
+    // RMCMediaTrack.selfVideo = video;
 
     video.controls = false;
     if (event.type === 'local') {
@@ -183,6 +188,7 @@ connection.onstream = function (event) {
     }
     
     video.srcObject = event.stream;
+
     if (event.stream.isScreen === true) {
         video.id = event.stream.id;
         video.className = 'screencontainervideo';
@@ -206,7 +212,7 @@ connection.onstream = function (event) {
     }
 
     if(event.type === 'local') {
-      RMCMediaTrack.selfVideo = mediaElement.media;
+      RMCMediaTrack.selfVideo = video;
     }
 
     // to keep room-id in cache
@@ -550,7 +556,7 @@ function getScreenStream(callback) {
                 connection.attachStreams = [RMCMediaTrack.cameraStream];
 
                 // so that user can share again
-                btnShareScreen.disabled = false;
+                // btnShareScreen.disabled = false;
             };
 
             connection.socket && connection.socket.emit(connection.socketCustomEvent, {
