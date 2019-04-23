@@ -622,6 +622,7 @@ header {
 .screen_share_btn_container {
   display: block;
   margin: 30px auto 15px;
+  z-index: 99;
 }
 .screen_share_btn_container input {
   background: #5cd094;
