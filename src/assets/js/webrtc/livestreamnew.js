@@ -507,33 +507,11 @@ function startScreenSharing(){
     });
 }
 
-function replaceTrack(videoTrack) {
-    if (!videoTrack) return;
-    if (videoTrack.readyState === 'ended') {
-        alert('Can not replace an "ended" track. track.readyState: ' + videoTrack.readyState);
-        return;
-    }
-    connection.getAllParticipants().forEach(function(pid) {
-        var peer = connection.peers[pid].peer;
-        if (!peer.getSenders) return;
-
-        var trackToReplace = videoTrack;
-
-        peer.getSenders().forEach(function(sender) {
-            if (!sender || !sender.track) return;
-
-            if (sender.track.kind === 'video' && trackToReplace) {
-                sender.replaceTrack(trackToReplace);
-                trackToReplace = null;
-            }
-        });
-    });
-}
-
 function getScreenStream(callback) {
     getScreenId(function(error, sourceId, screen_constraints) {
         navigator.mediaDevices.getUserMedia(screen_constraints).then(function(screen) {
             RMCMediaTrack.screen = screen.getVideoTracks()[0];
+
             RMCMediaTrack.selfVideo.srcObject = screen;
 
             // in case if onedned event does not fire
@@ -572,7 +550,7 @@ function getScreenStream(callback) {
                 connection.attachStreams = [RMCMediaTrack.cameraStream];
 
                 // so that user can share again
-              //  btnShareScreen.disabled = false;
+                btnShareScreen.disabled = false;
             };
 
             connection.socket && connection.socket.emit(connection.socketCustomEvent, {
@@ -581,6 +559,29 @@ function getScreenStream(callback) {
             });
 
             callback(screen);
+        });
+    });
+}
+
+function replaceTrack(videoTrack) {
+    if (!videoTrack) return;
+    if (videoTrack.readyState === 'ended') {
+        alert('Can not replace an "ended" track. track.readyState: ' + videoTrack.readyState);
+        return;
+    }
+    connection.getAllParticipants().forEach(function(pid) {
+        var peer = connection.peers[pid].peer;
+        if (!peer.getSenders) return;
+
+        var trackToReplace = videoTrack;
+
+        peer.getSenders().forEach(function(sender) {
+            if (!sender || !sender.track) return;
+
+            if (sender.track.kind === 'video' && trackToReplace) {
+                sender.replaceTrack(trackToReplace);
+                trackToReplace = null;
+            }
         });
     });
 }
