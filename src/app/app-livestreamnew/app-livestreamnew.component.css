@@ -368,7 +368,7 @@ header {
 
 :host::ng-deep.live_chat {
   position: absolute;
-  left: -20px;
+  /*left: -20px;*/
   bottom: 0px;
 }
 
