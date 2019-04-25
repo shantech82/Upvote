@@ -122,7 +122,8 @@ export class AppLoginComponent implements OnInit {
       this.regservice.GetUserSignIn(userName, password).subscribe(singInData => {
         if (singInData[1] === true) {
           this.spinner.hide();
-          Utility.assignLocalStorageData(singInData, '1');
+          const type = singInData[0].isinvestor ? '3' : '1'
+          Utility.assignLocalStorageData(singInData, type);
           this.router.navigate(['/Home']);
         } else {
           this.spinner.hide();
