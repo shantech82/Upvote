@@ -28,6 +28,8 @@ export class AppRegisterComponent implements OnInit {
   confirmpassword = '';
   aboutyourself = '';
   isinvestor = false;
+  ispresenter = false;
+  ismoderator = false;
 
   userData: IUser;
   submitted: boolean;
@@ -67,6 +69,8 @@ export class AppRegisterComponent implements OnInit {
         image: '',
         isactive: false,
         isinvestor: registerForm.controls['isinvestor'].value,
+        ispresenter: registerForm.controls['ispresenter'].value,
+        ismoderator: registerForm.controls['ismoderator'].value,
       };
       this.RegisterUser(tempUserData, '1');
     } else {
@@ -82,7 +86,9 @@ export class AppRegisterComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmpassword: ['', Validators.required],
       aboutyourself: ['', Validators.required],
-      isinvestor: [false, Validators.nullValidator]
+      ispresenter: [false, Validators.nullValidator],
+      isinvestor: [false, Validators.nullValidator],
+      ismoderator: [false, Validators.nullValidator]
     }, {
         validator: this.MatchPassword // your validation method
       });
@@ -124,6 +130,8 @@ export class AppRegisterComponent implements OnInit {
           bio: UserData.bio,
           id: 0,
           isinvestor: UserData.isinvestor,
+          ispresenter: UserData.ispresenter,
+          ismoderator: UserData.ismoderator,
           profileimageurl: UserData.image,
           location: '',
           investmentfocus: '',
@@ -133,7 +141,6 @@ export class AppRegisterComponent implements OnInit {
           activatekey: Utility.generatingActivateKey(),
           createdon: new Date().toLocaleDateString('en-Us'),
           title: '',
-          ismoderator: false
         };
         this.regservice.RegisterUser(this.userData).subscribe(registeredData => {
           if (type === '2' && registeredData[0] !== undefined) {
@@ -173,6 +180,7 @@ export class AppRegisterComponent implements OnInit {
           bio: 'using Social login',
           image: userData.image,
           isactive: true,
+          isinvestor: true,
         };
         this.RegisterUser(registrationUser, '2');
 

@@ -82,6 +82,7 @@ export class AppLoginComponent implements OnInit {
           bio: UserData.bio,
           id: 0,
           isinvestor: false,
+          ispresenter: false,
           profileimageurl: UserData.image,
           location: '',
           investmentfocus: '',

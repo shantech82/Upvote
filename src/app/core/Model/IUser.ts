@@ -2,6 +2,7 @@ export interface IUser {
     id: number;
     name: string;
     email: string;
+    ispresenter: boolean;
     isinvestor: boolean;
     profileimageurl: string;
     location: string;

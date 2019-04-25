@@ -183,6 +183,7 @@ export class AppProfileCreateComponent implements OnInit {
           name: nameofUser,
           email: icoprofileform.controls['email'].value,
           isinvestor: icoprofileform.controls['isinvestor'].value,
+          ispresenter: icoprofileform.controls['ispresenter'].value,
           profileimageurl: this.updatedprofileimageurl,
           location: icoprofileform.controls['location'].value,
           bio: icoprofileform.controls['bio'].value,
