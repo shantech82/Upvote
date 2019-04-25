@@ -157,6 +157,7 @@ export class AppLoginComponent implements OnInit {
           bio: 'using Social login',
           image: userData.image,
           isactive: true,
+          isinvestor: true
         };
         this.RegisterUser(registrationUser, '2');
 
