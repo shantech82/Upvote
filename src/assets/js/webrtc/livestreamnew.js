@@ -38,9 +38,11 @@ function startLiveStreamJs(userImage) {
     console.log("start live stream");
     if(userType === 1){
         moderatorJoin(userImage);
-    } else  {
+    } else if (userType === 2) {
         presenterJoin(userImage);
-    } 
+    } else if (userType === 3) {
+        investorJoin(userImage);
+    }
 }
 
 function moderatorJoin(userImage) {
@@ -256,6 +258,8 @@ function getModerator() {
     if (UserData !== undefined && UserData !== null) {
         if(UserData.ismoderator) {
             return 1;
+        } else if(UserData.isinvestor) {
+            return 3
         } else {
             return 2;
         }
@@ -484,6 +488,8 @@ function updateLabel(progress, label) {
     label.innerHTML = position + '%';
 }
 
+var btnShareScreen = document.getElementById('screen-share');
+
 function startScreenSharing(){
     // connection.session = {
     //     audio: true,
@@ -494,6 +500,7 @@ function startScreenSharing(){
     // };
 
     // connection.open(roomid);
+    btnShareScreen.disabled = true;
     getScreenStream(function(screen) {
         var isLiveSession = connection.getAllParticipants().length > 0;
         if (isLiveSession) {
@@ -556,7 +563,7 @@ function getScreenStream(callback) {
                 connection.attachStreams = [RMCMediaTrack.cameraStream];
 
                 // so that user can share again
-                // btnShareScreen.disabled = false;
+                btnShareScreen.disabled = false;
             };
 
             connection.socket && connection.socket.emit(connection.socketCustomEvent, {

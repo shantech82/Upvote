@@ -77,6 +77,7 @@ export class Utility {
             email: dbUserData[0].email,
             image: dbUserData[0].profileimageurl,
             id: dbUserData[0].id,
+            isinvestor: dbUserData[0].isinvestor,
             type: type,
             ismoderator: dbUserData[0].ismoderator
         };
