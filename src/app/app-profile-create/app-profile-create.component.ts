@@ -11,12 +11,17 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Utility } from '../Shared/Utility';
 import { UrlparserService } from '../services/urlparser.service';
 import { Urlutility } from '../Shared/urlutility';
-
+import {
+    AuthService,
+    SocialUser,
+  } from 'angular5-social-auth';
+  
 @Component({
   selector: 'app-app-profile-create',
   templateUrl: './app-profile-create.component.html',
   styleUrls: ['./app-profile-create.component.css']
 })
+
 export class AppProfileCreateComponent implements OnInit {
 
   @ViewChild('modalContent') modalContentReference: ElementRef;
@@ -28,12 +33,17 @@ export class AppProfileCreateComponent implements OnInit {
   title: FormControl;
   email: FormControl;
   isinvestor: FormControl;
+  ispresenter: FormControl;
+  ismoderator: FormControl;
   profileimageurl: FormControl;
   location: FormControl;
   bio: FormControl;
   investmentfocus: FormControl;
   averagenoofinvestment: FormControl;
   averageinvestmentsizeperyear: FormControl;
+
+  public user: SocialUser;
+  public loggedIn: boolean;
 
   userType: string;
   userId: number;
@@ -62,6 +72,8 @@ export class AppProfileCreateComponent implements OnInit {
     this.bio = new FormControl(this.icoUserGet.bio, [Validators.required, Validators.minLength(100)]);
     this.investmentfocus = new FormControl(this.icoUserGet.investmentfocus, Validators.required);
     this.isinvestor = new FormControl(this.icoUserGet.isinvestor);
+    this.ispresenter = new FormControl(this.icoUserGet.ispresenter);
+    this.ismoderator = new FormControl(this.icoUserGet.ismoderator);
     this.averagenoofinvestment = new FormControl(this.icoUserGet.averagenoofinvestment);
     this.averageinvestmentsizeperyear = new FormControl(this.icoUserGet.averageinvestmentsizeperyear);
   }
@@ -75,6 +87,8 @@ export class AppProfileCreateComponent implements OnInit {
       bio: this.bio,
       investmentfocus: this.investmentfocus,
       isinvestor: this.isinvestor,
+      ispresenter: this.ispresenter,
+      ismoderator: this.ismoderator,
       averagenoofinvestment: this.averagenoofinvestment,
       averageinvestmentsizeperyear: this.averageinvestmentsizeperyear
     });
@@ -86,6 +100,15 @@ export class AppProfileCreateComponent implements OnInit {
     this.GetUserInfo();
     this.GetNoOfInvestment();
     this.updatedprofileimageurl = '';
+
+    const UserData = JSON.parse(localStorage.getItem('UserData'));
+    if (UserData != null) {
+        this.user = UserData;
+        this.loggedIn = true;
+    } else {
+      this.loggedIn = false;
+      this.router.navigate(['/Login']);
+    }
   }
 
   GetNoOfInvestment() {
@@ -142,9 +165,25 @@ export class AppProfileCreateComponent implements OnInit {
     const UserData = JSON.parse(localStorage.getItem('UserData'));
     UserData.ismoderator = false;
     const key = 'UserData';
+    this.icoprofileform.controls.ismoderator.setValue(false)
     localStorage.setItem(key, JSON.stringify(UserData));
 
   }
+  ismoderatorchange() {
+    const UserData = JSON.parse(localStorage.getItem('UserData'));
+    UserData.ismoderator = event.currentTarget['checked'];
+    const key = 'UserData';
+    this.icoprofileform.controls.ispresenter.setValue(false)
+    localStorage.setItem(key, JSON.stringify(UserData));
+  }
+
+  isinvestorchange() {
+    const UserData = JSON.parse(localStorage.getItem('UserData'));
+    UserData.isinvestor = event.currentTarget['checked'];
+    const key = 'UserData';
+    localStorage.setItem(key, JSON.stringify(UserData));
+  }
+
   GetUserInfo() {
     const UserData = JSON.parse(localStorage.getItem('UserData'));
     if (UserData !== undefined && UserData !== null) {
@@ -183,7 +222,8 @@ export class AppProfileCreateComponent implements OnInit {
           name: nameofUser,
           email: icoprofileform.controls['email'].value,
           isinvestor: icoprofileform.controls['isinvestor'].value,
-          ispresenter: icoprofileform.controls['isinvestor'].value,
+          ispresenter: icoprofileform.controls['ispresenter'].value,
+          ismoderator: icoprofileform.controls['ismoderator'].value,
           profileimageurl: this.updatedprofileimageurl,
           location: icoprofileform.controls['location'].value,
           bio: icoprofileform.controls['bio'].value,
@@ -195,8 +235,7 @@ export class AppProfileCreateComponent implements OnInit {
           isactive: false,
           activatekey: '',
           createdon: '',
-          title: icoprofileform.controls['title'].value,
-          ismoderator: false
+          title: icoprofileform.controls['title'].value
         };
         this.icouserprofileservice.UpdateICOUserProfile(this.icoUser).subscribe(returnValue => {
           if (returnValue !== undefined) {

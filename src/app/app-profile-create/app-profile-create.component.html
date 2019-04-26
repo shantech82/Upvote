@@ -84,17 +84,18 @@
                   <option *ngFor="let ind of investmentData" [ngValue]="ind.id">{{ind.value}}</option>
                 </select>
               </div>
-              <div class="form-group">
+
+              <div class="form-group" *ngIf="user && (user['isinvestor'] !== true)">
                 <label class="custom_check">
-                  <span> Investor ? </span>
-                  <input type="checkbox" formControlName="isinvestor" checked="checked">
+                  <span> moderator ? </span>
+                  <input type="checkbox" formControlName="ismoderator" (change)="ismoderatorchange($event)" checked="checked">
                   <span class="checkmark"></span>
                 </label>
               </div>
-              <div class="form-group" ng-show="isModerator">
+              <div class="form-group" ng-show="isModerator" *ngIf="user && (user['isinvestor'] !== true)">
                 <label class="custom_check">
                   <span> Presenter ? </span>
-                  <input type="checkbox" (change)="ispresenterchange($event)" formControlName="isinvestor" checked="checked">
+                  <input type="checkbox" (change)="ispresenterchange($event)" formControlName="ispresenter"checked="checked">
                   <span class="checkmark"></span>
                 </label>
               </div>
