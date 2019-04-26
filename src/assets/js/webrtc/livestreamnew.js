@@ -46,6 +46,10 @@ function startLiveStreamJs(userImage) {
 }
 
 function moderatorJoin(userImage) {
+    debugger
+    connection.session = {
+        data: true
+    };
     connection.checkPresence(roomid, function(isRoomExist,roomid,error) {
         if (isRoomExist) {
             connection.join(roomid);
@@ -65,6 +69,10 @@ function moderatorJoin(userImage) {
 }
 
 function presenterJoin(userImage){
+    debugger
+    connection.session = {
+        data: true
+    };
     connection.checkPresence(roomid, function(isRoomExist,roomid,error) {
         if (isRoomExist) {
             connection.join(roomid);
@@ -84,6 +92,7 @@ function presenterJoin(userImage){
 }
 
 function investorJoin(userImage){
+    debugger
     connection.session = {
         audio: false,
         video: false,
