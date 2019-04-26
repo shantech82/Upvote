@@ -47,6 +47,8 @@ function startLiveStreamJs(userImage) {
 
 function moderatorJoin(userImage) {
     connection.session = {
+        audio: true,
+        video: true,
         data: true
     };
     connection.checkPresence(roomid, function(isRoomExist,roomid,error) {
@@ -69,7 +71,9 @@ function moderatorJoin(userImage) {
 
 function presenterJoin(userImage){
     connection.session = {
-        data: true
+        data: true,
+        audio: true,
+        video: true
     };
     connection.checkPresence(roomid, function(isRoomExist,roomid,error) {
         if (isRoomExist) {
