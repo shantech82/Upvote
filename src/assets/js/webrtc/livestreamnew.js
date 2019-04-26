@@ -46,7 +46,6 @@ function startLiveStreamJs(userImage) {
 }
 
 function moderatorJoin(userImage) {
-    debugger
     connection.session = {
         data: true
     };
@@ -69,7 +68,6 @@ function moderatorJoin(userImage) {
 }
 
 function presenterJoin(userImage){
-    debugger
     connection.session = {
         data: true
     };
@@ -92,7 +90,6 @@ function presenterJoin(userImage){
 }
 
 function investorJoin(userImage){
-    debugger
     connection.session = {
         audio: false,
         video: false,
