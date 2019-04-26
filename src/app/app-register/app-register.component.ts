@@ -162,6 +162,14 @@ export class AppRegisterComponent implements OnInit {
     });
   }
 
+  public roleSelect(event) {
+    console.log(event.currentTarget)
+    this.registerForm.controls.isinvestor.setValue(false)
+    this.registerForm.controls.ismoderator.setValue(false)
+    this.registerForm.controls.ispresenter.setValue(false)
+    this.registerForm.controls[event.currentTarget.dataset.type].setValue(true)
+  }
+
   public socialSignIn(socialPlatform: string) {
     let socialPlatformProvider;
     if (socialPlatform === 'facebook') {

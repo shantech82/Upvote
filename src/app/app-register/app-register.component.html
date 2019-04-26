@@ -42,7 +42,7 @@
           <div class="center_block">
               <div class="form-group">
                   <label class="custom_radio">Are you an Investor?
-                      <input type="checkbox" formControlName="isinvestor">
+                      <input type="checkbox" data-type="isinvestor" formControlName="isinvestor" (click)="roleSelect($event)">
                     <span class="checkmark"></span>
                   </label>
                 </div>
@@ -50,7 +50,7 @@
           <div class="center_block">
               <div class="form-group">
                   <label class="custom_radio">Are you an Moderator?
-                      <input type="checkbox" formControlName="ismoderator">
+                      <input type="checkbox" data-type="ismoderator" formControlName="ismoderator" (click)="roleSelect($event)">
                     <span class="checkmark"></span>
                   </label>
                 </div>
@@ -58,7 +58,7 @@
           <div class="center_block">
               <div class="form-group">
                   <label class="custom_radio">Are you an Presenter?
-                      <input type="checkbox" formControlName="ispresenter">
+                      <input type="checkbox" formControlName="ispresenter" data-type="ispresenter" (click)="roleSelect($event)">
                     <span class="checkmark"></span>
                   </label>
                 </div>
