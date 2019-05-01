@@ -14,14 +14,22 @@ connection.processSdp = function(sdp) {
     return sdp;
 };
 
-connection.iceServers = [{
-        'urls': [
-            'turn:13.250.13.83:3478?transport=udp', // restund udp
-        ],
-        'username': 'YzYNCouZM1mhqhmseWk6',
-        'credential': 'YzYNCouZM1mhqhmseWk6'
-    }
-];
+connection.iceServers = [{   
+    'urls': [ 
+    "stun:bturn2.xirsys.com" 
+    ]}, 
+    {   
+        'username': "Xl26mZBttKVwtF7xs7Kfk-9BRlh3Hx53m7FlIiop7xerBwXpal5ROX__fJF24GgHAAAAAFzJendtYW5pc2hwYXJtYXIyNTAz",  
+        'credential': "3d258832-6bff-11e9-bb89-9646de0e6ccd",   
+        'urls': [ 
+            "turn:bturn2.xirsys.com:80?transport=udp", 
+            "turn:bturn2.xirsys.com:3478?transport=udp", 
+            "turn:bturn2.xirsys.com:80?transport=tcp", 
+            "turn:bturn2.xirsys.com:3478?transport=tcp",
+            "turns:bturn2.xirsys.com:443?transport=tcp",
+            "turns:bturn2.xirsys.com:5349?transport=tcp"
+        ]}
+    ]
 
 var roomid = 'Q12345e123'
 
