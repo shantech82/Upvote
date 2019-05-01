@@ -4,6 +4,25 @@ connection.socketMessageEvent = 'ICOlivestream';
 connection.enableLogs = true;
 connection.enableFileSharing = true;
 
+connection.processSdp = function(sdp) {
+    sdp = BandwidthHandler.setApplicationSpecificBandwidth(sdp, connection.bandwidth, !!connection.session.screen);
+    sdp = BandwidthHandler.setVideoBitrates(sdp, {
+        min: 30,
+        max: 50
+    });
+    sdp = BandwidthHandler.setOpusAttributes(sdp);
+    return sdp;
+};
+
+connection.iceServers = [{
+        'urls': [
+            'turn:13.250.13.83:3478?transport=udp', // restund udp
+        ],
+        'username': 'YzYNCouZM1mhqhmseWk6',
+        'credential': 'YzYNCouZM1mhqhmseWk6'
+    }
+];
+
 var roomid = 'Q12345e123'
 
 connection.session = {
