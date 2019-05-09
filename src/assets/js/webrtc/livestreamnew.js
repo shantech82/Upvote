@@ -14,21 +14,19 @@ connection.processSdp = function(sdp) {
     return sdp;
 };
 
-connection.iceServers = [{   
-    'urls': [ 
-    "stun:bturn2.xirsys.com" 
-    ]}, 
-    {   
-        'username': "Xl26mZBttKVwtF7xs7Kfk-9BRlh3Hx53m7FlIiop7xerBwXpal5ROX__fJF24GgHAAAAAFzJendtYW5pc2hwYXJtYXIyNTAz",  
-        'credential': "3d258832-6bff-11e9-bb89-9646de0e6ccd",   
-        'urls': [ 
-            "turn:bturn2.xirsys.com:80?transport=udp", 
-            "turn:bturn2.xirsys.com:3478?transport=udp", 
-            "turn:bturn2.xirsys.com:80?transport=tcp", 
+connection.iceServers =  [{   
+    'urls': [ "stun:bturn2.xirsys.com" ]
+    }, {   
+        'username': "UMTxhdumtUDJCUshCNP_4u1QzNHcSQs9elpeML2dR2nIgjBZf1IyredwHEr2a6U-AAAAAFzUAY5tb2hhbmNoYWxsb3RyZQ==",
+        'credential': "a33cbc52-7245-11e9-8d8b-9646de0e6ccd",
+        'urls': [ "turn:bturn2.xirsys.com:80?transport=udp",
+            "turn:bturn2.xirsys.com:3478?transport=udp",
+            "turn:bturn2.xirsys.com:80?transport=tcp",
             "turn:bturn2.xirsys.com:3478?transport=tcp",
             "turns:bturn2.xirsys.com:443?transport=tcp",
             "turns:bturn2.xirsys.com:5349?transport=tcp"
-        ]}
+            ]
+        }
     ]
 
 var roomid = 'Q12345e123'
