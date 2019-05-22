@@ -20,7 +20,7 @@
                 <span>{{ topicolist.iconame }}</span>
               </h1>
             </a>
-            <p class="block-with-text" *ngIf="topicolist.icoshortdescription">{{ topicolist.icoshortdescription }}</p>
+            <p *ngIf="topicolist.icoshortdescription">{{ topicolist.icoshortdescription }}</p>
             <a [routerLink]="['/ICO']" [queryParams]="{name: topicolist.iconame}" routerLinkActive="active-link">
               <button type="button" class="btn hBtn">
                 Visit Startup

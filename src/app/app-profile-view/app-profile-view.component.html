@@ -6,8 +6,9 @@
       <div class="profile_pic">
         <img [src]="user.profileimageurl || '..\assets\img\profile.jpg'" class="img-responsive">
         <div class="profile_pic_info">
-          <span class="left" *ngIf="user.isinvestor">Investor</span>
-          <span class="right" *ngIf="user.averageinvestmentsizeperyear">{{ averageinvestmentsizeperyear }} / year</span>
+          <span *ngIf="!user.isinvestor"> Investor </span>
+
+          <span *ngIf="user.averageinvestmentsizeperyear"> {{ averageinvestmentsizeperyear }} / year </span>
         </div>
       </div>
     </div>

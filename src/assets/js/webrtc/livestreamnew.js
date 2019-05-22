@@ -355,7 +355,7 @@ function appendDIV(data, type) {
         chatContainer.appendChild(li);
     }
     chatContainer.tabIndex = 0;
-    chatContainer.focus();
+   // chatContainer.focus();
 }
 
 document.getElementById('chat-input').onkeypress = function(e) {
