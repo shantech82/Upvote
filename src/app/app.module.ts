@@ -6,6 +6,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ImageCropperModule } from 'ngx-image-cropper';
 import {
   SocialLoginModule,
   AuthServiceConfig,
@@ -52,6 +53,7 @@ import { AppImagegenerateComponent } from './app-imagegenerate/app-imagegenerate
 import { AppLivestreamComponent } from './app-livestream/app-livestream.component';
 import { AppLivestreamnewComponent } from './app-livestreamnew/app-livestreamnew.component';
 import {PerfectScrollbarModule, PerfectScrollbarConfigInterface, PERFECT_SCROLLBAR_CONFIG} from 'ngx-perfect-scrollbar';
+
 
 const appRoutes: Routes = [
   { path: 'ICO', component: AppIcocompanyComponent },
@@ -134,7 +136,8 @@ export function getAuthServiceConfigs() {
     NgxSpinnerModule,
     NgDatepickerModule,
     SwiperModule,
-    PerfectScrollbarModule
+    PerfectScrollbarModule,
+    ImageCropperModule
   ],
   providers: [
     RegistrationService,

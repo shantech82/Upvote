@@ -36,16 +36,39 @@
     <div class="container">
       <div class="row">
         <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4">
-          <div class="profile_pic">
+          <!-- <div class="profile_pic">
             <div class="Mask">
               <div class="Mask-Copy">
                 <img [src]="imageSrc || '..\assets\img\ico-user@2x.png'" class="img-responsive">
               </div>
             </div>
             <button type="button" class="Upload-Photo" (click)="fileInput.click()">Upload Photo</button>
+           
             <input #fileInput type="file" class="form-control" style="display: none" (change)="fileChangeEvent($event)" multiple accept='image/*'
             />
-          </div>
+          </div> -->
+           
+         <input #fileInput type="file" (change)="fileChangeEvent($event)" class="form-control" input
+          multiple accept='image/*' style="display: none" />
+          
+         <div class="Mask-Copy" *ngIf="imageCropperHidden">
+              <img [src]="imageSrc || '..\assets\img\ico-user@2x.png'" class="img-responsive">
+         </div>
+
+         <image-cropper
+              [imageChangedEvent]="imageChangedEvent"
+              [maintainAspectRatio]="true"
+              [aspectRatio]="1 / 1"
+              [resizeToWidth]="250"
+              format="png"
+              (imageCropped)="imageCropped($event)"
+              (imageLoaded)="imageLoaded()"
+              (cropperReady)="cropperReady()"
+              (loadImageFailed)="loadImageFailed()"
+          ></image-cropper>
+
+          <img [src]="imageSrc" style="display: none"  />
+          <button type="button" class="btn" (click)="fileInput.click()">Upload Photo</button>
         </div>
         <div class="col-md-8 col-sm-8 col-xs-12 col-lg-8">
           <div class="form_inner">

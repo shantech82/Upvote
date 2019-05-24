@@ -15,6 +15,7 @@ import {
     AuthService,
     SocialUser,
   } from 'angular5-social-auth';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
   
 @Component({
   selector: 'app-app-profile-create',
@@ -42,13 +43,18 @@ export class AppProfileCreateComponent implements OnInit {
   averagenoofinvestment: FormControl;
   averageinvestmentsizeperyear: FormControl;
 
+  imageCropperHidden :boolean = true;
+
+  imageChangedEvent: any = '';
+
+
   public user: SocialUser;
   public loggedIn: boolean;
 
   userType: string;
   userId: number;
   filesToUpload: File = null;
-  imageSrc: string;
+  imageSrc: any;
   updatedprofileimageurl: string;
 
   icoUser: IUser;
@@ -63,6 +69,86 @@ export class AppProfileCreateComponent implements OnInit {
     private mdservice: MasterDataService, private router: Router, private alertService: AlertCenterService,
     private modalService: NgbModal, private spinner: NgxSpinnerService, private urlservice: UrlparserService) {
   }
+
+
+
+    fileChangeEvent(fileInput :any): void {
+      this.imageChangedEvent = event;
+      this.imageCropperHidden = false;
+
+      // if (fileInput.target.files[0].type.startsWith('image')) {
+      // this.filesToUpload = fileInput.target.files[0];
+
+      // // const CroppedfileToUpload: File = new File([this.dataURItoBlob(this.imageSrc)], 'filename.png');
+      // // console.log("file created"+CroppedfileToUpload.name);
+
+      // //this.filesToUpload = this.imageSrc;
+
+      // const reader = new FileReader();
+      // reader.onload = e => this.imageSrc = reader.result;
+      // reader.readAsDataURL(fileInput.target.files[0]);
+
+      // const nameofUser = this.icoUserGet.name;
+      // // uploading user profile image
+      // const formData: any = new FormData();
+      // const modifiedfilename = nameofUser + Date.now() + this.filesToUpload.name;
+      // formData.append('file', this.filesToUpload, modifiedfilename);
+
+
+      // let existingfile = 'xxx';
+      // if (Utility.isNotEmptyNullUndefined(this.updatedprofileimageurl)) {
+      //   existingfile = this.updatedprofileimageurl;
+      // }
+      // this.updatedprofileimageurl = modifiedfilename;
+      // this.fuservice.UploadFiles(formData, existingfile).subscribe(filename => {
+      // });
+      // } else {
+      //   this.imageSrc = '../../assets/img/ico-user@2x.png';
+      //   this.alertService.alert(new Alert(AlertType.WARNING, 'please check your profile image format'));
+      // }
+
+
+    }
+    imageCropped(event: ImageCroppedEvent ) {
+      this.imageSrc = event.base64;
+      const CroppedfileToUpload: File = new File([this.dataURItoBlob(this.imageSrc)], 'filename.png');
+      console.log("file created"+CroppedfileToUpload.name);
+
+       const nameofUser = this.icoUserGet.name;
+      const formData: any = new FormData();
+      const modifiedfilename = nameofUser + Date.now() + CroppedfileToUpload.name;
+      formData.append('file', CroppedfileToUpload, modifiedfilename);
+
+
+       let existingfile = 'xxx';
+      if (Utility.isNotEmptyNullUndefined(this.updatedprofileimageurl)) {
+        existingfile = this.updatedprofileimageurl;
+      }
+      this.updatedprofileimageurl = modifiedfilename;
+      this.fuservice.UploadFiles(formData, existingfile).subscribe(filename => {
+      });
+
+    }
+    imageLoaded() {
+        // show cropper
+    }
+    cropperReady() {
+        // cropper ready
+    }
+    loadImageFailed() {
+        // show message
+    }
+
+    dataURItoBlob(dataURI): Blob {
+      const byteString = atob(dataURI.split(',')[1]);
+      const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+      const ab = new ArrayBuffer(byteString.length);
+      let ia = new Uint8Array(ab);
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      return new Blob([ab], { type: mimeString });
+    }
 
   createFormControls() {
     this.name = new FormControl(this.icoUserGet.name, Validators.required);
@@ -137,29 +223,29 @@ export class AppProfileCreateComponent implements OnInit {
     }
   }
 
-  fileChangeEvent(fileInput: any) {
-    if (fileInput.target.files[0].type.startsWith('image')) {
-      this.filesToUpload = fileInput.target.files[0];
-      const reader = new FileReader();
-      reader.onload = e => this.imageSrc = reader.result;
-      reader.readAsDataURL(fileInput.target.files[0]);
-      const nameofUser = this.icoUserGet.name;
-      // uploading user profile image
-      const formData: any = new FormData();
-      const modifiedfilename = nameofUser + Date.now() + this.filesToUpload.name;
-      formData.append('file', this.filesToUpload, modifiedfilename);
-      let existingfile = 'xxx';
-      if (Utility.isNotEmptyNullUndefined(this.updatedprofileimageurl)) {
-        existingfile = this.updatedprofileimageurl;
-      }
-      this.updatedprofileimageurl = modifiedfilename;
-      this.fuservice.UploadFiles(formData, existingfile).subscribe(filename => {
-      });
-    } else {
-      this.imageSrc = '../../assets/img/ico-user@2x.png';
-      this.alertService.alert(new Alert(AlertType.WARNING, 'please check your profile image format'));
-    }
-  }
+  // fileChangeEvent(fileInput: any) {
+  //   if (fileInput.target.files[0].type.startsWith('image')) {
+  //     this.filesToUpload = fileInput.target.files[0];
+  //     const reader = new FileReader();
+  //     reader.onload = e => this.imageSrc = reader.result;
+  //     reader.readAsDataURL(fileInput.target.files[0]);
+  //     const nameofUser = this.icoUserGet.name;
+  //     // uploading user profile image
+  //     const formData: any = new FormData();
+  //     const modifiedfilename = nameofUser + Date.now() + this.filesToUpload.name;
+  //     formData.append('file', this.filesToUpload, modifiedfilename);
+  //     let existingfile = 'xxx';
+  //     if (Utility.isNotEmptyNullUndefined(this.updatedprofileimageurl)) {
+  //       existingfile = this.updatedprofileimageurl;
+  //     }
+  //     this.updatedprofileimageurl = modifiedfilename;
+  //     this.fuservice.UploadFiles(formData, existingfile).subscribe(filename => {
+  //     });
+  //   } else {
+  //     this.imageSrc = '../../assets/img/ico-user@2x.png';
+  //     this.alertService.alert(new Alert(AlertType.WARNING, 'please check your profile image format'));
+  //   }
+  // }
 
   ispresenterchange() {
     const UserData = JSON.parse(localStorage.getItem('UserData'));
