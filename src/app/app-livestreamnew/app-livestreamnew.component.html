@@ -49,6 +49,16 @@
         </div>
       </header>
 <div class="live_stream">
+    <div id="icon_container">
+      <div class="video_icons_container">
+        <img *ngIf="loggedIn && user && ((user['isinvestor'] !== true) && (user['ismoderator'] !== true))" id="screen-share" (click)="openscreenshare()" src="../../assets/img/ico-sharing.svg">
+        <img  src="../../assets/img/ico-cam-inactive.svg">
+        <img  src="../../assets/img/baseline_mic_white_18dp.png">
+        <img  src="../../assets/img/ico-chatbox-open.svg">
+      </div>
+
+      <div class='leave_meating'> <img src="../../assets/img/close.png"></div>
+    </div>
     <div id="videos-container">
       
     </div>
@@ -61,7 +71,7 @@
     </div>
     <div class="live_video" id="livevideoparent">
             <div class="video_mode">
-                <div class="presenter_name" style="display: none">Justine Marshall / Upvote</div>
+                <div class="presenter_name">Justine Marshall / Upvote</div>
                 <div id="presentervideo">
                   
                 </div>
@@ -77,12 +87,12 @@
                 </div>
             </div>
             <div class="video_chat" >
-                <ul style="display: none">
+              <!--   <ul style="display: none">
                     <li><a href="javascript:void(0)" class="latptop active"><img src="../../assets/img/baseline_laptop_white_18dp.png"></a></li>
                     <li><a href="javascript:void(0)" class="video_show stop_video active"><img src="../../assets/img/baseline_videocam_white_18dp.png"></a></li>
                     <li><a href="javascript:void(0)" class="mic active"><img src="../../assets/img/baseline_mic_white_18dp.png"></a></li>
                     <li><a href="javascript:void(0)" class="chat active"><img src="../../assets/img/baseline_forum_white_18dp.png"></a></li>
-                </ul>
+                </ul> -->
                 
             </div>
             <div class="video_chat_box">
@@ -99,10 +109,12 @@
     </div>
     <div id="room-urls" style="text-align: center;display: none;background: #F1EDED;margin: 15px -10px;border: 1px solid rgb(189, 189, 189);border-left: 0;border-right: 0;"></div>
 </div>
-<button *ngIf="loggedIn && user && ((user['isinvestor'] !== true) && (user['ismoderator'] !== true))" id="screen-share" class="btn btn-success screen_share_btn_container" (click)="openscreenshare()">Share Screen</button>
+
+
+
+<!-- <button *ngIf="loggedIn && user && ((user['isinvestor'] !== true) && (user['ismoderator'] !== true))" id="screen-share" class="btn btn-success screen_share_btn_container" >Share Screen</button> -->
 <div class="file_download">
     <ul id="file-container">
-        
     </ul>
     <div class="edit_note">
         <img id="share-file" src="../../assets/img/outline-note_add-24px.svg">

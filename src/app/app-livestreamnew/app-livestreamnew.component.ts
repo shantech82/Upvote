@@ -13,10 +13,12 @@ import {
 declare function startLiveStreamJs(any): any;
 declare function startScreenSharing(): any;
 declare function joinScreenSharing(): any;
+declare function connectionClose(): any;
+
 
 @Component({
   selector: 'app-app-livestreamnew',
-  templateUrl: './app-livestreamnew.component.html',
+  templateUrl:'./app-livestreamnew.component.html',
   styleUrls: ['./app-livestreamnew.component.css']
 })
 export class AppLivestreamnewComponent implements OnInit, AfterViewInit {
@@ -170,5 +172,8 @@ getUserImage() {
 
   joinscreenshare(){
     joinScreenSharing();
+  }
+  ngOnDestroy(){
+    connectionClose();
   }
 }

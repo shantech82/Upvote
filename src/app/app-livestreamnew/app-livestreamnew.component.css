@@ -368,7 +368,7 @@ header {
 
 :host::ng-deep.live_chat {
   position: absolute;
-  /*left: -20px;*/
+  left: -20px;
   bottom: 0px;
 }
 
@@ -671,4 +671,33 @@ header {
 :host::ng-deep.edit_note img {
   width: 34px;
   margin-left: 42px;
+}
+
+
+.video_icons_container {
+  background: rgba(0, 0, 0, 0.3);
+  display: inline-block;
+  padding: 4px 20px;
+  border-radius: 30px;
+  height: 49px;
+}
+.video_icons_container img {
+  margin: 0 16px;
+}
+#icon_container {
+  position: absolute;
+  z-index: 9;
+  bottom: 17px;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  max-width: 600px;
+  width: 100%;
+}
+.leave_meating {
+  display: inline-block;
+}
+.leave_meating img {
+  height: 49px;
+  margin: 0 0 0 10px;
 }
