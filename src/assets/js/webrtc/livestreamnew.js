@@ -79,8 +79,10 @@ function moderatorJoin(userImage) {
     connection.checkPresence(roomid, function(isRoomExist,roomid,error) {
         if (isRoomExist) {
             connection.join(roomid);
+            return;
         } else {
             connection.open(roomid);
+            return;
           }
           if(error) {
             console.log(error);
@@ -103,8 +105,10 @@ function presenterJoin(userImage){
     connection.checkPresence(roomid, function(isRoomExist,roomid,error) {
         if (isRoomExist) {
             connection.join(roomid);
+            return;
         } else {
             connection.open(roomid);
+            return;
           }
           if(error) {
             console.log(error);
@@ -133,9 +137,18 @@ function investorJoin(userImage){
     connection.checkPresence(roomid, function(isRoomExist) {
         if (isRoomExist) {
             connection.join(roomid);
+            return;
         } else {
             connection.open(roomid);
+            return;
         }
+    });
+}
+
+function connectionClose(){
+  //  alert("connection close");
+    connection.attachStreams.forEach(function (stream) {
+        stream.stop();
     });
 }
 
@@ -155,10 +168,10 @@ document.getElementById('share-file').onclick = function (file) {
 
 window.onbeforeunload = function(e) {
     connection.attachStreams.forEach(function (stream) {
-        stream.stop();
+       // stream.stop();
     });
-    connection.leave();
-    connection.close();
+   // connection.leave();
+    //connection.close();
 };
 
 connection.filesContainer = document.getElementById('file-container');
@@ -442,11 +455,17 @@ function setConnectedUsers(length) {
 }
 
 connection.onopen = function (event) {
+   // setConnectedUsers(connection.getAllParticipants().length);
+    //userListUpdate(event);
+}
+
+connection.onjoin = function (event) {
     setConnectedUsers(connection.getAllParticipants().length);
     userListUpdate(event);
 }
 
 function userListUpdate(event) {
+    //alert(1);
     var usernameli = document.createElement('li');
     usernameli.id = event.userid;
     var linktoUser = document.createElement('a');
@@ -644,6 +663,7 @@ function joinScreenSharing(){
     // };
 
     connection.join(roomid);
+    return;
 
 }
 
