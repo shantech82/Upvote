@@ -51,13 +51,31 @@
 <div class="live_stream">
     <div id="icon_container">
       <div class="video_icons_container">
-        <img *ngIf="loggedIn && user && ((user['isinvestor'] !== true) && (user['ismoderator'] !== true))" id="screen-share" (click)="openscreenshare()" src="../../assets/img/ico-sharing.svg">
-        <img  src="../../assets/img/ico-cam-inactive.svg">
-        <img  src="../../assets/img/baseline_mic_white_18dp.png">
-        <img  src="../../assets/img/ico-chatbox-open.svg">
+        <div class="video_icon_div" id="screenShareDiv">
+          <img *ngIf="loggedIn && user && ((user['isinvestor'] !== true) && (user['ismoderator'] !== true))" id="screen-share" (click)="openscreenshare()" src="../../assets/img/ico-sharing.svg">
+          <span >Share Screen</span>
+        </div>
+        <div class="video_icon_div icon_inactive" id="camera_div">
+          <img  src="../../assets/img/ico-cam-active.svg">
+          <span> Camera Off</span>
+        </div>
+        <div class="video_icon_div icon_inactive" id="mic_div">
+          <img  src="../../assets/img/baseline_mic_white_18dp.png">
+          <span> Mic Off</span>
+        </div>
+        <div class="video_icon_div">
+          <img  src="../../assets/img/ico-chatbox-open.svg" >
+          <span> Hide Chat</span>
+        </div>
+        <div class="video_icon_div" style="display: none;">
+          <img  src="../../assets/img/ico-chatbox-open.svg">
+          <span> Show Chat</span>
+        </div>
       </div>
 
-      <div class='leave_meating'> <img src="../../assets/img/close.png"></div>
+      <div class='leave_meating'>
+       <img src="../../assets/img/close.png"></div>
+       <!-- <span>Leave Meating</span> -->
     </div>
     <div id="videos-container">
       
@@ -71,7 +89,7 @@
     </div>
     <div class="live_video" id="livevideoparent">
             <div class="video_mode">
-                <div class="presenter_name">Justine Marshall / Upvote</div>
+                <div class="presenter_name"> {{presenterName}} / Upvote</div>
                 <div id="presentervideo">
                   
                 </div>
@@ -86,6 +104,7 @@
                     <p>Davea Butler</p>
                 </div>
             </div>
+
             <div class="video_chat" >
               <!--   <ul style="display: none">
                     <li><a href="javascript:void(0)" class="latptop active"><img src="../../assets/img/baseline_laptop_white_18dp.png"></a></li>
@@ -106,9 +125,13 @@
                         <div class="btn_send"><img src="../../assets/img/btn-send.png"></div>
                     </div>                
             </div>
+           
     </div>
     <div id="room-urls" style="text-align: center;display: none;background: #F1EDED;margin: 15px -10px;border: 1px solid rgb(189, 189, 189);border-left: 0;border-right: 0;"></div>
+
 </div>
+
+ 
 
 
 

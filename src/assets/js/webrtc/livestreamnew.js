@@ -150,6 +150,9 @@ function connectionClose(){
     connection.attachStreams.forEach(function (stream) {
         stream.stop();
     });
+    // connection.leave();
+    //connection.close();
+
 }
 
 document.getElementById('share-file').onclick = function (file) {
@@ -189,6 +192,8 @@ var numberOfKeys = 0;
 var lastMessageUUID;
 
 connection.onstreamended = function (event) {
+    btnShareScreen.style.pointerEvents = "auto";
+    btnShareScreenDiv.classList.remove("icon_inactive");
     connection.onUserStatusChanged(event);
     var mediaElement = document.getElementById(event.streamid);
     if (mediaElement) {
@@ -543,6 +548,7 @@ function updateLabel(progress, label) {
 }
 
 var btnShareScreen = document.getElementById('screen-share');
+var btnShareScreenDiv = document.getElementById('screenShareDiv');
 
 function startScreenSharing(){
     // connection.session = {
@@ -554,8 +560,12 @@ function startScreenSharing(){
     // };
 
     // connection.open(roomid);
-    btnShareScreen.disabled = true;
+    // btnShareScreen.disabled = true;
+    btnShareScreen.style.pointerEvents = "none";
+    btnShareScreenDiv.classList.add("icon_inactive");
     getScreenStream(function(screen) {
+        console.log("here");
+
         var isLiveSession = connection.getAllParticipants().length > 0;
         if (isLiveSession) {
             replaceTrack(RMCMediaTrack.screen);
@@ -617,7 +627,8 @@ function getScreenStream(callback) {
                 connection.attachStreams = [RMCMediaTrack.cameraStream];
 
                 // so that user can share again
-                btnShareScreen.disabled = false;
+                btnShareScreen.style.pointerEvents = "auto";
+                btnShareScreenDiv.classList.remove("icon_inactive");
             };
 
             connection.socket && connection.socket.emit(connection.socketCustomEvent, {
@@ -667,6 +678,48 @@ function joinScreenSharing(){
 
 }
 
+function silence(mike_element){
+   var localStream = connection.attachStreams[0];
+   localStream.mute('audio');
+   mike_element.classList.add("icon_inactive");
+  
+}
+
+function onspeak(mike_element){
+   var localStream = connection.attachStreams[0];
+   localStream.unmute('audio');
+   mike_element.classList.remove("icon_inactive")
+  
+}
+function onCameraStop(camera_element){
+   var localStream = connection.attachStreams[0];
+   localStream.mute('video');
+   camera_element.classList.add("icon_inactive");
+}
+
+function onCameraStart(camera_element){
+   var localStream = connection.attachStreams[0];
+   localStream.unmute('video');
+   camera_element.classList.remove("icon_inactive")
+}
+
+document.getElementById("mic_div").onclick = function () {
+  var mike_element =  this;
+  if(mike_element.classList.contains('icon_inactive')){
+      onspeak(mike_element);
+  }else{
+     silence(mike_element);
+  }
+};
+
+document.getElementById("camera_div").onclick = function () {
+  var camera_element =  this;
+  if(camera_element.classList.contains('icon_inactive')){
+      onCameraStart(camera_element);
+  }else{
+     onCameraStop(camera_element);
+  }
+};
 
 /*connection.onspeaking = function (e) {
     connection.send({

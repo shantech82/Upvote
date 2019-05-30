@@ -679,10 +679,11 @@ header {
   display: inline-block;
   padding: 4px 20px;
   border-radius: 30px;
-  height: 49px;
+  /*height: 49px;*/
 }
 .video_icons_container img {
   margin: 0 16px;
+  height: 25px;
 }
 #icon_container {
   position: absolute;
@@ -696,8 +697,31 @@ header {
 }
 .leave_meating {
   display: inline-block;
+  vertical-align: text-bottom;
 }
 .leave_meating img {
-  height: 49px;
+  /*height: 49px;*/
   margin: 0 0 0 10px;
+}
+.video_icon_div {
+  display: inline-block;
+  text-align: center;
+  margin: 6px 15px;
+  position: relative;
+}
+.icon_inactive:after {
+  content: "";
+  height: 34px;
+  width: 2px;
+  position: absolute;
+  top: -7px;
+  left: 0;
+  background: red;
+  transform: rotate(45deg);
+  right: 0;
+  margin: 0 auto;
+}
+.video_icon_div span {
+  display: block;
+  color: #fff;
 }

@@ -14,6 +14,10 @@ declare function startLiveStreamJs(any): any;
 declare function startScreenSharing(): any;
 declare function joinScreenSharing(): any;
 declare function connectionClose(): any;
+declare function silence(): any;
+declare function onspeak(): any;
+declare function onCameraStart(): any;
+declare function onCameraStop(): any;
 
 
 @Component({
@@ -28,6 +32,7 @@ export class AppLivestreamnewComponent implements OnInit, AfterViewInit {
   moderator: boolean;
   join: boolean;
   share: boolean;
+  presenterName :string;
   public config: PerfectScrollbarConfigInterface = {};
   @ViewChild(PerfectScrollbarComponent) componentRef?: PerfectScrollbarComponent;
   @ViewChild(PerfectScrollbarDirective) directiveRef?: PerfectScrollbarDirective;
@@ -46,7 +51,13 @@ export class AppLivestreamnewComponent implements OnInit, AfterViewInit {
     this.join = false;
     this.share = false;
 
+      
+
+
     const UserData = JSON.parse(localStorage.getItem('UserData'));
+
+    // console.log(UserData);
+    this.presenterName = UserData.name;
     if (UserData != null) {
         this.user = UserData;
         this.urlservice.GetFileURL(this.user.image, 'icouser').subscribe(value => {
@@ -175,5 +186,18 @@ getUserImage() {
   }
   ngOnDestroy(){
     connectionClose();
+  }
+
+  silence(){
+    silence();
+  }
+  onspeak(){
+    onspeak();
+  }
+  onCameraStart(){
+    onCameraStart();
+  }
+  onCameraStop(){
+    onCameraStop();
   }
 }
