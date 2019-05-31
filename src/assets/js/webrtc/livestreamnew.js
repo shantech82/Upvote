@@ -549,6 +549,9 @@ function updateLabel(progress, label) {
 
 var btnShareScreen = document.getElementById('screen-share');
 var btnShareScreenDiv = document.getElementById('screenShareDiv');
+var cameraTextDiv = document.getElementById('camera_div_text');
+var micTextDiv = document.getElementById('mic_div_text');
+
 
 function startScreenSharing(){
     // connection.session = {
@@ -564,9 +567,7 @@ function startScreenSharing(){
     btnShareScreen.style.pointerEvents = "none";
     btnShareScreenDiv.classList.add("icon_inactive");
     getScreenStream(function(screen) {
-        console.log("here");
-
-        var isLiveSession = connection.getAllParticipants().length > 0;
+       var isLiveSession = connection.getAllParticipants().length > 0;
         if (isLiveSession) {
             replaceTrack(RMCMediaTrack.screen);
         }
@@ -682,25 +683,29 @@ function silence(mike_element){
    var localStream = connection.attachStreams[0];
    localStream.mute('audio');
    mike_element.classList.add("icon_inactive");
+   micTextDiv.innerHTML = 'Mic Off';
   
 }
 
 function onspeak(mike_element){
    var localStream = connection.attachStreams[0];
    localStream.unmute('audio');
-   mike_element.classList.remove("icon_inactive")
+   mike_element.classList.remove("icon_inactive");
+   micTextDiv.innerHTML = 'Mic On';
   
 }
 function onCameraStop(camera_element){
    var localStream = connection.attachStreams[0];
    localStream.mute('video');
    camera_element.classList.add("icon_inactive");
+   cameraTextDiv.innerHTML = 'Camera Off';
 }
 
 function onCameraStart(camera_element){
    var localStream = connection.attachStreams[0];
    localStream.unmute('video');
    camera_element.classList.remove("icon_inactive")
+   cameraTextDiv.innerHTML = 'Camera On';
 }
 
 document.getElementById("mic_div").onclick = function () {

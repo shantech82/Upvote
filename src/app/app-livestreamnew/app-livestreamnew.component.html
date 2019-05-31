@@ -55,13 +55,13 @@
           <img *ngIf="loggedIn && user && ((user['isinvestor'] !== true) && (user['ismoderator'] !== true))" id="screen-share" (click)="openscreenshare()" src="../../assets/img/ico-sharing.svg">
           <span >Share Screen</span>
         </div>
-        <div class="video_icon_div icon_inactive" id="camera_div">
+        <div class="video_icon_div" id="camera_div">
           <img  src="../../assets/img/ico-cam-active.svg">
-          <span> Camera Off</span>
+          <span id="camera_div_text"> Camera On</span>
         </div>
-        <div class="video_icon_div icon_inactive" id="mic_div">
+        <div class="video_icon_div" id="mic_div">
           <img  src="../../assets/img/baseline_mic_white_18dp.png">
-          <span> Mic Off</span>
+          <span id="mic_div_text"> Mic On</span>
         </div>
         <div class="video_icon_div">
           <img  src="../../assets/img/ico-chatbox-open.svg" >
