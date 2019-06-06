@@ -689,7 +689,7 @@ function silence(mike_element){
 
 function onspeak(mike_element){
    var localStream = connection.attachStreams[0];
-   localStream.unmute('audio');
+   localStream.unmute();
    mike_element.classList.remove("icon_inactive");
    micTextDiv.innerHTML = 'Mic On';
   
