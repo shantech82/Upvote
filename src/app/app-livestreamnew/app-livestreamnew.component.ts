@@ -200,4 +200,8 @@ getUserImage() {
   onCameraStop(){
     onCameraStop();
   }
+  leave_meating(){
+    connectionClose();
+    this.router.navigateByUrl('/Home');
+  }
 }
